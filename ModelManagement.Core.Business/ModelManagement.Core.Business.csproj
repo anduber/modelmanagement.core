@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A4C68557-F57E-4233-94FB-9ABDC410E46B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ModelManagement.Core.Business</RootNamespace>
+    <AssemblyName>ModelManagement.Core.Business</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.4.2.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common">
+      <HintPath>..\packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.ExceptionHandling">
+      <HintPath>..\packages\EnterpriseLibrary.ExceptionHandling.6.0.1304.0\lib\NET45\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.Logging">
+      <HintPath>..\packages\EnterpriseLibrary.ExceptionHandling.Logging.6.0.1304.0\lib\NET45\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Logging">
+      <HintPath>..\packages\EnterpriseLibrary.Logging.6.0.1304.0\lib\NET45\Microsoft.Practices.EnterpriseLibrary.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Validation">
+      <HintPath>..\packages\EnterpriseLibrary.Validation.6.0.1304.0\lib\NET45\Microsoft.Practices.EnterpriseLibrary.Validation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>..\packages\MySql.Data.6.9.7\lib\net45\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data.Entity.EF6">
+      <HintPath>..\packages\MySql.Data.Entity.6.9.7\lib\net45\MySql.Data.Entity.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Fabric.Plugin">
+      <HintPath>..\packages\MySql.Fabric.6.9.7\lib\net45\MySql.Fabric.Plugin.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Web">
+      <HintPath>..\packages\MySql.Web.6.9.7\lib\net45\MySql.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Linq.Dynamic, Version=1.0.6132.35681, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.Dynamic.1.0.7\lib\net40\System.Linq.Dynamic.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Business.Command\AppService\Class1.cs" />
+    <Compile Include="Business.Command\CommandArgs\UserCommandArgs.cs" />
+    <Compile Include="Business.Command\CommonDataCommands.cs" />
+    <Compile Include="Business.Command\ContactCommands.cs" />
+    <Compile Include="Business.Command\FileUploadCommands.cs" />
+    <Compile Include="Business.Command\Utils\CommandBase.cs" />
+    <Compile Include="Business.Command\Utils\CommandList.cs" />
+    <Compile Include="Business.Command\Utils\CommandParser.cs" />
+    <Compile Include="Business.Command\Utils\ICommand.cs" />
+    <Compile Include="Business.Command\Utils\ICommandFactory.cs" />
+    <Compile Include="Business.Command\Utils\Invoker.cs" />
+    <Compile Include="Business.Command\UserCommands.cs" />
+    <Compile Include="Business.Command\Utils\TransactionScope.cs" />
+    <Compile Include="Business.Helpers\DateConverter.cs" />
+    <Compile Include="Business.Helpers\ExceptionHandler.cs" />
+    <Compile Include="Business.Helpers\ObjectMapper.cs" />
+    <Compile Include="Business.Helpers\Utility.cs" />
+    <Compile Include="Business.Command\CommandArgs\CategoryArg.cs" />
+    <Compile Include="Business.Command\CommandArgs\CommonDataArgs.cs" />
+    <Compile Include="Business.Command\CommandArgs\ContactInfoArg.cs" />
+    <Compile Include="Business.Command\CommandArgs\PersonalInformationArg.cs" />
+    <Compile Include="Business.Command\CommandArgs\PhysicalInformationArg.cs" />
+    <Compile Include="Business.Command\CommandArgs\UplodableArg.cs" />
+    <Compile Include="Business.Command\CommandArgs\VisitorArg.cs" />
+    <Compile Include="Business.Model\CommandModel\CategoryCommandModel.cs" />
+    <Compile Include="Business.Model\CommandModel\CategoryTypeCommandModel.cs" />
+    <Compile Include="Business.Model\CommandModel\CommandResult.cs" />
+    <Compile Include="Business.Model\CommandModel\CommonEntity.cs" />
+    <Compile Include="Business.Model\CommandModel\ContactInformationCommandModel.cs" />
+    <Compile Include="Business.Model\CommandModel\ContactMechTypeCommandModel.cs" />
+    <Compile Include="Business.Model\CommandModel\EnumerationCommandModel.cs" />
+    <Compile Include="Business.Model\CommandModel\EnumerationTypeCommandModel.cs" />
+    <Compile Include="Business.Model\CommandModel\FileTypeCommandModel.cs" />
+    <Compile Include="Business.Model\CommandModel\RoleTypeCommandModel.cs" />
+    <Compile Include="Business.Model\CommandModel\StatusTypeCommandModel.cs" />
+    <Compile Include="Business.Model\CommandModel\UserLoginCommandModel.cs" />
+    <Compile Include="Business.Query\Models\CategoryQueryModel.cs" />
+    <Compile Include="Business.Query\Models\ContactInformationQueryModel.cs" />
+    <Compile Include="Business.Query\Models\EnumerationListModel.cs" />
+    <Compile Include="Business.Query\Models\GeoListModel.cs" />
+    <Compile Include="Business.Query\Models\GetListSearchPersonalInfos.cs" />
+    <Compile Include="Business.Query\Models\CommonModels.cs" />
+    <Compile Include="Business.Query\Models\ModelsInfoListModel.cs" />
+    <Compile Include="Business.Query\Models\PersonalInfoEditModel.cs" />
+    <Compile Include="Business.Query\Models\PersonalInfoListModel.cs" />
+    <Compile Include="Business.Query\Models\QueryModels.cs" />
+    <Compile Include="Business.Query\Models\UplodableListModel.cs" />
+    <Compile Include="Business.Query\Models\UserTypeListModel.cs" />
+    <Compile Include="Business.Model\Utils\EntityCount.cs" />
+    <Compile Include="Business.Model\Utils\EntityDescription.cs" />
+    <Compile Include="Business.Model\Utils\ImportFromExcel.cs" />
+    <Compile Include="Business.Model\Utils\IQuery.cs" />
+    <Compile Include="Business.Model\Utils\KeyDescription.cs" />
+    <Compile Include="Business.Model\Utils\Pagination.cs" />
+    <Compile Include="Business.Model\CommandModel\PersonalInformationCommandModel.cs" />
+    <Compile Include="Business.Query\Models\PersonalInformationQueryModel.cs" />
+    <Compile Include="Business.Model\CommandModel\PhysicalInformationCommandModel.cs" />
+    <Compile Include="Business.Model\Utils\PersonUploadableQueryParam.cs" />
+    <Compile Include="Business.Query\Models\PhysicalInformationQuerModel.cs" />
+    <Compile Include="Business.Model\Utils\QueryDataResultModel.cs" />
+    <Compile Include="Business.Model\Utils\QueryCommandBase.cs" />
+    <Compile Include="Business.Model\CommandModel\UploadableCommandModel.cs" />
+    <Compile Include="Business.Model\CommandModel\UserCommandModel.cs" />
+    <Compile Include="Business.Query\Models\UserQueryModel.cs" />
+    <Compile Include="Business.Model\Utils\ListPersonalInfoQueryParam.cs" />
+    <Compile Include="Business.Model\Utils\QueryParamArg.cs" />
+    <Compile Include="Business.Model\Utils\QueryResult.cs" />
+    <Compile Include="Business.Query\AppService\CommonDataQueryAppService.cs" />
+    <Compile Include="Business.Query\AppService\UserQueryAppService.cs" />
+    <Compile Include="Business.Query\CommonDataQuery.cs" />
+    <Compile Include="Business.Query\EntityProfile\BaseProfile.cs" />
+    <Compile Include="Business.Query\EntityProfile\BootStrapper.cs" />
+    <Compile Include="Business.Query\EntityProfile\Extensions.cs" />
+    <Compile Include="Business.Query\EntityProfile\ModelMappingProfile.cs" />
+    <Compile Include="Business.Query\ModelManagementQuery.cs" />
+    <Compile Include="Business.Query\QueryAppService.cs" />
+    <Compile Include="Business.Query\UserQuery.cs" />
+    <Compile Include="Business.Query\Utils\QueryList.cs" />
+    <Compile Include="Business.Service\ModelManagementCommandServices.cs" />
+    <Compile Include="Business.Service\ModelManagementQueryServices.cs" />
+    <Compile Include="Business.Command\AppService\CategoryService.cs" />
+    <Compile Include="Business.Command\AppService\CommonDataService.cs" />
+    <Compile Include="Business.Command\AppService\ContactService.cs" />
+    <Compile Include="Business.Command\AppService\FileUploadService.cs" />
+    <Compile Include="Business.Command\EntityRepositories\AppRepository.cs" />
+    <Compile Include="Business.Command\AppService\UserService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ModelManagement.Core.Data\ModelManagement.Core.Data.csproj">
+      <Project>{ab4575f3-e33c-472b-b35d-3b630fe6341f}</Project>
+      <Name>ModelManagement.Core.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Business.Model\QueryModel\" />
+    <Folder Include="Business.UnderlyingService\" />
+    <Folder Include="Files\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
