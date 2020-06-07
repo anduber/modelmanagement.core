@@ -231,9 +231,12 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
 
         public bool AuthenticateUser(string userName, string password)
         {
-            var _password = Utility.HashPassword(password);
             var user = User().FirstOrDefault(t => t.UserName == userName && t.StatusId == Utility.StatusEnabled);
-            return user != null;
+            if (user!=null) return false;
+            {
+                var userLogin = UserLogin().FirstOrDefault(t => t.PersonId == user.PersonId && t.ThruDate == null);
+                return Utility.ValidateHashPassword(password,userLogin.CurrentPassword);
+            }
         }
 
         private string SetBodySizeType(PhysicalInformationArg physicalInfoArg)
