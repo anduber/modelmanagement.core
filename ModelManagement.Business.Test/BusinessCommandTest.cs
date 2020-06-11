@@ -122,7 +122,7 @@ namespace ModelManagement.Business.Test
             {
                 "PRINT_COMMERCIALS","RUN_WAY"
             };
-            updatePersonalInfoCmd.UplodableArg = new UplodableArg
+            updatePersonalInfoCmd.UplodableArg = new UploadableArg
             {
                 File = new UtilityMethods().ConvertImageToByteArray("5.jpg"),
                 FileTypeId = "PROFILE_PIC"
@@ -266,7 +266,7 @@ namespace ModelManagement.Business.Test
             CreateUploadableCommand _createUploadable = new CreateUploadableCommand
             {
                 PersonId = "421f563f-1840-4635-9b70-a6e1fd57fe6a",
-                UplodableArg = new UplodableArg
+                UplodableArg = new UploadableArg
                 {
                     FileTypeId = "PROFILE_PIC",
                     File = new UtilityMethods().ConvertImageToByteArray("/res/23.jpg")
@@ -283,23 +283,23 @@ namespace ModelManagement.Business.Test
             {
                 PersonId = "16c7aa1a-27d9-424f-bfc5-a7e1ba0804bb",
                 UserLoginId = "142f29b4-f873-4bf8-b1fe-88db902e46b1",
-                UplodableArgs = new List<UplodableArg>
+                UplodableArgs = new List<UploadableArg>
                 {
-                   new UplodableArg
+                   new UploadableArg
                    {
                        FileTypeId = "HEADER_PIC",
                        MimeTypeId="image/jpeg",
                        FileUploadId="5852efd0-dd72-44ba-901b-ddc69b139359",
                        File = new UtilityMethods().ConvertImageToByteArray("res/15.jpg")
                    },
-                   new UplodableArg
+                   new UploadableArg
                    {
                        FileTypeId="HEADER_PIC",
                        MimeTypeId="image/jpeg",
                        FileUploadId="7763cb76-e706-4110-aae6-2869c26b0af3",
                        File = new UtilityMethods().ConvertImageToByteArray("res/4.jpg")
                    },
-                   new UplodableArg
+                   new UploadableArg
                    {
                        FileTypeId="HEADER_PIC",
                        MimeTypeId="image/jpeg",

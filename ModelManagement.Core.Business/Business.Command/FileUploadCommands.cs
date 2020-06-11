@@ -24,7 +24,7 @@ namespace ModelManagement.Core.Business.Business.Command
     public class CreateUploadableCommand : CommandBase, ICommand
     {
         public string PersonId { get; set; }
-        public UplodableArg UplodableArg { get; set; }
+        public UploadableArg UplodableArg { get; set; }
         public CommandResult Execute()
         {
             var _fileUploadService = new FileUploadService();
@@ -36,7 +36,7 @@ namespace ModelManagement.Core.Business.Business.Command
     public class SaveUplodablesCommand : CommandBase, ICommand
     {
         public string PersonId { get; set; }
-        public List<UplodableArg> UplodableArgs { get; set; }
+        public List<UploadableArg> UplodableArgs { get; set; }
         public CommandResult Execute()
         {
             using (var transaction = new TransactionScope())

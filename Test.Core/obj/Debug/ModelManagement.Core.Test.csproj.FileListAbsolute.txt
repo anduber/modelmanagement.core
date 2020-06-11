@@ -211,9 +211,7 @@ D:\WorkFiles\git\modelmanagement.core\Test.Core\bin\Debug\MySql.Fabric.Plugin.dl
 D:\WorkFiles\git\modelmanagement.core\Test.Core\bin\Debug\MySql.Web.dll
 D:\WorkFiles\git\modelmanagement.core\Test.Core\bin\Debug\System.Linq.Dynamic.dll
 D:\WorkFiles\git\modelmanagement.core\Test.Core\bin\Debug\ModelManagement.Core.Business.pdb
-D:\WorkFiles\git\modelmanagement.core\Test.Core\bin\Debug\ModelManagement.Core.Business.dll.config
 D:\WorkFiles\git\modelmanagement.core\Test.Core\bin\Debug\ModelManagement.Core.Data.pdb
-D:\WorkFiles\git\modelmanagement.core\Test.Core\bin\Debug\ModelManagement.Core.Data.dll.config
 D:\WorkFiles\git\modelmanagement.core\Test.Core\bin\Debug\AutoMapper.xml
 D:\WorkFiles\git\modelmanagement.core\Test.Core\bin\Debug\EntityFramework.xml
 D:\WorkFiles\git\modelmanagement.core\Test.Core\bin\Debug\EntityFramework.SqlServer.xml
@@ -224,7 +222,7 @@ D:\WorkFiles\git\modelmanagement.core\Test.Core\bin\Debug\Microsoft.Practices.En
 D:\WorkFiles\git\modelmanagement.core\Test.Core\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Validation.xml
 D:\WorkFiles\git\modelmanagement.core\Test.Core\bin\Debug\Microsoft.Practices.ServiceLocation.pdb
 D:\WorkFiles\git\modelmanagement.core\Test.Core\bin\Debug\Microsoft.Practices.ServiceLocation.xml
-D:\WorkFiles\git\modelmanagement.core\Test.Core\obj\Debug\ModelManagement.Core.Test.csprojAssemblyReference.cache
-D:\WorkFiles\git\modelmanagement.core\Test.Core\obj\Debug\ModelManagement.Core.Test.csproj.CopyComplete
 D:\WorkFiles\git\modelmanagement.core\Test.Core\obj\Debug\Test.Core.dll
 D:\WorkFiles\git\modelmanagement.core\Test.Core\obj\Debug\Test.Core.pdb
+D:\WorkFiles\git\modelmanagement.core\Test.Core\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml
+D:\WorkFiles\git\modelmanagement.core\Test.Core\obj\Debug\ModelManagement.Core.Test.csprojResolveAssemblyReference.cache

@@ -29,6 +29,7 @@ namespace ModelManagement.Core.Business.Business.Command.EntityRepositories
         private EntityRepository<GeoAssoc> _geoAssocRepository;
         private EntityRepository<JobPost> _jobPostRepository;
         private EntityRepository<JobOffer> _jobOfferRepository;
+        private EntityRepository<Uploadable> _uploadableRepository;
 
         public AppRepository(ModelManagementContext context = null)
         {
@@ -133,6 +134,11 @@ namespace ModelManagement.Core.Business.Business.Command.EntityRepositories
         public EntityRepository<JobOffer> JobOffer()
         {
             return _jobOfferRepository ?? (_jobOfferRepository = new EntityRepository<JobOffer>(Context));
+        }
+
+        public EntityRepository<Uploadable> Uploadable()
+        {
+            return _uploadableRepository ?? (_uploadableRepository = new EntityRepository<Uploadable>(Context));
         }
     }
 }

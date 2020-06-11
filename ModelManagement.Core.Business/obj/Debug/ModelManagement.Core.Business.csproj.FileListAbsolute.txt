@@ -234,7 +234,6 @@ D:\WorkFiles\git\modelmanagement.core\ModelManagement.Core.Business\bin\Debug\My
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Core.Business\bin\Debug\MySql.Web.dll
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Core.Business\bin\Debug\System.Linq.Dynamic.dll
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Core.Business\bin\Debug\ModelManagement.Core.Data.pdb
-D:\WorkFiles\git\modelmanagement.core\ModelManagement.Core.Business\bin\Debug\ModelManagement.Core.Data.dll.config
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Core.Business\bin\Debug\AutoMapper.xml
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Core.Business\bin\Debug\EntityFramework.xml
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Core.Business\bin\Debug\EntityFramework.SqlServer.xml
@@ -245,7 +244,6 @@ D:\WorkFiles\git\modelmanagement.core\ModelManagement.Core.Business\bin\Debug\Mi
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Core.Business\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Validation.xml
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Core.Business\bin\Debug\Microsoft.Practices.ServiceLocation.pdb
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Core.Business\bin\Debug\Microsoft.Practices.ServiceLocation.xml
-D:\WorkFiles\git\modelmanagement.core\ModelManagement.Core.Business\obj\Debug\ModelManagement.Core.Business.csprojAssemblyReference.cache
-D:\WorkFiles\git\modelmanagement.core\ModelManagement.Core.Business\obj\Debug\ModelManagement.Core.Business.csproj.CopyComplete
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Core.Business\obj\Debug\ModelManagement.Core.Business.dll
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Core.Business\obj\Debug\ModelManagement.Core.Business.pdb
+D:\WorkFiles\git\modelmanagement.core\ModelManagement.Core.Business\obj\Debug\ModelManagement.Core.Business.csprojResolveAssemblyReference.cache

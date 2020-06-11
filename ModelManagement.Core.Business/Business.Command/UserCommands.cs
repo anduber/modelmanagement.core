@@ -90,7 +90,7 @@ namespace ModelManagement.Core.Business.Business.Command
     {
         public string PersonId { get; set; }
         public PersonalInformationArg PersonalInformationArg { get; set; }
-        public UplodableArg UplodableArg { get; set; }
+        public UploadableArg UplodableArg { get; set; }
         public List<string> CategoryTypeIds { get; set; }
 
         public CommandResult Execute()
@@ -176,6 +176,8 @@ namespace ModelManagement.Core.Business.Business.Command
         public PhysicalInformationArg PhysicalInformationArg { get; set; }
         public List<ContactInfoArg> ContactInfoArgs { get; set; }
         public List<string> CategoryTypeIds { get; set; }
+        public List<UploadableArg> UploadableArgs { get; set; }
+
         public CommandResult Execute()
         {
             using (var transaction = new TransactionScope())
@@ -183,10 +185,12 @@ namespace ModelManagement.Core.Business.Business.Command
                 var userService = new UserService(transaction.Context);
                 var categoryService = new CategoryService(transaction.Context);
                 var contactService = new ContactService(transaction.Context);
+                var fileUploadService = new FileUploadService(transaction.Context);
 
                 var user = userService.RegisterModel(PersonalInformationArg, PhysicalInformationArg);
                 categoryService.CreateCategories(CategoryTypeIds, user.PersonId, user.UserLoginId);
                 contactService.CreateContactInfos(ContactInfoArgs, user.PersonId, user.UserLoginId);
+                fileUploadService.AddAUploadables(UploadableArgs,user.PersonId,user.UserLoginId);
 
                 transaction.CompleteTransaction();
                 return Utility.CommandSuccess(user.UserNumber);

@@ -595,9 +595,7 @@ D:\WorkFiles\git\modelmanagement.core\ModelManagement.Api\bin\System.Web.WebPage
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Api\bin\WebGrease.dll
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Api\bin\AutoMapper.dll
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Api\bin\ModelManagement.Core.Business.pdb
-D:\WorkFiles\git\modelmanagement.core\ModelManagement.Api\bin\ModelManagement.Core.Business.dll.config
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Api\bin\ModelManagement.Core.Data.pdb
-D:\WorkFiles\git\modelmanagement.core\ModelManagement.Api\bin\ModelManagement.Core.Data.dll.config
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Api\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Api\bin\Microsoft.Practices.EnterpriseLibrary.Common.xml
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Api\bin\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.xml
@@ -635,7 +633,6 @@ D:\WorkFiles\git\modelmanagement.core\ModelManagement.Api\bin\Microsoft.Owin.Sec
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Api\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Api\bin\System.Web.Http.Owin.xml
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Api\bin\AutoMapper.xml
-D:\WorkFiles\git\modelmanagement.core\ModelManagement.Api\obj\Debug\ModelManagement.Api.csprojAssemblyReference.cache
-D:\WorkFiles\git\modelmanagement.core\ModelManagement.Api\obj\Debug\ModelManagement.Api.csproj.CopyComplete
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Api\obj\Debug\ModelManagement.Api.dll
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Api\obj\Debug\ModelManagement.Api.pdb
+D:\WorkFiles\git\modelmanagement.core\ModelManagement.Api\obj\Debug\ModelManagement.Api.csprojResolveAssemblyReference.cache

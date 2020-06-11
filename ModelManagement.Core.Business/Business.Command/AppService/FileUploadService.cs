@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ModelManagement.Core.Business.Business.Command.CommandArgs;
+using ModelManagement.Core.Business.Business.Command.EntityRepositories;
 using ModelManagement.Core.Business.Business.Helpers;
 using ModelManagement.Core.Data.Data.Context;
 using ModelManagement.Core.Data.Data.Model;
@@ -7,27 +8,26 @@ using ModelManagement.Core.Data.Data.Repository.GenericRepository;
 
 namespace ModelManagement.Core.Business.Business.Command.AppService
 {
-    public class FileUploadService
+    public class FileUploadService:AppRepository
     {
         private ModelManagementContext _context;
         private EntityRepository<Uploadable> _uplodableRepository;
         private ObjectMapper _mapper;
-        public FileUploadService(ModelManagementContext context = null)
+        public FileUploadService(ModelManagementContext context = null):base(context)
         {
-            _context = context == null ? new ModelManagementContext() : context;
-            _uplodableRepository = new EntityRepository<Uploadable>(_context);
+            _context = context ?? new ModelManagementContext();
+            //_uplodableRepository = new EntityRepository<Uploadable>(_context);
             _mapper = new ObjectMapper();
         }
 
-        public Uploadable CreateUplodable(UplodableArg uplodableArg, string personId, string userLoginId)
+        public Uploadable CreateUplodable(UploadableArg uplodableArg, string personId, string userLoginId)
         {
             var _uplodable = SetUplodable(uplodableArg, personId, userLoginId);
             _uplodableRepository.Create(_uplodable);
-            //new UtilityMethods().SaveImage(uplodableArg.File, _uplodable.FileName);
             return _uplodable;
         }
 
-        public Uploadable SaveUplodable(UplodableArg uplodableArg, string personId, string userLoginId)
+        public Uploadable SaveUplodable(UploadableArg uplodableArg, string personId, string userLoginId)
         {
             var fileUplodable = _uplodableRepository.FirstOrDefault(t => t.FileUploadId == uplodableArg.FileUploadId);
             if (fileUplodable == null)
@@ -43,7 +43,7 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             return fileUplodable;
         }
 
-        public Uploadable SetUplodable(UplodableArg uplodableArg, string personId, string userLoginId, string fileUploadId = null)
+        public Uploadable SetUplodable(UploadableArg uplodableArg, string personId, string userLoginId, string fileUploadId = null)
         {
             return new Uploadable
             {
@@ -57,9 +57,9 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             };
         }
 
-        public void SaveImages(List<UplodableArg> uplodableArgs, List<string> fileNames)
+        public void SaveImages(List<UploadableArg> uplodableArgs, List<string> fileNames)
         {
-            for (int i = 0; i < uplodableArgs.Count; i++)
+            for (var i = 0; i < uplodableArgs.Count; i++)
             {
                 new UtilityMethods().SaveImage(uplodableArgs[i].File, fileNames[i]);
             }
@@ -69,6 +69,23 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
         {
             _uplodableRepository.Delete(_uplodableRepository.FirstOrDefault(t => t.FileUploadId == fileUploadId));
         }
+
+        public void AddAUploadables(List<UploadableArg> uploadableArgs,string personId,string userLoginId)
+        {
+            foreach (var uploadableArg in uploadableArgs)
+            {
+                AddUploadable(uploadableArg, personId, userLoginId);
+            }
+        }
+
+        private Uploadable AddUploadable(UploadableArg uploadableArg, string personId, string userLoginId)
+        {
+            var uploadable = SetUplodable(uploadableArg, personId, userLoginId);
+            Uploadable().Add(uploadable);
+            return uploadable;
+        }
+
+
 
     }
 }
