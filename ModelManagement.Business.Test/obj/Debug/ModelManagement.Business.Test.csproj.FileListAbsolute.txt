@@ -256,7 +256,6 @@ D:\WorkFiles\git\modelmanagement.core\ModelManagement.Business.Test\bin\Debug\My
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Business.Test\bin\Debug\System.Linq.Dynamic.dll
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Business.Test\bin\Debug\ModelManagement.Core.Data.dll
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Business.Test\bin\Debug\ModelManagement.Core.Business.pdb
-D:\WorkFiles\git\modelmanagement.core\ModelManagement.Business.Test\bin\Debug\ModelManagement.Core.Business.dll.config
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Business.Test\bin\Debug\AutoMapper.xml
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Business.Test\bin\Debug\EntityFramework.xml
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Business.Test\bin\Debug\EntityFramework.SqlServer.xml
@@ -268,8 +267,6 @@ D:\WorkFiles\git\modelmanagement.core\ModelManagement.Business.Test\bin\Debug\Mi
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Business.Test\bin\Debug\Microsoft.Practices.ServiceLocation.pdb
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Business.Test\bin\Debug\Microsoft.Practices.ServiceLocation.xml
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Business.Test\bin\Debug\ModelManagement.Core.Data.pdb
-D:\WorkFiles\git\modelmanagement.core\ModelManagement.Business.Test\bin\Debug\ModelManagement.Core.Data.dll.config
-D:\WorkFiles\git\modelmanagement.core\ModelManagement.Business.Test\obj\Debug\ModelManagement.Business.Test.csprojAssemblyReference.cache
-D:\WorkFiles\git\modelmanagement.core\ModelManagement.Business.Test\obj\Debug\ModelManagement.Business.Test.csproj.CopyComplete
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Business.Test\obj\Debug\ModelManagement.Business.Test.dll
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Business.Test\obj\Debug\ModelManagement.Business.Test.pdb
+D:\WorkFiles\git\modelmanagement.core\ModelManagement.Business.Test\obj\Debug\ModelManagement.Business.Test.csprojResolveAssemblyReference.cache

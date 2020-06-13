@@ -40,6 +40,7 @@ namespace ModelManagement.Api.Controllers
             {
                 return Utility.CommandError(e.Message);
             }
+            //return command.Execute();
         }
 
         public ICommand GetCommand(JObject commandObject, string commandName)

@@ -152,9 +152,10 @@ namespace ModelManagement.Core.Business.Business.Command
         public string Password { get; set; }
         public CommandResult Execute()
         {
-            var userService = new UserService();
-            var result = userService.AuthenticateUser(UserName, Password);
-            return result ? Utility.CommandSuccess() : Utility.CommandError("Username or Password Is Incorrect!");
+            //var userService = new UserService();
+            //var result = userService.AuthenticateUser(UserName, Password);
+            //return result ? Utility.CommandSuccess(Utility.GetSecurityToken()) : Utility.CommandError("Username or Password Is Incorrect!");
+            return new CommandResult();
         }
     }
 
@@ -193,6 +194,9 @@ namespace ModelManagement.Core.Business.Business.Command
                 fileUploadService.AddAUploadables(UploadableArgs,user.PersonId,user.UserLoginId);
 
                 transaction.CompleteTransaction();
+
+                var commonService = new CommonDataService();
+                commonService.SendActivationCodeViaEmail(user,PersonalInformationArg.UserName);
                 return Utility.CommandSuccess(user.UserNumber);
             }
         }
@@ -255,6 +259,35 @@ namespace ModelManagement.Core.Business.Business.Command
                 transaction.CompleteTransaction();
                 return result;
             }
+        }
+    }
+
+    public class ActivateUserAccountCommand:CommandBase,ICommand
+    {
+        public string UserName { get; set; }
+        public string VerificationCode { get; set; }
+        public string NewPassword { get; set; }
+
+        public CommandResult Execute()
+        {
+            using (var transaction = new TransactionScope())
+            {
+                var result = new UserService(transaction.Context).ActivateUserAccount(UserName,VerificationCode,NewPassword);
+                transaction.CompleteTransaction();
+                return result;
+            }
+        }
+    }
+
+    public class UserLoginCommand:CommandBase,ICommand
+    {
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public CommandResult Execute()
+        {
+            var result = new UserService().AuthenticateUser(UserName, Password);
+            return result ? Utility.CommandSuccess(Utility.GetSecurityToken()) : Utility.CommandError("Username or Password Is Incorrect!");
+
         }
     }
 

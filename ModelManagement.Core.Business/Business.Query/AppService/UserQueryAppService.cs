@@ -45,7 +45,7 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
                                                        t.FirstName.Contains(searchText) ||
                                                        t.LastName.Contains(searchText) ||
                                                        t.FatherName.Contains(searchText) ||
-                                                       t.PersonId_User.UserName.Contains(searchText) ||
+                                                      
                                                        t.PersonId_User.UserNumber.Contains(searchText)
                                                    )) &&
                                                    (string.IsNullOrEmpty(queryParam.Sex) || t.Sex == queryParam.Sex)
@@ -98,7 +98,7 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
 
         internal QueryResult CheckUserName(string userName)
         {
-            var user = ModelManagementContext().Users.FirstOrDefault(t => t.UserName == userName.Trim());
+            var user = ModelManagementContext().UserLogins.FirstOrDefault(t => t.UserName == userName.Trim());
             var result = user != null;
             return Utility.QuerySuccessResult(result);
         }

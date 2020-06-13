@@ -11,37 +11,37 @@ using ModelManagement.Core.Data.Data.Model;
 
 namespace ModelManagement.Core.Business.Business.Command.AppService
 {
-    public class UserService:AppRepository
+    public class UserService : AppRepository
     {
         public ModelManagementContext _context;
         private AppRepository _appRepository;
         private readonly ObjectMapper _mapper;
 
-        public UserService(ModelManagementContext context = null):base(context)
+        public UserService(ModelManagementContext context = null) : base(context)
         {
             _context = context ?? new ModelManagementContext();
             _mapper = new ObjectMapper();
             _appRepository = new AppRepository(_context);
         }
 
-        public User CreateUser(User user)
+        public User CreateUser(User user, string userName)
         {
-            if (User().Find(t => t.UserName == user.UserName) != null)
+            if (UserLogin().Find(t => t.UserName == userName) != null)
                 throw new InvalidOperationException("UserName already exsists");
             User().Add(user);
-            CreateUserLogin(user);
+            CreateUserLogin(user, userName);
             AddUserStatus(user.PersonId, user.StatusId, user.UserLoginId);
             return user;
         }
 
         public CommandResult CreateUser(UserCommandArg userCommandArg)
         {
-            if (User().Find(t => t.UserName == userCommandArg.UserName) != null)
+            if (UserLogin().Find(t => t.UserName == userCommandArg.UserName) != null)
                 throw new InvalidOperationException("UserName already exsists");
             var user = AddUser(userCommandArg.UserName, userCommandArg.PrimaryEmail, userCommandArg.PrimaryPhoneNumber,
                 userCommandArg.Description, userCommandArg.StatusId);
             var userLogin = AddUserLogin(user.PersonId, DateTime.Now, "N", userCommandArg.Password);
-            AddUserRole(user.PersonId,userCommandArg.RoleTypeId,userLogin.UserLoginId);
+            AddUserRole(user.PersonId, userCommandArg.RoleTypeId, userLogin.UserLoginId);
             return Utility.CommandSuccess(user.PersonId);
         }
 
@@ -54,24 +54,24 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
         /// <param name="description"></param>
         /// <param name="statusId"></param>
         /// <returns></returns>
-        private User AddUser(string userName,string primaryEmail,string primaryPhoneNumber,string description,string statusId)
+        private User AddUser(string userName, string primaryEmail, string primaryPhoneNumber, string description, string statusId)
         {
-            if(string.IsNullOrEmpty(userName)) throw new InvalidOperationException("User name is required!");
-            if (User().Find(t => t.UserName == userName) != null)
+            if (string.IsNullOrEmpty(userName)) throw new InvalidOperationException("User name is required!");
+            if (UserLogin().Find(t => t.UserName == userName) != null)
                 throw new InvalidOperationException("UserName already exsists");
             var user = new User();
-            user.SetProperty(userName,primaryEmail,primaryPhoneNumber,description,statusId);
+            user.SetProperty(primaryEmail, primaryPhoneNumber, description, statusId);
             user.PersonId = Utility.GetId();
             user.UserNumber = Utility.GetUserNumber();
             User().Add(user);
             return user;
         }
 
-        
-        private UserLogin AddUserLogin(string personId,DateTime? fromDate,string requirePaswordChange,string currentPassword)
+
+        private UserLogin AddUserLogin(string personId, DateTime? fromDate, string requirePaswordChange, string currentPassword)
         {
             var userLogin = new UserLogin();
-            userLogin.SetProperty(personId,fromDate,requirePaswordChange, Utility.HashPassword(currentPassword));
+            userLogin.SetProperty(personId, fromDate, requirePaswordChange, Utility.HashPassword(currentPassword));
             userLogin.UserLoginId = Utility.GetId();
             UserLogin().Add(userLogin);
             return userLogin;
@@ -89,12 +89,13 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             return User().Delete(user);
         }
 
-        public UserLogin CreateUserLogin(User user)
+        public UserLogin CreateUserLogin(User user, string userName)
         {
             var userLogin = new UserLogin
             {
                 UserLoginId = Utility.GetId(),
                 PersonId = user.PersonId,
+                UserName = userName,
                 FromDate = DateTime.Now,
                 RequirePasswordChange = "Y",
                 CurrentPassword = Utility.HashPassword(Utility.DefaultPassword)
@@ -104,16 +105,18 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             return userLogin;
         }
 
-        public User SetUser(string roleTypeId, string userName, string password, string email, string statusId)
+        public User SetUser(string roleTypeId, string userName, string password, string email, string statusId, string isUserActivated)
         {
             return new User
             {
                 PersonId = Utility.GetId(),
                 UserNumber = Utility.GetUserNumber(),
+                VerificationCode = Utility.GetVerificationCode(),
                 //RoleTypeId = roleTypeId,
-                UserName = userName,
+                //UserName = userName,
                 //Password = string.IsNullOrEmpty(password) ? null : Utility.HashPassword(password),
                 PrimaryEmail = email,
+                IsUserActivated = isUserActivated,
                 StatusId = string.IsNullOrEmpty(statusId) ? Utility.StatusDisabled : statusId
             };
         }
@@ -151,8 +154,8 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
 
         public PersonalInformation CreatePersonalInfo(PersonalInformationArg personalInfoArg, string userLoginId)
         {
-            var user = SetUser(Utility.RoleTypeModel, personalInfoArg.UserName, Utility.DefaultPassword, null, Utility.StatusDisabled);
-            CreateUser(user);
+            var user = SetUser(Utility.RoleTypeModel, personalInfoArg.UserName, Utility.DefaultPassword, null, Utility.StatusDisabled, "Y");
+            //CreateUser(user);
             var personalInfo = SetPersonalInfo(personalInfoArg, user.PersonId, userLoginId);
             PersonalInformation().Add(personalInfo);
             return personalInfo;
@@ -229,15 +232,18 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             return true;
         }
 
-        public bool AuthenticateUser(string userName, string password)
-        {
-            var user = User().FirstOrDefault(t => t.UserName == userName && t.StatusId == Utility.StatusEnabled);
-            if (user!=null) return false;
-            {
-                var userLogin = UserLogin().FirstOrDefault(t => t.PersonId == user.PersonId && t.ThruDate == null);
-                return Utility.ValidateHashPassword(password,userLogin.CurrentPassword);
-            }
-        }
+        //public bool AuthenticateUser(string userName, string password)
+        //{
+        //    var user =
+        //        User()
+        //            .FirstOrDefault(
+        //                t => t.User_UserLogin.Any(g=>g.UserName==userName)  && t.StatusId == Utility.StatusEnabled && t.IsUserActivated == "Y");
+        //    if (user!=null) return false;
+        //    {
+        //        var userLogin = UserLogin().FirstOrDefault(t => t.PersonId == user.PersonId && t.ThruDate == null);
+        //        return Utility.ValidateHashPassword(password,userLogin.CurrentPassword);
+        //    }
+        //}
 
         private string SetBodySizeType(PhysicalInformationArg physicalInfoArg)
         {
@@ -246,7 +252,7 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
 
         public User RegisterModel(PersonalInformationArg personInfoArg, PhysicalInformationArg physicalInfoArg)
         {
-            var user = CreateUser(SetUser(Utility.RoleTypeModel, personInfoArg.UserName, Utility.DefaultPassword, personInfoArg.Email, Utility.StatusDisabled));
+            var user = CreateUser(SetUser(Utility.RoleTypeModel, personInfoArg.UserName, Utility.DefaultPassword, personInfoArg.Email, Utility.StatusDisabled, "N"), personInfoArg.UserName);
             PersonalInformation().Add(SetPersonalInfo(personInfoArg, user.PersonId, user.UserLoginId));
             SetCreateUpdatePhysicalInformation(null, physicalInfoArg, user.PersonId, user.UserLoginId);
             SetUserAppl(personInfoArg.OfferTypeId, user.PersonId, user.UserLoginId);
@@ -301,9 +307,9 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             return Utility.CommandSuccess();
         }
 
-        public CommandResult SetVisitor(string visitorId, string userLoginId, string userAgentTypeId,string securityToken, VisitorArg visitorArg)
+        public CommandResult SetVisitor(string visitorId, string userLoginId, string userAgentTypeId, string securityToken, VisitorArg visitorArg)
         {
-            
+
             var visitor = new Visitor();
             if (!CheckVisitorExists(visitorId))
             {
@@ -314,17 +320,17 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
                 visitor.VisitorId = visitorId;
             }
             var visit = AddVisit(visitor.VisitorId, userLoginId, visitorArg);
-            return Utility.CommandSuccess(SetVisitResult(visit.VisitId,visitor.VisitorId,userAgentTypeId,securityToken));
+            return Utility.CommandSuccess(SetVisitResult(visit.VisitId, visitor.VisitorId, userAgentTypeId, securityToken));
         }
 
-        protected virtual CommandBase SetVisitResult(string visitId,string visitorId,string userAgentTypeId,string securityToken)
+        protected virtual CommandBase SetVisitResult(string visitId, string visitorId, string userAgentTypeId, string securityToken)
         {
             return new CommandBase
             {
                 VisitorId = visitorId,
                 VisitId = visitId,
                 UserAgentTypeId = userAgentTypeId,
-                SecurityToken = string.IsNullOrEmpty(securityToken)?Utility.GenerateToken(visitorId,visitId):securityToken
+                SecurityToken = string.IsNullOrEmpty(securityToken) ? Utility.GenerateToken(visitorId, visitId) : securityToken
             };
         }
 
@@ -369,34 +375,62 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             jobPost.UserLoginId = userLoginId;
             jobPost.IsActive = "Y";
             JobPost().Add(jobPost);
-            if(modelIds.Count>0)
+            if (modelIds.Count <= 0) return Utility.CommandSuccess(jobPost.JobPostId);
+            foreach (var model in modelIds)
             {
-                foreach (var model in modelIds)
-                {
-                    AddJobOffer(jobPost.JobPostId, model, userLoginId);
-                }
+                AddJobOffer(jobPost.JobPostId, model, userLoginId);
             }
             return Utility.CommandSuccess(jobPost.JobPostId);
         }
 
-       
-        public CommandResult CreateJobOffer(string jobPostId,string modelId,string userLoginId)
+
+        public CommandResult CreateJobOffer(string jobPostId, string modelId, string userLoginId)
         {
             var jobOffer = AddJobOffer(jobPostId, modelId, userLoginId);
             return Utility.CommandSuccess(jobOffer.JobOfferId);
         }
 
-        internal JobOffer AddJobOffer(string jobPostId,string modelId,string userLoginId)
+        internal JobOffer AddJobOffer(string jobPostId, string modelId, string userLoginId)
         {
             var jobOffer = new JobOffer
             {
                 JobOfferId = Utility.GetId(),
-                ModelUserId=modelId,
+                ModelUserId = modelId,
                 JobPostId = jobPostId,
                 UserLoginId = userLoginId
             };
             JobOffer().Add(jobOffer);
             return jobOffer;
+        }
+
+        public CommandResult ActivateUserAccount(string userName, string verificationCode, string newPassword)
+        {
+            var userLogin = UserLogin().FirstOrDefault(t => t.UserName == userName);
+            if (userLogin == null) throw new InvalidOperationException("User not found!");
+            var user = User().Find(userLogin.PersonId);
+            if (verificationCode != user.VerificationCode)
+                throw new InvalidOperationException("Your verification code is Incorrect!");
+            user.IsUserActivated = "Y";
+            user.StatusId = Utility.StatusEnabled;
+            User().UpdateEntity(user);
+            userLogin.RequirePasswordChange = "N";
+            userLogin.CurrentPassword = Utility.HashPassword(newPassword);
+            UserLogin().UpdateEntity(userLogin);
+            return Utility.CommandSuccess();
+        }
+
+        public bool AuthenticateUser(string userName, string password)
+        {
+            var userLogin = UserLogin().FirstOrDefault(t=>t.UserName==userName);
+            if (userLogin?.RequirePasswordChange == "Y")
+            {
+                throw new InvalidOperationException("Change Password!");
+            }
+            if (userLogin?.User_PersonId.IsUserActivated == "Y" && userLogin.User_PersonId.StatusId == Utility.StatusEnabled)
+            {
+                return Utility.ValidateHashPassword(password, userLogin.CurrentPassword);
+            }
+            throw new InvalidOperationException("Username or Password Is Incorrect!");
         }
     }
 }

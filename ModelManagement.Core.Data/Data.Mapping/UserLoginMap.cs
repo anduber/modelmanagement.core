@@ -1,6 +1,8 @@
 ﻿using ModelManagement.Core.Data.Data.Model;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity.Infrastructure.Annotations;
 using System.Data.Entity.ModelConfiguration;
 using System.Linq;
 using System.Text;
@@ -15,9 +17,20 @@ namespace ModelManagement.Core.Data.Data.Mapping
             HasKey(t => new { t.UserLoginId });
             HasOptional(t => t.User_PersonId).WithMany(t => t.User_UserLogin).HasForeignKey(t => t.PersonId);
 
+            Property(t => t.UserName)
+                 .IsRequired()
+                 .HasMaxLength(60)
+                 .HasColumnAnnotation(IndexAnnotation.AnnotationName,
+                                      new IndexAnnotation(
+                                          new IndexAttribute("IX_UserName,1")
+                                          {
+                                              IsUnique = true
+                                          }));
+
             #region Property
             Property(t => t.UserLoginId).HasColumnName("USER_LOGIN_ID");
             Property(t => t.PersonId).HasColumnName("PERSON_ID");
+            Property(t => t.UserName).HasColumnName("USER_NAME");
             Property(t => t.FromDate).HasColumnName("FROM_DATE");
             Property(t => t.ThruDate).HasColumnName("THRU_DATE");
             Property(t => t.CurrentPassword).HasColumnName("CURRENT_PASSWORD");

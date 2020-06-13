@@ -15,11 +15,13 @@ namespace ModelManagement.Core.Data.Data.Model
         }
         public string PersonId { get; set; }
         public string UserNumber { get; set; }
-        public string UserName { get; set; }
+        //public string UserName { get; set; }
         public string PrimaryEmail { get; set; }
         public string PrimaryPhoneNumber { get; set; }
         public string Description { get; set; }
         public string StatusId { get; set; }
+        public string IsUserActivated { get; set; }
+        public string VerificationCode { get; set; }
         public virtual PersonalInformation PersonalInformation { get; set; }
         public virtual List<UserAppl> UserApplId_UserAppls { get; set; }
         public virtual StatusItem StatusId_StatusItem { get; set; }
@@ -29,9 +31,9 @@ namespace ModelManagement.Core.Data.Data.Model
         public virtual List<JobPost> User_JobPosts{ get; set; }
         public virtual List<JobOffer> User_JobOffers{ get; set; }
 
-        public void SetProperty(string userName, string primaryEmail, string primaryPhoneNumber, string description, string statusId)
+        public void SetProperty(string primaryEmail, string primaryPhoneNumber, string description, string statusId)
         {
-            UserName = userName;
+            //UserName = userName;
             PrimaryEmail = primaryEmail;
             PrimaryPhoneNumber = PrimaryPhoneNumber;
             Description = description;

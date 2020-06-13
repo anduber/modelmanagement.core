@@ -25,6 +25,7 @@ namespace ModelManagement.Core.Data.Data.Model
             UserLogin_JobOfferUserLogin = new List<JobOffer>();
         }
         public string PersonId { get; set; }
+        public string UserName { get; set; }
         public DateTime? FromDate { get; set; }
         public DateTime? ThruDate { get; set; }
         public string CurrentPassword { get; set; }

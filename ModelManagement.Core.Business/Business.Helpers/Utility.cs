@@ -43,6 +43,11 @@ namespace ModelManagement.Core.Business.Business.Helpers
             public const string FileUpload = "FileUpload";
         }
 
+        public static class Users
+        {
+            public const string EmailAdminUserLoginId = "email_admin_login";
+            public const string EmailAdminUserId = "email_admin";
+        }
 
         public static string GetId()
         {
@@ -93,6 +98,12 @@ namespace ModelManagement.Core.Business.Business.Helpers
             return stringBuilder + "-" + stringAndNumberBuilder + "-" + numberBuilder;
         }
 
+        public static string GetVerificationCode()
+        {
+            var generator = new Random();
+            return generator.Next(0, 999999).ToString("D6");
+        }
+
         /// <CommandSuccess>
         /// CommandSuccess
         /// </CommandSuccess>
@@ -114,6 +125,13 @@ namespace ModelManagement.Core.Business.Business.Helpers
                 ErrorMessage = errorMessage,
                 IsSuccess = false
             };
+        }
+
+        public static string GetSecurityToken()
+        {
+            var time = BitConverter.GetBytes(DateTime.UtcNow.ToBinary());
+            var key = Guid.NewGuid().ToByteArray();
+            return Convert.ToBase64String(time.Concat(key).ToArray());
         }
 
         public static void CommandException(string exceptionMessage = "", string exceptionType = "")

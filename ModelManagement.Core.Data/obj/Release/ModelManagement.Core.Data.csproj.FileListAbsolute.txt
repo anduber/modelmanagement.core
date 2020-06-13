@@ -204,7 +204,6 @@ D:\WorkFiles\git\modelmanagement.core\ModelManagement.Core.Data\bin\Release\Micr
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Core.Data\bin\Release\Microsoft.Practices.EnterpriseLibrary.Validation.xml
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Core.Data\bin\Release\Microsoft.Practices.ServiceLocation.pdb
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Core.Data\bin\Release\Microsoft.Practices.ServiceLocation.xml
-D:\WorkFiles\git\modelmanagement.core\ModelManagement.Core.Data\obj\Release\ModelManagement.Core.Data.csprojAssemblyReference.cache
-D:\WorkFiles\git\modelmanagement.core\ModelManagement.Core.Data\obj\Release\ModelManagement.Core.Data.csproj.CopyComplete
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Core.Data\obj\Release\ModelManagement.Core.Data.dll
 D:\WorkFiles\git\modelmanagement.core\ModelManagement.Core.Data\obj\Release\ModelManagement.Core.Data.pdb
+D:\WorkFiles\git\modelmanagement.core\ModelManagement.Core.Data\obj\Release\ModelManagement.Core.Data.csprojResolveAssemblyReference.cache

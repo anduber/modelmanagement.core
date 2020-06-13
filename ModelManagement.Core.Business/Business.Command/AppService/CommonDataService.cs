@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using ModelManagement.Core.Business.Business.Command.CommandArgs;
 using ModelManagement.Core.Business.Business.Command.EntityRepositories;
 using ModelManagement.Core.Business.Business.Helpers;
@@ -297,5 +298,34 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             return geo;
         }
 
+
+        public CommandResult SendEmail(string emailFrom,string password,string emailTo,string subject,string messageBody)
+        {
+            var mailMessage = new MailMessage();
+            var smtpServer = new SmtpClient("smtp.gmail.com") {UseDefaultCredentials = false};
+
+
+            mailMessage.From = new MailAddress(emailFrom);
+            mailMessage.To.Add(emailTo);
+            mailMessage.Subject = subject;
+            mailMessage.Body = messageBody;
+
+            smtpServer.Port = 587;
+           
+            smtpServer.Credentials = new System.Net.NetworkCredential(emailFrom, password);
+            smtpServer.EnableSsl = true;
+
+            smtpServer.Send(mailMessage);
+            return Utility.CommandSuccess();
+        }
+
+        public CommandResult SendActivationCodeViaEmail(User user,string userName)
+        {
+            var emailAdmin = UserLogin().Find(Utility.Users.EmailAdminUserLoginId);
+            var emailSubject = "Verification Code";
+            var messageBody = userName + " This is your verification code" + user.VerificationCode;
+            SendEmail(emailAdmin.User_PersonId.PrimaryEmail,emailAdmin.CurrentPassword,user.PrimaryEmail,emailSubject,messageBody);
+            return Utility.CommandSuccess();
+        }
     }
 }

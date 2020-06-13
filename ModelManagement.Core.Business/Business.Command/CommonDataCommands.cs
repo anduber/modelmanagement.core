@@ -232,4 +232,12 @@ namespace ModelManagement.Core.Business.Business.Command
             return new CommonDataService().RemoveGeoType(GeoTypeId);
         }
     }
+
+    public class SenEmailCommand:CommandBase,ICommand
+    {
+        public CommandResult Execute()
+        {
+            return new CommonDataService().SendEmail("castingtest2020@gmail.com", "andu247@cast", "castingtest2020@gmail.com", "dfg","dfg");
+        }
+    }
 }

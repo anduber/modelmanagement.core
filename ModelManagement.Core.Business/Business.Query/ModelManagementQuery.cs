@@ -37,7 +37,6 @@ namespace ModelManagement.Core.Business.Business.Query
             {
                 string searchTextLower = queryParam.SearchText.ToLower();
                 return personalInfos.Where(t =>
-                                                t.PersonId_User.UserName.ToLower().Contains(searchTextLower) ||
                                                 t.PersonId_User.UserNumber.ToLower().Contains(searchTextLower)
                                            )
                                            .Paginate(t => t.PersonId, queryParam.Pagination)
@@ -159,7 +158,7 @@ namespace ModelManagement.Core.Business.Business.Query
             else
             {
                 string searchTextToLower = queryParam.SearchText.ToLower();
-                return users.Where(t => t.UserName.ToLower().Contains(searchTextToLower) ||
+                return users.Where(t => 
                                         t.UserNumber.ToLower().Contains(searchTextToLower)
                                         )
                                         .Paginate(t => t.PersonId, queryParam.Pagination)
@@ -189,7 +188,6 @@ namespace ModelManagement.Core.Business.Business.Query
                                                         t.FirstName.Contains(searchText) ||
                                                         t.LastName.Contains(searchText) ||
                                                         t.FatherName.Contains(searchText) ||
-                                                        t.PersonId_User.UserName.Contains(searchText) ||
                                                         t.PersonId_User.UserNumber.Contains(searchText)
                                                     )) &&
                                                     (string.IsNullOrEmpty(queryParam.Sex) || t.Sex == queryParam.Sex)
