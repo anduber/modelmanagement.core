@@ -29,6 +29,15 @@ namespace ModelManagement.Core.Data.Data.Mapping
                                           {
                                               IsUnique = true
                                           }));
+            Property(t => t.PrimaryEmail)
+               .IsRequired()
+               .HasMaxLength(60)
+               .HasColumnAnnotation(IndexAnnotation.AnnotationName,
+                                    new IndexAnnotation(
+                                        new IndexAttribute("IX_Email,1")
+                                        {
+                                            IsUnique = true
+                                        }));
 
             //Property(t => t.UserName)
             //     .IsRequired()

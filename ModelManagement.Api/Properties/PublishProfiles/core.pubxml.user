@@ -151,13 +151,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/20/2017 08:04:38</publishTime>
     </File>
     <File Include="bin/ModelManagement.Api.dll">
-      <publishTime>06/12/2020 21:22:33</publishTime>
+      <publishTime>06/16/2020 17:02:25</publishTime>
     </File>
     <File Include="bin/ModelManagement.Api.pdb">
       <publishTime>06/07/2020 20:45:52</publishTime>
     </File>
     <File Include="bin/ModelManagement.Core.Business.dll">
-      <publishTime>06/12/2020 21:22:30</publishTime>
+      <publishTime>06/16/2020 17:02:23</publishTime>
     </File>
     <File Include="bin/ModelManagement.Core.Business.dll.config">
       <publishTime>05/05/2019 16:42:28</publishTime>
@@ -166,7 +166,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/07/2020 20:45:48</publishTime>
     </File>
     <File Include="bin/ModelManagement.Core.Data.dll">
-      <publishTime>06/12/2020 21:22:29</publishTime>
+      <publishTime>06/16/2020 17:02:23</publishTime>
     </File>
     <File Include="bin/ModelManagement.Core.Data.dll.config">
       <publishTime>05/05/2019 16:43:33</publishTime>
@@ -724,7 +724,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/20/2017 08:19:30</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>06/07/2020 20:45:53</publishTime>
+      <publishTime>06/16/2020 17:02:26</publishTime>
     </File>
   </ItemGroup>
 </Project>

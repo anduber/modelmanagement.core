@@ -25,4 +25,31 @@ namespace ModelManagement.Core.Business.Business.Command.CommandArgs
         public string AgentJobEnumId { get; set; }
         public string AgentLocationGeoId { get; set; }
     }
+
+    public class AdminUserEmail
+    {
+        public string EmailId { get; set; }
+        public string Password { get; set; }
+    }
+
+    public class UserLoginCommandResult
+    {
+        public bool IsLoginSuccess { get; set; }
+        public string RequirePasswordChange { get; set; }
+        public string IsUserActivated { get; set; }
+        public string SecurityToken { get; set; }
+
+        public UserLoginCommandResult()
+        {
+            
+        }
+
+        public UserLoginCommandResult(bool isLoginSuccess,string requirePasswordChange,string isUserActivated,string securityToken=null)
+        {
+            IsLoginSuccess = isLoginSuccess;
+            RequirePasswordChange = requirePasswordChange;
+            IsUserActivated = isUserActivated;
+            SecurityToken = securityToken;
+        }
+    }
 }

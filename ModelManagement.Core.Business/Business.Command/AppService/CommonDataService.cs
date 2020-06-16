@@ -327,5 +327,16 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             SendEmail(emailAdmin.User_PersonId.PrimaryEmail,emailAdmin.CurrentPassword,user.PrimaryEmail,emailSubject,messageBody);
             return Utility.CommandSuccess();
         }
+
+        public AdminUserEmail GetAdminEmail()
+        {
+            var adminUser = User().FirstOrDefault(t => t.PersonId == Utility.Users.EmailAdminUserId);
+            var adminEmail = new AdminUserEmail
+            {
+                EmailId = adminUser?.PrimaryEmail,
+                Password = adminUser?.User_UserLogin.FirstOrDefault(t=>t.UserLoginId==Utility.Users.EmailAdminUserLoginId)?.CurrentPassword
+            };
+            return adminEmail;
+        }
     }
 }

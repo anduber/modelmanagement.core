@@ -419,18 +419,36 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             return Utility.CommandSuccess();
         }
 
-        public bool AuthenticateUser(string userName, string password)
+        public CommandResult AuthenticateUser(string userName, string password)
         {
-            var userLogin = UserLogin().FirstOrDefault(t=>t.UserName==userName);
+            var userLogin = UserLogin().FirstOrDefault(t => t.UserName == userName);
             if (userLogin?.RequirePasswordChange == "Y")
             {
-                throw new InvalidOperationException("Change Password!");
+                return Utility.CommandSuccess(new UserLoginCommandResult {RequirePasswordChange = "Y"});
             }
-            if (userLogin?.User_PersonId.IsUserActivated == "Y" && userLogin.User_PersonId.StatusId == Utility.StatusEnabled)
+            if (userLogin?.User_PersonId.IsUserActivated != "Y" ||
+                userLogin.User_PersonId.StatusId != Utility.StatusEnabled)
+                throw new InvalidOperationException("Username or Password Is Incorrect!");
+            var result = Utility.ValidateHashPassword(password, userLogin.CurrentPassword);
+            if (result)
             {
-                return Utility.ValidateHashPassword(password, userLogin.CurrentPassword);
+                return Utility.CommandSuccess(new UserLoginCommandResult(true,userLogin.RequirePasswordChange,userLogin.User_PersonId.IsUserActivated,Utility.GetSecurityToken()));
             }
             throw new InvalidOperationException("Username or Password Is Incorrect!");
+        }
+
+        public CommandResult ResetPassword(string email)
+        {
+            var userLogin = UserLogin().FirstOrDefault(t => t.User_PersonId.PrimaryEmail == email);
+            if (userLogin == null) throw new InvalidOperationException("Your email is not registerd!");
+            var newPassword = Utility.GetUserNumber();
+            userLogin.CurrentPassword = Utility.HashPassword(newPassword);
+            userLogin.RequirePasswordChange = "Y";
+            UserLogin().Update(userLogin);
+            var adminUserLogin = new CommonDataService().GetAdminEmail();
+            new CommonDataService().SendEmail(adminUserLogin.EmailId, adminUserLogin.Password, email, "Reset Password",
+                "This is your new password \t" + newPassword + "\n http://localhost:4200/#/apps/login");
+            return Utility.CommandSuccess(new UserLoginCommandResult(true,"Y","Y"));
         }
     }
 }

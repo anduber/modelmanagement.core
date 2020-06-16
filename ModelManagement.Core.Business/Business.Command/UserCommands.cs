@@ -285,9 +285,18 @@ namespace ModelManagement.Core.Business.Business.Command
         public string Password { get; set; }
         public CommandResult Execute()
         {
-            var result = new UserService().AuthenticateUser(UserName, Password);
-            return result ? Utility.CommandSuccess(Utility.GetSecurityToken()) : Utility.CommandError("Username or Password Is Incorrect!");
+            //var result = new UserService().AuthenticateUser(UserName, Password);
+            //return result ? Utility.CommandSuccess(Utility.GetSecurityToken()) : Utility.CommandError("Username or Password Is Incorrect!");
+            return new UserService().AuthenticateUser(UserName,Password);
+        }
+    }
 
+    public class ResetPasswordCommand:CommandBase,ICommand
+    {
+        public string Email { get; set; }
+        public CommandResult Execute()
+        {
+            return new UserService().ResetPassword(Email);
         }
     }
 
