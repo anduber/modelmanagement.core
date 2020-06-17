@@ -223,33 +223,6 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             UserStatus().Add(userStatus);
         }
 
-        public bool ChangeUserPassword(string personId, string currentPassword, string newPassword)
-        {
-            //var user = UserRepository().FirstOrDefault(t => t.PersonId == personId);
-            //if (!Utility.ValidateHashPassword(currentPassword, user.Password)) return false;
-            //user.Password = Utility.HashPassword(newPassword);
-            //UserRepository().Update(user);
-            return true;
-        }
-
-        //public bool AuthenticateUser(string userName, string password)
-        //{
-        //    var user =
-        //        User()
-        //            .FirstOrDefault(
-        //                t => t.User_UserLogin.Any(g=>g.UserName==userName)  && t.StatusId == Utility.StatusEnabled && t.IsUserActivated == "Y");
-        //    if (user!=null) return false;
-        //    {
-        //        var userLogin = UserLogin().FirstOrDefault(t => t.PersonId == user.PersonId && t.ThruDate == null);
-        //        return Utility.ValidateHashPassword(password,userLogin.CurrentPassword);
-        //    }
-        //}
-
-        private string SetBodySizeType(PhysicalInformationArg physicalInfoArg)
-        {
-            return "FIT";
-        }
-
         public User RegisterModel(PersonalInformationArg personInfoArg, PhysicalInformationArg physicalInfoArg)
         {
             var user = CreateUser(SetUser(Utility.RoleTypeModel, personInfoArg.UserName, Utility.DefaultPassword, personInfoArg.Email, Utility.StatusDisabled, "N"), personInfoArg.UserName);
@@ -292,8 +265,7 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             }
 
         }
-
-
+        
         public CommandResult CreateContactInfo(string personId, ContactInfoArg contactInfoArg, string userLoginId)
         {
             var contactInfo = new ContactInformation
@@ -422,19 +394,16 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
         public CommandResult AuthenticateUser(string userName, string password)
         {
             var userLogin = UserLogin().FirstOrDefault(t => t.UserName == userName);
+            var result = Utility.ValidateHashPassword(password, userLogin?.CurrentPassword);
+            if (!result) throw new InvalidOperationException("Username or Password Is Incorrect!");
             if (userLogin?.RequirePasswordChange == "Y")
             {
-                return Utility.CommandSuccess(new UserLoginCommandResult {RequirePasswordChange = "Y"});
+                return Utility.CommandSuccess(new UserLoginCommandResult { IsLoginSuccess = true, RequirePasswordChange = "Y" });
             }
             if (userLogin?.User_PersonId.IsUserActivated != "Y" ||
                 userLogin.User_PersonId.StatusId != Utility.StatusEnabled)
                 throw new InvalidOperationException("Username or Password Is Incorrect!");
-            var result = Utility.ValidateHashPassword(password, userLogin.CurrentPassword);
-            if (result)
-            {
-                return Utility.CommandSuccess(new UserLoginCommandResult(true, userLogin.RequirePasswordChange, userLogin.User_PersonId.IsUserActivated, Utility.GetSecurityToken()));
-            }
-            throw new InvalidOperationException("Username or Password Is Incorrect!");
+            return Utility.CommandSuccess(new UserLoginCommandResult(true, userLogin.RequirePasswordChange, userLogin.User_PersonId.IsUserActivated, Utility.GetSecurityToken()));
         }
 
         public CommandResult ResetPassword(string email)
@@ -448,7 +417,17 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             var adminUserLogin = new CommonDataService().GetAdminEmail();
             new CommonDataService().SendEmail(adminUserLogin.EmailId, adminUserLogin.Password, email, "Reset Password",
                 "This is your new password \t" + newPassword + "\n http://localhost:4200/#/apps/login");
-            return Utility.CommandSuccess(new UserLoginCommandResult(true,"Y","Y"));
+            return Utility.CommandSuccess(new UserLoginCommandResult(true, "Y", "Y"));
+        }
+
+        public CommandResult ChangeUserPassword(string userName, string currentPassword, string newPassword)
+        {
+            var userLogin = UserLogin().FirstOrDefault(t => t.UserName == userName);
+            if (userLogin == null || !Utility.ValidateHashPassword(currentPassword, userLogin.CurrentPassword))
+                throw new InvalidOperationException("Username or Password Is Incorrect!");
+            userLogin.CurrentPassword = Utility.HashPassword(newPassword);
+            UserLogin().Update(userLogin);
+            return Utility.CommandSuccess(new UserLoginCommandResult());
         }
     }
 }

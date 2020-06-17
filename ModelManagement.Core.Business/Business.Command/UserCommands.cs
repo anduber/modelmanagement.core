@@ -134,15 +134,13 @@ namespace ModelManagement.Core.Business.Business.Command
 
     public class ChangeUserPasswordCommand : CommandBase, ICommand
     {
-        public string PersonId { get; set; }
+        public string UserName { get; set; }
         public string CurrentPassword { get; set; }
         public string NewPassword { get; set; }
 
         public CommandResult Execute()
         {
-            var userService = new UserService();
-            var result = userService.ChangeUserPassword(PersonId, CurrentPassword, NewPassword);
-            return result ? Utility.CommandSuccess() : Utility.CommandError("Password Is Incorrect");
+            return new UserService().ChangeUserPassword(UserName,CurrentPassword,NewPassword);
         }
     }
 
@@ -285,8 +283,6 @@ namespace ModelManagement.Core.Business.Business.Command
         public string Password { get; set; }
         public CommandResult Execute()
         {
-            //var result = new UserService().AuthenticateUser(UserName, Password);
-            //return result ? Utility.CommandSuccess(Utility.GetSecurityToken()) : Utility.CommandError("Username or Password Is Incorrect!");
             return new UserService().AuthenticateUser(UserName,Password);
         }
     }
@@ -299,7 +295,6 @@ namespace ModelManagement.Core.Business.Business.Command
             return new UserService().ResetPassword(Email);
         }
     }
-
 
 
 }

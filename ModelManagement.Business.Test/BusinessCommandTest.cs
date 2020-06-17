@@ -172,17 +172,6 @@ namespace ModelManagement.Business.Test
             //Assert.IsTrue(result.IsSuccess);
         }
 
-        [TestMethod]
-        public void ChangeUserPasswordCommandTest()
-        {
-            ChangeUserPasswordCommand _changeUserPassword = new ChangeUserPasswordCommand()
-            {
-                PersonId = "4bfdddebfcb04a238877c2cecc264b8f",
-                CurrentPassword = "admin",
-                NewPassword = "admin"
-            };
-            var _result = _service.InvokeCommand(_changeUserPassword);
-        }
 
         [TestMethod]
         public void AuthenticateUserCommandTest()
