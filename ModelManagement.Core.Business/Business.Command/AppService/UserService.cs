@@ -432,7 +432,7 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             var result = Utility.ValidateHashPassword(password, userLogin.CurrentPassword);
             if (result)
             {
-                return Utility.CommandSuccess(new UserLoginCommandResult(true,userLogin.RequirePasswordChange,userLogin.User_PersonId.IsUserActivated,Utility.GetSecurityToken()));
+                return Utility.CommandSuccess(new UserLoginCommandResult(true, userLogin.RequirePasswordChange, userLogin.User_PersonId.IsUserActivated, Utility.GetSecurityToken()));
             }
             throw new InvalidOperationException("Username or Password Is Incorrect!");
         }
