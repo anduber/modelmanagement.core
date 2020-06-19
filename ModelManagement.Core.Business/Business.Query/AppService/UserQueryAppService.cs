@@ -45,7 +45,7 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
                                                        t.FirstName.Contains(searchText) ||
                                                        t.LastName.Contains(searchText) ||
                                                        t.FatherName.Contains(searchText) ||
-                                                      
+
                                                        t.PersonId_User.UserNumber.Contains(searchText)
                                                    )) &&
                                                    (string.IsNullOrEmpty(queryParam.Sex) || t.Sex == queryParam.Sex)
@@ -96,10 +96,15 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
                                         ); ;
         }
 
-        internal QueryResult CheckUserName(string userName)
+        internal QueryResult CheckUserName(string userName, string primaryEmail)
         {
-            var user = ModelManagementContext().UserLogins.FirstOrDefault(t => t.UserName == userName.Trim());
-            var result = user != null;
+            var userFound = ModelManagementContext().UserLogins.FirstOrDefault(t => t.UserName == userName.Trim()) != null;
+            var emailFound =
+                ModelManagementContext().Users.FirstOrDefault(t => t.PrimaryEmail == primaryEmail.Trim()) != null;
+            if (!emailFound && !userFound) return Utility.QuerySuccessResult(true);
+            var result = "";
+            result += userFound ? " The user name already exists! \n" : "";
+            result += emailFound ? " The email already exists! " : "";
             return Utility.QuerySuccessResult(result);
         }
 
@@ -134,7 +139,7 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
             return ModelManagementContext().JobPosts.Where(t => t.UserId == userId && t.IsActive == "Y").QueryResultList<JobPostListModel>(queryParamArg);
         }
 
-        public QueryResult ListJobOffer(string jobPostId,QueryParamArg queryParamArg)
+        public QueryResult ListJobOffer(string jobPostId, QueryParamArg queryParamArg)
         {
             return ModelManagementContext().JobOffers.Where(t => t.JobPostId == jobPostId).QueryResultList<JobOfferListModel>(queryParamArg);
         }

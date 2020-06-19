@@ -41,9 +41,10 @@ namespace ModelManagement.Core.Business.Business.Query
     public class CheckUserNameQuery:QueryCommandBase,IQuery
     {
         public string UserName { get; set; }
+        public string PrimaryEmail { get; set; }
         public QueryResult Execute()
         {
-            return new UserQueryAppService().CheckUserName(UserName);
+            return new UserQueryAppService().CheckUserName(UserName,PrimaryEmail);
         }
     }
 
