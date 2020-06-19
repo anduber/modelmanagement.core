@@ -1,4 +1,5 @@
-﻿using ModelManagement.Core.Business.Business.Command.Utils;
+﻿using System;
+using ModelManagement.Core.Business.Business.Command.Utils;
 using ModelManagement.Core.Business.Business.Helpers;
 using ModelManagement.Core.Business.Business.Model.CommandModel;
 using System.Collections.Generic;
@@ -193,8 +194,17 @@ namespace ModelManagement.Core.Business.Business.Command
 
                 transaction.CompleteTransaction();
 
-                var commonService = new CommonDataService();
-                commonService.SendActivationCodeViaEmail(user,PersonalInformationArg.UserName);
+                try
+                {
+                    var commonService = new CommonDataService();
+                    commonService.SendActivationCodeViaEmail(user, PersonalInformationArg.UserName);
+                }
+                catch (Exception)
+                {
+                    throw new InvalidOperationException("Error while sending email!");
+                }
+
+               
                 return Utility.CommandSuccess(user.UserNumber);
             }
         }

@@ -19,9 +19,9 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
 
         public List<Category> CreateCategories(List<string> categoryTypeIds, string personId, string userLoginId)
         {
-            var _categories = SetCategories(categoryTypeIds, personId, userLoginId);
-            _categotyRepo.AddRange(_categories);
-            return _categories;
+            var categories = SetCategories(categoryTypeIds, personId, userLoginId);
+            _categotyRepo.AddRange(categories);
+            return categories;
         }
 
         public List<Category> UpdateCategories(List<string> categoryTypeIds, string personId, string userLoginId)
