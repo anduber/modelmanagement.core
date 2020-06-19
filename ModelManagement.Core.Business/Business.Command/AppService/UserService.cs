@@ -426,6 +426,7 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             if (userLogin == null || !Utility.ValidateHashPassword(currentPassword, userLogin.CurrentPassword))
                 throw new InvalidOperationException("Username or Password Is Incorrect!");
             userLogin.CurrentPassword = Utility.HashPassword(newPassword);
+            userLogin.RequirePasswordChange = "N";
             UserLogin().Update(userLogin);
             return Utility.CommandSuccess(new UserLoginCommandResult());
         }
