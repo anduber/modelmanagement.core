@@ -323,7 +323,7 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
         {
             var emailAdmin = UserLogin().Find(Utility.Users.EmailAdminUserLoginId);
             var emailSubject = "Verification Code";
-            var messageBody = userName + " This is your verification code" + user.VerificationCode + "\n Got to http://localhost:4200/#/apps/verify-account" + "\n to verify your account." ;
+            var messageBody = userName + " This is your verification code : " + user.VerificationCode + "\n Got to http://localhost:4200/#/apps/verify-account" + "\n to verify your account." ;
             SendEmail(emailAdmin.User_PersonId.PrimaryEmail,emailAdmin.CurrentPassword,user.PrimaryEmail,emailSubject,messageBody);
             return Utility.CommandSuccess();
         }

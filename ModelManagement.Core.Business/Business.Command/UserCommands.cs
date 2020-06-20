@@ -306,5 +306,12 @@ namespace ModelManagement.Core.Business.Business.Command
         }
     }
 
-
+    public class ResendActivationCodeCommand:CommandBase,ICommand
+    {
+        public string UserName { get; set; }
+        public CommandResult Execute()
+        {
+            return new UserService().ResendActivationCode(UserName);
+        }
+    }
 }

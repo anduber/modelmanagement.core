@@ -265,7 +265,7 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             }
 
         }
-        
+
         public CommandResult CreateContactInfo(string personId, ContactInfoArg contactInfoArg, string userLoginId)
         {
             var contactInfo = new ContactInformation
@@ -380,6 +380,8 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             var userLogin = UserLogin().FirstOrDefault(t => t.UserName == userName);
             if (userLogin == null) throw new InvalidOperationException("User not found!");
             var user = User().Find(userLogin.PersonId);
+            if (user.IsUserActivated=="Y")
+                throw new InvalidOperationException("User is already activated!");
             if (verificationCode != user.VerificationCode)
                 throw new InvalidOperationException("Your verification code is Incorrect!");
             user.IsUserActivated = "Y";
@@ -394,6 +396,8 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
         public CommandResult AuthenticateUser(string userName, string password)
         {
             var userLogin = UserLogin().FirstOrDefault(t => t.UserName == userName);
+            if (userLogin.User_PersonId.IsUserActivated != "Y" ||
+                userLogin.User_PersonId.StatusId != Utility.StatusEnabled) throw new InvalidOperationException("User is not activated!");
             var result = Utility.ValidateHashPassword(password, userLogin?.CurrentPassword);
             if (!result) throw new InvalidOperationException("Username or Password Is Incorrect!");
             if (userLogin?.RequirePasswordChange == "Y")
@@ -429,6 +433,15 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             userLogin.RequirePasswordChange = "N";
             UserLogin().Update(userLogin);
             return Utility.CommandSuccess(new UserLoginCommandResult());
+        }
+
+        public CommandResult ResendActivationCode(string userName)
+        {
+            var userLogin = UserLogin().FirstOrDefault(t => t.UserName == userName);
+            if (userLogin==null)
+                throw new InvalidOperationException("User not found. !");
+            new CommonDataService().SendActivationCodeViaEmail(userLogin.User_PersonId, userName);
+            return Utility.CommandSuccess();
         }
     }
 }
