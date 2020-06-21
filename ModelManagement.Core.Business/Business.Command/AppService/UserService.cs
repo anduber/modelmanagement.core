@@ -396,6 +396,8 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
         public CommandResult AuthenticateUser(string userName, string password)
         {
             var userLogin = UserLogin().FirstOrDefault(t => t.UserName == userName);
+            if(userLogin==null)
+                throw new InvalidOperationException("Username or Password Is Incorrect!");
             if (userLogin.User_PersonId.IsUserActivated != "Y" ||
                 userLogin.User_PersonId.StatusId != Utility.StatusEnabled) throw new InvalidOperationException("User is not activated!");
             var result = Utility.ValidateHashPassword(password, userLogin?.CurrentPassword);

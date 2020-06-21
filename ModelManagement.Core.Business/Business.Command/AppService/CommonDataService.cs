@@ -302,7 +302,11 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
         public CommandResult SendEmail(string emailFrom,string password,string emailTo,string subject,string messageBody)
         {
             var mailMessage = new MailMessage();
-            var smtpServer = new SmtpClient("smtp.gmail.com") {UseDefaultCredentials = false};
+            var smtpServer = new SmtpClient("smtp.gmail.com")
+            {
+                UseDefaultCredentials = false,
+                EnableSsl = true
+            };
 
 
             mailMessage.From = new MailAddress(emailFrom);

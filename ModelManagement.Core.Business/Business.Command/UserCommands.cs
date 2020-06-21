@@ -204,8 +204,8 @@ namespace ModelManagement.Core.Business.Business.Command
                     throw new InvalidOperationException("Error while sending email!");
                 }
 
-               
-                return Utility.CommandSuccess(user.UserNumber);
+
+                return Utility.CommandSuccess(user.VerificationCode);
             }
         }
     }
