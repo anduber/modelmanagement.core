@@ -102,6 +102,7 @@ namespace ModelManagement.Core.Business.Business.Command
                 var userService = new UserService(transaction.Context);
                 var categoryService = new CategoryService(transaction.Context);
                 var uplodableService = new FileUploadService(transaction.Context);
+
                 userService.UpdatePersonalInfo(PersonalInformationArg, PersonId, UserLoginId);
                 if (CategoryTypeIds != null)
                 {
@@ -130,6 +131,22 @@ namespace ModelManagement.Core.Business.Business.Command
                 transaction.CompleteTransaction();
                 return Utility.CommandSuccess();
             }
+        }
+    }
+
+
+    public class UpdatePhysicalInfoCommand:CommandBase,ICommand
+    {
+        public string PersonId { get; set; }
+        public PhysicalInformationArg PhysicalInformationArg { get; set; }
+
+        public UpdatePhysicalInfoCommand()
+        {
+            PhysicalInformationArg = new PhysicalInformationArg();
+        }
+        public CommandResult Execute()
+        {
+            return new UserService().UpdatePhysicalInfo(PersonId,PhysicalInformationArg,UserLoginId);
         }
     }
 

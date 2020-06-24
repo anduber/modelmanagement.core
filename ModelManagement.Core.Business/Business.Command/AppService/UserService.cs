@@ -13,15 +13,14 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
 {
     public class UserService : AppRepository
     {
-        public ModelManagementContext _context;
         private AppRepository _appRepository;
         private readonly ObjectMapper _mapper;
 
         public UserService(ModelManagementContext context = null) : base(context)
         {
-            _context = context ?? new ModelManagementContext();
+            var appContext = context ?? new ModelManagementContext();
+            _appRepository = new AppRepository(appContext);
             _mapper = new ObjectMapper();
-            _appRepository = new AppRepository(_context);
         }
 
         public User CreateUser(User user, string userName)
@@ -173,6 +172,14 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             var physicalInfo = PhysicalInformation().FirstOrDefault(t => t.PersonId == personId);
             return SetCreateUpdatePhysicalInformation(physicalInfo, physicalInfoArg, personId, userLoginId);
         }
+
+        public CommandResult UpdatePhysicalInfo(string personId,PhysicalInformationArg physicalInformationArg,string userLoginId)
+        {
+            var physicalInfo = SetCreateUpdatePhysicalInformation(PhysicalInformation().Find(personId),physicalInformationArg,personId,userLoginId);
+            PhysicalInformation().Update(physicalInfo);
+            return Utility.CommandSuccess();
+        }
+
 
         private PhysicalInformation SetCreateUpdatePhysicalInformation(PhysicalInformation physicalInfo, PhysicalInformationArg physicalInfoArg, string personId, string userLoginId)
         {
@@ -402,14 +409,23 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
                 userLogin.User_PersonId.StatusId != Utility.StatusEnabled) throw new InvalidOperationException("User is not activated!");
             var result = Utility.ValidateHashPassword(password, userLogin?.CurrentPassword);
             if (!result) throw new InvalidOperationException("Username or Password Is Incorrect!");
-            if (userLogin?.RequirePasswordChange == "Y")
+            if (userLogin.RequirePasswordChange == "Y")
             {
                 return Utility.CommandSuccess(new UserLoginCommandResult { IsLoginSuccess = true, RequirePasswordChange = "Y" });
             }
             if (userLogin?.User_PersonId.IsUserActivated != "Y" ||
                 userLogin.User_PersonId.StatusId != Utility.StatusEnabled)
                 throw new InvalidOperationException("Username or Password Is Incorrect!");
-            return Utility.CommandSuccess(new UserLoginCommandResult(true, userLogin.RequirePasswordChange, userLogin.User_PersonId.IsUserActivated, Utility.GetSecurityToken()));
+            var userLoginCommandResult = new UserLoginCommandResult
+            {
+                IsLoginSuccess = true,
+                RequirePasswordChange = userLogin.RequirePasswordChange,
+                IsUserActivated = userLogin.User_PersonId.IsUserActivated,
+                SecurityToken = Utility.GetSecurityToken(),
+                UserId = userLogin.PersonId,
+                UserLoginId = userLogin.UserLoginId
+            };
+            return Utility.CommandSuccess(userLoginCommandResult);
         }
 
         public CommandResult ResetPassword(string email)

@@ -14,7 +14,6 @@ namespace ModelManagement.Core.Business.Business.Command.EntityRepositories
         private EntityRepository<PersonalInformation> _personalInfoRepository;
         private EntityRepository<PhysicalInformation> _physicalInfoRepository;
         private EntityRepository<UserAppl> _userApplRepository;
-        //private EntityRepository<UserType> _userTypeRepository;
         private EntityRepository<UserStatus> _userStatusRepository;
         private EntityRepository<OfferType> _offerTypeRepository;
         private EntityRepository<OfferItemType> _offerItemTypeRepository;
@@ -30,6 +29,7 @@ namespace ModelManagement.Core.Business.Business.Command.EntityRepositories
         private EntityRepository<JobPost> _jobPostRepository;
         private EntityRepository<JobOffer> _jobOfferRepository;
         private EntityRepository<Uploadable> _uploadableRepository;
+        private EntityRepository<Category> _categoryRepository;
 
         public AppRepository(ModelManagementContext context = null)
         {
@@ -140,5 +140,10 @@ namespace ModelManagement.Core.Business.Business.Command.EntityRepositories
         {
             return _uploadableRepository ?? (_uploadableRepository = new EntityRepository<Uploadable>(Context));
         }
+
+        public EntityRepository<Category> Category()
+        {
+            return _categoryRepository ?? (_categoryRepository = new EntityRepository<Category>(Context));
+        } 
     }
 }

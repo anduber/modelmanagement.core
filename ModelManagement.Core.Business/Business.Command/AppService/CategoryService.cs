@@ -1,20 +1,25 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ModelManagement.Core.Business.Business.Command.EntityRepositories;
 using ModelManagement.Core.Data.Data.Context;
 using ModelManagement.Core.Data.Data.Model;
 using ModelManagement.Core.Data.Data.Repository.GenericRepository;
 
 namespace ModelManagement.Core.Business.Business.Command.AppService
 {
-    public class CategoryService
+    public class CategoryService:AppRepository
     {
         private ModelManagementContext _context;
         private EntityRepository<Category> _categotyRepo;
 
-        public CategoryService(ModelManagementContext context = null)
+        private AppRepository _appRepository;
+
+        public CategoryService(ModelManagementContext context = null):base(context)
         {
-            _context = context ?? new ModelManagementContext();
-            _categotyRepo = new EntityRepository<Category>(context);
+            //_context = context ?? new ModelManagementContext();
+            //_categotyRepo = new EntityRepository<Category>(context);
+            var appContext = context ?? new ModelManagementContext();
+            _appRepository = new AppRepository(appContext);
         }
 
         public List<Category> CreateCategories(List<string> categoryTypeIds, string personId, string userLoginId)
@@ -26,25 +31,23 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
 
         public List<Category> UpdateCategories(List<string> categoryTypeIds, string personId, string userLoginId)
         {
-            var _categories = new List<Category>();
-
-            var personCategories = _categotyRepo.Filter(t => t.PersonId == personId).ToList();
-            if(personCategories.Any())
+            var categories = new List<Category>();
+            var personCategories = Category().Filter(t => t.PersonId == personId).ToList();
+            if (personCategories.Any())
             {
                 foreach (var item in personCategories)
                 {
-                    _categotyRepo.Remove(item);
+                    Category().Remove(item);
+                    categories = SetCategories(categoryTypeIds, personId, userLoginId);
+                    Category().AddRange(categories);
                 }
-                _categories = SetCategories(categoryTypeIds, personId, userLoginId);
-                _categotyRepo.AddRange(_categories);
-
             }
             else
             {
-                _categories = SetCategories(categoryTypeIds, personId, userLoginId);
-                _categotyRepo.AddRange(_categories);
+                categories = SetCategories(categoryTypeIds, personId, userLoginId);
+                Category().AddRange(categories);
             }
-            return _categories;
+            return categories;
         }
 
         private List<Category> SetCategories(List<string> categoryTypeIds, string personId, string userLoginId)

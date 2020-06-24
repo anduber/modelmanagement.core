@@ -22,7 +22,13 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
             var personalInfo = ModelManagementContext().PersonalInformations.Where(t => t.PersonId == personId).Get<PersonalInfoEditModel>();
             if (string.IsNullOrEmpty(personalInfo.CityGeoId)) return personalInfo;
             {
-                var geoAssoc = ModelManagementContext().GeoAssoces.FirstOrDefault(t => t.GeoIdTo == personalInfo.CityGeoId && (t.GeoAssocTypeId == Utility.GeoTypes.City || t.GeoAssocTypeId == Utility.GeoTypes.Regions));
+                var geoAssoc =
+                    ModelManagementContext()
+                        .GeoAssoces.FirstOrDefault(
+                            t =>
+                                t.GeoIdTo == personalInfo.CityGeoId &&
+                                (t.GeoAssocTypeId == Utility.GeoTypes.City ||
+                                 t.GeoAssocTypeId == Utility.GeoTypes.Regions));
                 personalInfo.CountryGeoId = geoAssoc?.GeoId;
             }
             return personalInfo;
