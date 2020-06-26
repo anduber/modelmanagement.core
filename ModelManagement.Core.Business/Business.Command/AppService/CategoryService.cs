@@ -31,16 +31,16 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
 
         public List<Category> UpdateCategories(List<string> categoryTypeIds, string personId, string userLoginId)
         {
-            var categories = new List<Category>();
+            List<Category> categories;            
             var personCategories = Category().Filter(t => t.PersonId == personId).ToList();
             if (personCategories.Any())
             {
                 foreach (var item in personCategories)
                 {
                     Category().Remove(item);
-                    categories = SetCategories(categoryTypeIds, personId, userLoginId);
-                    Category().AddRange(categories);
                 }
+                categories = SetCategories(categoryTypeIds, personId, userLoginId);
+                Category().AddRange(categories);
             }
             else
             {

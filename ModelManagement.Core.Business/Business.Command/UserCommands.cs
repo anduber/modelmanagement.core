@@ -108,10 +108,10 @@ namespace ModelManagement.Core.Business.Business.Command
                 {
                     categoryService.UpdateCategories(CategoryTypeIds, PersonId, UserLoginId);
                 }
-                if (UplodableArg != null)
-                {
-                    uplodableService.SaveUplodable(UplodableArg, PersonId, UserLoginId);
-                }
+                //if (UplodableArg != null)
+                //{
+                //    uplodableService.SaveUplodable(UplodableArg, PersonId, UserLoginId);
+                //}
                 transaction.CompleteTransaction();
                 return Utility.CommandSuccess();
             }

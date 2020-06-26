@@ -71,6 +71,7 @@ namespace ModelManagement.Core.Business.Business.Query.EntityProfile
             CreateMap<PersonalInformation, PersonalInfoEditModel>()
                // .ForMember(t => t.UserName, opt => opt.MapFrom(t => t.PersonId_User.UserName))
                 .ForMember(t => t.UserNumber, opt => opt.MapFrom(t => t.PersonId_User.UserNumber))
+                .ForMember(t => t.UserName, opt => opt.MapFrom(t => t.UserLoginId_UserLogin.UserName))
                 .ForMember(t => t.StatusId, opt => opt.MapFrom(t => t.PersonId_User.StatusId))
                 .ForMember(t => t.Status, opt => opt.MapFrom(t => t.PersonId_User.StatusId_StatusItem.Description))
                 .ForMember(t => t.Categories, opt => opt.MapFrom(t => t.Categories_PersonId))
