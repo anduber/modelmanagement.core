@@ -122,11 +122,11 @@ namespace ModelManagement.Business.Test
             {
                 "PRINT_COMMERCIALS","RUN_WAY"
             };
-            updatePersonalInfoCmd.UplodableArg = new UploadableArg
-            {
-                File = new UtilityMethods().ConvertImageToByteArray("5.jpg"),
-                FileTypeId = "PROFILE_PIC"
-            };
+            //updatePersonalInfoCmd.UplodableArg = new UploadableArg
+            //{
+            //    File = new UtilityMethods().ConvertImageToByteArray("5.jpg"),
+            //    FileTypeId = "PROFILE_PIC"
+            //};
             var _result = _service.InvokeCommand(updatePersonalInfoCmd);
         }
 

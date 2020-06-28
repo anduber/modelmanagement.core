@@ -1,12 +1,6 @@
 ﻿using ModelManagement.Core.Business.Business.Helpers;
-using ModelManagement.Core.Business.Business.Model.QueryModel;
-using ModelManagement.Core.Business.Business.Model.Utils;
 using ModelManagement.Core.Data.Data.Model;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ModelManagement.Core.Business.Business.Query.Models;
 
 namespace ModelManagement.Core.Business.Business.Query.EntityProfile
@@ -69,33 +63,59 @@ namespace ModelManagement.Core.Business.Business.Query.EntityProfile
                 ;
 
             CreateMap<PersonalInformation, PersonalInfoEditModel>()
-               // .ForMember(t => t.UserName, opt => opt.MapFrom(t => t.PersonId_User.UserName))
+                // .ForMember(t => t.UserName, opt => opt.MapFrom(t => t.PersonId_User.UserName))
                 .ForMember(t => t.UserNumber, opt => opt.MapFrom(t => t.PersonId_User.UserNumber))
                 .ForMember(t => t.UserName, opt => opt.MapFrom(t => t.UserLoginId_UserLogin.UserName))
                 .ForMember(t => t.StatusId, opt => opt.MapFrom(t => t.PersonId_User.StatusId))
                 .ForMember(t => t.Status, opt => opt.MapFrom(t => t.PersonId_User.StatusId_StatusItem.Description))
                 .ForMember(t => t.Categories, opt => opt.MapFrom(t => t.Categories_PersonId))
-                .ForMember(t => t.CountryGeoId, opt => opt.MapFrom(t => t.GeoId_Geo.GeoTypeId == Utility.GeoTypes.Country ? t.GeoId : null))
-                .ForMember(t => t.CityGeoId, opt => opt.MapFrom(t => t.GeoId_Geo.GeoTypeId == Utility.GeoTypes.City ? t.GeoId : null))
-                .ForMember(t => t.ProfilePic, opt => opt.MapFrom(t => t.Uploadables_PersonId.FirstOrDefault(x => x.FileTypeId == Utility.FileTypeProfilePic) == null ? null :
-                                                                                                    t.Uploadables_PersonId.FirstOrDefault(x => x.FileTypeId == Utility.FileTypeProfilePic)
-                                                                                                    .FileData))
-                .ForMember(t => t.ProfilePicFileId, opt => opt.MapFrom(t => t.Uploadables_PersonId.FirstOrDefault(x => x.FileTypeId == Utility.FileTypeProfilePic) == null ? null :
-                                                                                                    t.Uploadables_PersonId.FirstOrDefault(x => x.FileTypeId == Utility.FileTypeProfilePic)
-                                                                                                    .FileUploadId))
+                .ForMember(t => t.PrimaryEmail, opt => opt.MapFrom(t => t.PersonId_User.PrimaryEmail))
+                .ForMember(t => t.CountryGeoId,
+                    opt => opt.MapFrom(t => t.GeoId_Geo.GeoTypeId == Utility.GeoTypes.Country ? t.GeoId : null))
+                .ForMember(t => t.CityGeoId,
+                    opt => opt.MapFrom(t => t.GeoId_Geo.GeoTypeId == Utility.GeoTypes.City ? t.GeoId : null))
+                //.ForMember(t => t.ProfilePic,
+                //    opt =>
+                //        opt.MapFrom(
+                //            t =>
+                //                t.Uploadables_PersonId.FirstOrDefault(x => x.FileTypeId == Utility.FileTypeProfilePic) ==
+                //                null
+                //                    ? null
+                //                    : t.Uploadables_PersonId.FirstOrDefault(
+                //                        x => x.FileTypeId == Utility.FileTypeProfilePic)
+                //                        .FileData))
+                //.ForMember(t => t.ProfilePicFileId,
+                //    opt =>
+                //        opt.MapFrom(
+                //            t =>
+                //                t.Uploadables_PersonId.FirstOrDefault(x => x.FileTypeId == Utility.FileTypeProfilePic) ==
+                //                null
+                //                    ? null
+                //                    : t.Uploadables_PersonId.FirstOrDefault(
+                //                        x => x.FileTypeId == Utility.FileTypeProfilePic)
+                //                        .FileUploadId))
                 ;
 
             CreateMap<PersonalInformation, ModelsInfoListModel>()
-                .ForMember(t => t.Age, opt => opt.MapFrom(t => t.DateOfBirth == null ? 0 : DateConverter.CalculateAge(t.DateOfBirth.Value)))
+                .ForMember(t => t.Age,
+                    opt => opt.MapFrom(t => t.DateOfBirth == null ? 0 : DateConverter.CalculateAge(t.DateOfBirth.Value)))
                 .ForMember(t => t.Height, opt => opt.MapFrom(t => t.PhysicalInformation_PersonId.Height))
-                .ForMember(t => t.HeightUom, opt => opt.MapFrom(t => t.PhysicalInformation_PersonId.HeightEnumId_Enumeration.Description))
+                .ForMember(t => t.HeightUom,
+                    opt => opt.MapFrom(t => t.PhysicalInformation_PersonId.HeightEnumId_Enumeration.Description))
                 .ForMember(t => t.Weight, opt => opt.MapFrom(t => t.PhysicalInformation_PersonId.Weight))
-                .ForMember(t => t.WeightUom, opt => opt.MapFrom(t => t.PhysicalInformation_PersonId.WeightEnumId_Enumeration.Description))
+                .ForMember(t => t.WeightUom,
+                    opt => opt.MapFrom(t => t.PhysicalInformation_PersonId.WeightEnumId_Enumeration.Description))
                 .ForMember(t => t.Height, opt => opt.MapFrom(t => t.PhysicalInformation_PersonId.Height))
-                .ForMember(t => t.ProfilePic, opt => opt.MapFrom(t => t.Uploadables_PersonId.FirstOrDefault(x => x.FileTypeId == Utility.FileTypeProfilePic) == null ?
-                                                                                                    null :
-                                                                                                    t.Uploadables_PersonId.FirstOrDefault(x => x.FileTypeId == Utility.FileTypeProfilePic)
-                                                                                                    .FileData))
+                .ForMember(t => t.ProfilePic,
+                    opt =>
+                        opt.MapFrom(
+                            t =>
+                                t.Uploadables_PersonId.FirstOrDefault(x => x.FileTypeId == Utility.FileTypeProfilePic) ==
+                                null
+                                    ? null
+                                    : t.Uploadables_PersonId.FirstOrDefault(
+                                        x => x.FileTypeId == Utility.FileTypeProfilePic)
+                                        .FileData))
                 ;
 
             CreateMap<User, UserQueryModel>()
@@ -110,8 +130,8 @@ namespace ModelManagement.Core.Business.Business.Query.EntityProfile
             CreateMap<Category, CategoryQueryModel>()
                 .ForMember(t => t.CategoryType, opt => opt.MapFrom(t => t.CategoryTypeId_CategoryType))
                 .ForMember(t => t.CategoryId, opt => opt.MapFrom(t => t.CategoryTypeId));
-            CreateMap<ContactInformation, ContactInformationListModel>()
-               .ForMember(t => t.ContactMechType, opt => opt.MapFrom(t => t.ContactMechTypeId_ContactMechType));
+            CreateMap<ContactInformation, ContactInformationListModel>();
+               //.ForMember(t => t.ContactMechType, opt => opt.MapFrom(t => t.ContactMechTypeId_ContactMechType));
 
             CreateMap<Enumeration, EnumerationListModel>();
 

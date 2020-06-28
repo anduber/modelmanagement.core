@@ -1,5 +1,4 @@
 ﻿using ModelManagement.Core.Business.Business.Helpers;
-using ModelManagement.Core.Business.Business.Model.QueryModel;
 using ModelManagement.Core.Business.Business.Model.Utils;
 using ModelManagement.Core.Business.Business.Query.EntityProfile;
 using ModelManagement.Core.Data.Data.Context;
@@ -134,10 +133,16 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
 
         public QueryResult ListPersonContactInfo(string personId, QueryParamArg queryParamArg)
         {
-            return
-                ModelManagementContext()
-                    .ContactInformations.Where(t => t.PersonId == personId)
-                    .QueryResultList<ContactInformationListModel>(queryParamArg);
+            var result = ModelManagementContext().ContactMechTypes.GroupBy(g => g.ContactMechTypeId)
+                .ToList()
+                .Select(s => new ContactInformationListModel
+                {
+                    PersonId = personId,
+                    ContactMechTypeId = s.Key,
+                    ContactMechType = s.FirstOrDefault()?.Description,
+                    ContactUrl = s.FirstOrDefault()?.ContactInformations.FirstOrDefault(t=>t.PersonId==personId)?.ContactUrl
+                }).ToList();
+            return Utility.QuerySuccessResult(result);
         }
 
         public QueryResult ListJobPost(string userId, QueryParamArg queryParamArg)

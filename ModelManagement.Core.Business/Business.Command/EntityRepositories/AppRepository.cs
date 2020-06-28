@@ -18,7 +18,6 @@ namespace ModelManagement.Core.Business.Business.Command.EntityRepositories
         private EntityRepository<OfferType> _offerTypeRepository;
         private EntityRepository<OfferItemType> _offerItemTypeRepository;
         private EntityRepository<OfferItemTypeMap> _offerItemTypeMapRepository;
-        private EntityRepository<ContactInformation> _contactInfoRepository;
         private EntityRepository<Visitor> _visitorRepository;
         private EntityRepository<Visit> _visitRepository;
         private EntityRepository<EnumerationType> _enumerationTypeRepository;
@@ -30,6 +29,7 @@ namespace ModelManagement.Core.Business.Business.Command.EntityRepositories
         private EntityRepository<JobOffer> _jobOfferRepository;
         private EntityRepository<Uploadable> _uploadableRepository;
         private EntityRepository<Category> _categoryRepository;
+        private EntityRepository<ContactInformation> _contactInfoRepository;
 
         public AppRepository(ModelManagementContext context = null)
         {
@@ -78,7 +78,7 @@ namespace ModelManagement.Core.Business.Business.Command.EntityRepositories
 
         public EntityRepository<ContactInformation> ContactInfo()
         {
-            return _contactInfoRepository ?? new EntityRepository<ContactInformation>(Context);
+            return _contactInfoRepository ?? (_contactInfoRepository = new EntityRepository<ContactInformation>(Context)) ;
         }
 
         public EntityRepository<OfferItemType> OfferItemType()
@@ -144,6 +144,7 @@ namespace ModelManagement.Core.Business.Business.Command.EntityRepositories
         public EntityRepository<Category> Category()
         {
             return _categoryRepository ?? (_categoryRepository = new EntityRepository<Category>(Context));
-        } 
+        }
+
     }
 }

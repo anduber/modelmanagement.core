@@ -5,7 +5,6 @@ using ModelManagement.Core.Business.Business.Query.EntityProfile;
 using ModelManagement.Core.Data.Data.Context;
 using System;
 using System.Collections.Generic;
-using ModelManagement.Core.Business.Business.Model.QueryModel;
 using ModelManagement.Core.Business.Business.Query.Models;
 
 namespace ModelManagement.Core.Business.Business.Service

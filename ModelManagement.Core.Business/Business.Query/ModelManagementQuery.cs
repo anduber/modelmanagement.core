@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using ModelManagement.Core.Business.Business.Query.EntityProfile;
 using ModelManagement.Core.Business.Business.Helpers;
-using ModelManagement.Core.Business.Business.Model.QueryModel;
 using ModelManagement.Core.Business.Business.Query.Models;
 
 namespace ModelManagement.Core.Business.Business.Query

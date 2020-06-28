@@ -21,6 +21,7 @@ namespace ModelManagement.Core.Business.Business.Query.Models
         public string GeoId { get; set; }
         public string CountryGeoId { get; set; }
         public string CityGeoId { get; set; }
+        public string PrimaryEmail { get; set; }
         public List<KeyDescription> Categories { get; set; }
     }
 }

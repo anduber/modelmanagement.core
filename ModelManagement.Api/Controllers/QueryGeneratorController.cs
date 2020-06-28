@@ -8,7 +8,6 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Cors;
 using System.Web.Http.Cors;
-using ModelManagement.Core.Business.Business.Model.QueryModel;
 using ModelManagement.Core.Business.Business.Query;
 using ModelManagement.Core.Business.Business.Query.Models;
 
@@ -18,52 +17,52 @@ namespace ModelManagement.Api.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class QueryGeneratorController : ApiController
     {
-        private ModelManagementQueryServices modelManagementQueryServices;
+        private readonly ModelManagementQueryServices _modelManagementQueryServices;
         public QueryGeneratorController()
         {
-            modelManagementQueryServices = new ModelManagementQueryServices();
+            _modelManagementQueryServices = new ModelManagementQueryServices();
         }
 
         #region UserQueries
         [HttpPost, Route("USRQRY_ListPersonalInformation")]
         public List<PersonalInformationQueryModel> ListPersonalInformation(QueryCommandBase queryParam)
         {
-            return modelManagementQueryServices.ListPersonalInformation(queryParam);
+            return _modelManagementQueryServices.ListPersonalInformation(queryParam);
         }
         [HttpPost, Route("USRQRY_ListSearchPersonalInfos")]
         public GetListSearchPersonalInfos ListSearchPersonalInfos(ListPersonalInfoQueryParam queryParam)
         {
-            return modelManagementQueryServices.ListSearchPersonalInfos(queryParam);
+            return _modelManagementQueryServices.ListSearchPersonalInfos(queryParam);
         }
         [HttpGet, Route("USRQRY_EditPersonalInformation/{personId}")]
         public PersonalInfoEditModel EditPersonalInformation(string personId)
         {
-            return modelManagementQueryServices.EditPersonalInformation(personId);
+            return _modelManagementQueryServices.EditPersonalInformation(personId);
         }
         [HttpPost, Route("USRQRY_GetListModelsInfo")]
         public GetModelsInfoListModel GetListModelsInfo(ListModelsQueryParam queryParam)
         {
-            return modelManagementQueryServices.GetListModelsInfo(queryParam);
+            return _modelManagementQueryServices.GetListModelsInfo(queryParam);
         }
         [HttpPost, Route("USRQRY_ListUser")]
         public List<UserQueryModel> ListUser(QueryCommandBase queryParam)
         {
-            return modelManagementQueryServices.ListUser(queryParam);
+            return _modelManagementQueryServices.ListUser(queryParam);
         }
         [HttpGet, Route("USRQRY_EditUser/{personId}")]
         public UserQueryModel EditUser(string personId)
         {
-            return modelManagementQueryServices.EditUser(personId);
+            return _modelManagementQueryServices.EditUser(personId);
         }
         [HttpGet, Route("USRQRY_EditPhysicalInformation/{personId}")]
         public PhysicalInformationEditModel EditPhysicalInformation(string personId)
         {
-            return modelManagementQueryServices.EditPhysicalInformation(personId);
+            return _modelManagementQueryServices.EditPhysicalInformation(personId);
         }
         [HttpPost, Route("USRQRY_GetPersonalInfoList")]
         public GetPersonalInfoListModel GetListPersonalInfo(ListPersonalInfoQueryParam queryParam)
         {
-            return modelManagementQueryServices.GetListPersonalInfo(queryParam);
+            return _modelManagementQueryServices.GetListPersonalInfo(queryParam);
         }
 
         [HttpPost, Route("EditPersonalInfoQuery")]
@@ -170,7 +169,7 @@ namespace ModelManagement.Api.Controllers
 
         private QueryResult InvokeQuery(IQuery query)
         {
-            return modelManagementQueryServices.InvokeQuery(query);
+            return _modelManagementQueryServices.InvokeQuery(query);
         }
     }
 }

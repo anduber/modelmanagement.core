@@ -93,6 +93,12 @@ namespace ModelManagement.Core.Business.Business.Command
         public PersonalInformationArg PersonalInformationArg { get; set; }
         public UploadableArg UplodableArg { get; set; }
         public List<string> CategoryTypeIds { get; set; }
+        public List<ContactInfoArg> ContactInfoArgs { get; set; }
+
+        public UpdatePersonalInformationCommand()
+        {
+            ContactInfoArgs = new List<ContactInfoArg>();
+        }
 
         public CommandResult Execute()
         {
@@ -101,17 +107,16 @@ namespace ModelManagement.Core.Business.Business.Command
 
                 var userService = new UserService(transaction.Context);
                 var categoryService = new CategoryService(transaction.Context);
-                var uplodableService = new FileUploadService(transaction.Context);
-
+                var contactService = new ContactService(transaction.Context);
                 userService.UpdatePersonalInfo(PersonalInformationArg, PersonId, UserLoginId);
                 if (CategoryTypeIds != null)
                 {
                     categoryService.UpdateCategories(CategoryTypeIds, PersonId, UserLoginId);
                 }
-                //if (UplodableArg != null)
-                //{
-                //    uplodableService.SaveUplodable(UplodableArg, PersonId, UserLoginId);
-                //}
+                if (ContactInfoArgs.Count>0)
+                {
+                    contactService.UpdateContactInfos(PersonId, ContactInfoArgs, UserLoginId);
+                }
                 transaction.CompleteTransaction();
                 return Utility.CommandSuccess();
             }
