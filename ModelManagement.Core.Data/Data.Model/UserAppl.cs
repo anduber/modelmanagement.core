@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ModelManagement.Core.Data.Data.Model
 {
-    public class UserAppl : CommonEntity
+    public class UserAppl : Entity
     {
         public UserAppl()
         {

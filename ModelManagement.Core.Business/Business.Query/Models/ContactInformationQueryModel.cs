@@ -7,5 +7,6 @@
         public string ContactMechType { get; set; }
         public string PersonId { get; set; }
         public string ContactUrl { get; set; }
+        public string IsActive { get; set; } = "Y";
     }
 }

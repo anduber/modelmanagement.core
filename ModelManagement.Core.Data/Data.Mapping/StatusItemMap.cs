@@ -7,19 +7,23 @@ namespace ModelManagement.Core.Data.Data.Mapping
     {
         public StatusItemMap()
         {
-            #region Configuration
-            this.HasKey(t => t.StatusId);
-            #endregion
+            
+            HasKey(t => t.StatusId);
+            HasOptional(t => t.StatusItem_StatusType)
+                .WithMany(t => t.StatusType_StatusItems)
+                .HasForeignKey(t => t.StatusTypeId);
 
-            #region Property
-            this.Property(t => t.StatusId).HasColumnName("STATUS_ID");
-            this.Property(t => t.Description).HasMaxLength(50).HasColumnName("DESCRIPTION");
-            this.Property(t => t.UserLoginId).HasMaxLength(50).HasColumnName("USER_LOGIN_ID");
-            this.Property(t => t.CreatedStamp).HasColumnName("CREATED_STAMP");
-            this.Property(t => t.LastUpdatedStamp).HasColumnName("LAST_UPDATED_STAMP");
-            #endregion
+            Property(t => t.StatusId).HasColumnName("STATUS_ID");
+            Property(t => t.StatusTypeId).HasColumnName("STATUS_TYPE_ID");
+            Property(t => t.Description).HasMaxLength(50).HasColumnName("DESCRIPTION");
+            Property(t => t.SequenceId).HasMaxLength(5).HasColumnName("SEQUENCE_ID");
+            Property(t => t.IsActive).HasMaxLength(1).HasColumnName("IS_ACTIVE");
+            Property(t => t.UserLoginId).HasMaxLength(50).HasColumnName("USER_LOGIN_ID");
+            Property(t => t.CreatedStamp).HasColumnName("CREATED_STAMP");
+            Property(t => t.LastUpdatedStamp).HasColumnName("LAST_UPDATED_STAMP");
+          
 
-            this.ToTable("status_item");
+            ToTable("status_item");
         }
     }
 }

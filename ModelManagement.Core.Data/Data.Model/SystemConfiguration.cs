@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ModelManagement.Core.Data.Data.Model
 {
-    public class SystemConfiguration:CommonEntity
+    public class SystemConfiguration:Entity
     {
         public string SystemConfigurationId { get; set; }
         public string Description { get; set; }

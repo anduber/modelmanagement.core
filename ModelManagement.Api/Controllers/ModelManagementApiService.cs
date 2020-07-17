@@ -28,15 +28,15 @@ namespace ModelManagement.Api.Controllers
         #region Command
         public CommandResult InvokeCommand(ICommand command)
         {
-            //try
-            //{
-            //    return command.Execute();
-            //}
-            //catch (Exception e)
-            //{
-            //    return Utility.CommandError(e.Message);
-            //}
-            return command.Execute();
+            try
+            {
+                return command.Execute();
+            }
+            catch (Exception e)
+            {
+                return Utility.CommandError(e.Message);
+            }
+            //return command.Execute();
         }
 
         public ICommand GetCommand(JObject commandObject, string commandName)
@@ -50,14 +50,15 @@ namespace ModelManagement.Api.Controllers
         #region Query
         public QueryResult InvokeQuery(IQuery query)
         {
-            try
-            {
-                return query.Execute();
-            }
-            catch (Exception e)
-            {
-                return Utility.QueryErrorResult(e.Message);
-            }
+            //try
+            //{
+            //    return query.Execute();
+            //}
+            //catch (Exception e)
+            //{
+            //    return Utility.QueryErrorResult(e.Message);
+            //}
+            return query.Execute();
         }
 
         public IQuery GetQuery(JObject queryObject, string queryName)

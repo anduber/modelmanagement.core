@@ -13,7 +13,10 @@ namespace ModelManagement.Core.Business.Business.Command.CommandArgs
         public string Email { get; set; }
         public string MaritialStatusEnumId { get; set; }
         public string GeoId { get; set; }
+        public string CountryGeoId { get; set; }
+        public string CityGeoId { get; set; }
         public string OfferTypeId { get; set; }
         public string ProfilePicPath { get; set; }
+        public string PrimaryPhone { get; set; }
     }
 }

@@ -1,10 +1,5 @@
 ﻿using ModelManagement.Core.Data.Data.Model;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity.ModelConfiguration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ModelManagement.Core.Data.Data.Mapping
 {
@@ -17,18 +12,22 @@ namespace ModelManagement.Core.Data.Data.Mapping
             this.HasOptional(t => t.PersonalInformation)
                 .WithMany(t => t.Skills)
                 .HasForeignKey(t => t.PersonId);
+            HasOptional(t => t.SkillType)
+                .WithMany(t => t.Skills)
+                .HasForeignKey(t => t.SkillTypeId);
             #endregion
 
             #region Property
-            this.Property(t => t.SkillId).HasColumnName("SKILL_ID");
-            this.Property(t => t.PersonId).HasColumnName("PERSON_ID");
-            this.Property(t => t.SkillInfo).HasColumnName("SKILL_INFO");
-            this.Property(t => t.UserLoginId).HasMaxLength(50).HasColumnName("USER_LOGIN_ID");
-            this.Property(t => t.CreatedStamp).HasColumnName("CREATED_STAMP");
-            this.Property(t => t.LastUpdatedStamp).HasColumnName("LAST_UPDATED_STAMP");
+            Property(t => t.SkillId).HasColumnName("SKILL_ID");
+            Property(t => t.PersonId).HasColumnName("PERSON_ID");
+            Property(t => t.SkillInfo).HasColumnName("SKILL_INFO");
+            Property(t => t.SkillTypeId).HasMaxLength(50).HasColumnName("SKILL_TYPE_ID");
+            Property(t => t.UserLoginId).HasMaxLength(50).HasColumnName("USER_LOGIN_ID");
+            Property(t => t.CreatedStamp).HasColumnName("CREATED_STAMP");
+            Property(t => t.LastUpdatedStamp).HasColumnName("LAST_UPDATED_STAMP");
             #endregion
 
-            this.ToTable("skill");
+            ToTable("skill");
         }
     }
 }

@@ -21,4 +21,11 @@ namespace ModelManagement.Core.Business.Business.Query.Models
     {
         public List<ModelsInfoListModel> ModelList { get; set; }
     }
+
+    public class ModelListModel
+    {
+        public string PersonId { get; set; }
+        public string FirstName { get; set; }
+        public string FatherName { get; set; }
+    }
 }

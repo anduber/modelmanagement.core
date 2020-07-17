@@ -104,16 +104,14 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             return userLogin;
         }
 
-        public User SetUser(string roleTypeId, string userName, string password, string email, string statusId, string isUserActivated)
+        public User SetUser(string roleTypeId, string userName, string password, string email, string statusId, string isUserActivated, string primaryPhoneNumber)
         {
             return new User
             {
                 PersonId = Utility.GetId(),
                 UserNumber = Utility.GetUserNumber(),
                 VerificationCode = Utility.GetVerificationCode(),
-                //RoleTypeId = roleTypeId,
-                //UserName = userName,
-                //Password = string.IsNullOrEmpty(password) ? null : Utility.HashPassword(password),
+                PrimaryPhoneNumber = primaryPhoneNumber,
                 PrimaryEmail = email,
                 IsUserActivated = isUserActivated,
                 StatusId = string.IsNullOrEmpty(statusId) ? Utility.StatusDisabled : statusId
@@ -139,6 +137,8 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             personalInfo.UserLoginId = userLoginId;
             personalInfo.PersonId = personId;
             personalInfo.GeoId = personalInfoArg.GeoId;
+            personalInfo.CityGeoId = personalInfoArg.CityGeoId;
+            personalInfo.CountryGeoId = personalInfoArg.CountryGeoId;
             return personalInfo;
         }
 
@@ -153,11 +153,12 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
 
         public PersonalInformation CreatePersonalInfo(PersonalInformationArg personalInfoArg, string userLoginId)
         {
-            var user = SetUser(Utility.RoleTypeModel, personalInfoArg.UserName, Utility.DefaultPassword, null, Utility.StatusDisabled, "Y");
-            //CreateUser(user);
-            var personalInfo = SetPersonalInfo(personalInfoArg, user.PersonId, userLoginId);
-            PersonalInformation().Add(personalInfo);
-            return personalInfo;
+            //var user = SetUser(Utility.RoleTypeModel, personalInfoArg.UserName, Utility.DefaultPassword, null, Utility.StatusDisabled, "Y");
+            ////CreateUser(user);
+            //var personalInfo = SetPersonalInfo(personalInfoArg, user.PersonId, userLoginId);
+            //PersonalInformation().Add(personalInfo);
+            //return personalInfo;
+            return new PersonalInformation();
         }
 
         public PersonalInformation UpdatePersonalInfo(PersonalInformationArg personalInfoArg, string personId, string userLoginId)
@@ -173,9 +174,9 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             return SetCreateUpdatePhysicalInformation(physicalInfo, physicalInfoArg, personId, userLoginId);
         }
 
-        public CommandResult UpdatePhysicalInfo(string personId,PhysicalInformationArg physicalInformationArg,string userLoginId)
+        public CommandResult UpdatePhysicalInfo(string personId, PhysicalInformationArg physicalInformationArg, string userLoginId)
         {
-            var physicalInfo = SetCreateUpdatePhysicalInformation(PhysicalInformation().Find(personId),physicalInformationArg,personId,userLoginId);
+            var physicalInfo = SetCreateUpdatePhysicalInformation(PhysicalInformation().Find(personId), physicalInformationArg, personId, userLoginId);
             PhysicalInformation().Update(physicalInfo);
             return Utility.CommandSuccess();
         }
@@ -232,7 +233,10 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
 
         public User RegisterModel(PersonalInformationArg personInfoArg, PhysicalInformationArg physicalInfoArg)
         {
-            var user = CreateUser(SetUser(Utility.RoleTypeModel, personInfoArg.UserName, Utility.DefaultPassword, personInfoArg.Email, Utility.StatusDisabled, "N"), personInfoArg.UserName);
+            var user =
+                CreateUser(
+                    SetUser(Utility.RoleTypeModel, personInfoArg.UserName, Utility.DefaultPassword, personInfoArg.Email,
+                        Utility.StatusDisabled, "N", personInfoArg.PrimaryPhone), personInfoArg.UserName);
             PersonalInformation().Add(SetPersonalInfo(personInfoArg, user.PersonId, user.UserLoginId));
             SetCreateUpdatePhysicalInformation(null, physicalInfoArg, user.PersonId, user.UserLoginId);
             SetUserAppl(personInfoArg.OfferTypeId, user.PersonId, user.UserLoginId);
@@ -344,50 +348,34 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             return visit;
         }
 
-        public CommandResult CreateJobPost(JobPostCommandArg jobPostCommandArg, List<string> modelIds, string userLoginId)
-        {
-            var jobPost = new JobPost();
-            jobPost.SetProperty(jobPostCommandArg.UserId, jobPostCommandArg.JobTitle, jobPostCommandArg.JobDescription,
-                jobPostCommandArg.JobDueDate, jobPostCommandArg.PaymentMethodEnumId, jobPostCommandArg.JobLocationGeoId,
-                jobPostCommandArg.AgentJobEnumId, jobPostCommandArg.AgentLocationGeoId);
-            jobPost.JobPostId = Utility.GetId();
-            jobPost.UserLoginId = userLoginId;
-            jobPost.IsActive = "Y";
-            JobPost().Add(jobPost);
-            if (modelIds.Count <= 0) return Utility.CommandSuccess(jobPost.JobPostId);
-            foreach (var model in modelIds)
-            {
-                AddJobOffer(jobPost.JobPostId, model, userLoginId);
-            }
-            return Utility.CommandSuccess(jobPost.JobPostId);
-        }
+       
 
 
-        public CommandResult CreateJobOffer(string jobPostId, string modelId, string userLoginId)
-        {
-            var jobOffer = AddJobOffer(jobPostId, modelId, userLoginId);
-            return Utility.CommandSuccess(jobOffer.JobOfferId);
-        }
+        //public CommandResult CreateJobOffer(string jobPostId, string modelId, string userLoginId)
+        //{
+        //    var jobOffer = AddJobOffer(jobPostId, modelId, userLoginId);
+        //    return Utility.CommandSuccess(jobOffer.JobOfferId);
+        //}
 
-        internal JobOffer AddJobOffer(string jobPostId, string modelId, string userLoginId)
-        {
-            var jobOffer = new JobOffer
-            {
-                JobOfferId = Utility.GetId(),
-                ModelUserId = modelId,
-                JobPostId = jobPostId,
-                UserLoginId = userLoginId
-            };
-            JobOffer().Add(jobOffer);
-            return jobOffer;
-        }
+        //internal JobOffer AddJobOffer(string jobPostId, string modelId, string userLoginId)
+        //{
+        //    var jobOffer = new JobOffer
+        //    {
+        //        JobOfferId = Utility.GetId(),
+        //        OfferedUserId = modelId,
+        //        JobPostId = jobPostId,
+        //        UserLoginId = userLoginId
+        //    };
+        //    JobOffer().Add(jobOffer);
+        //    return jobOffer;
+        //}
 
         public CommandResult ActivateUserAccount(string userName, string verificationCode, string newPassword)
         {
             var userLogin = UserLogin().FirstOrDefault(t => t.UserName == userName);
             if (userLogin == null) throw new InvalidOperationException("User not found!");
             var user = User().Find(userLogin.PersonId);
-            if (user.IsUserActivated=="Y")
+            if (user.IsUserActivated == "Y")
                 throw new InvalidOperationException("User is already activated!");
             if (verificationCode != user.VerificationCode)
                 throw new InvalidOperationException("Your verification code is Incorrect!");
@@ -403,7 +391,7 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
         public CommandResult AuthenticateUser(string userName, string password)
         {
             var userLogin = UserLogin().FirstOrDefault(t => t.UserName == userName);
-            if(userLogin==null)
+            if (userLogin == null)
                 throw new InvalidOperationException("Username or Password Is Incorrect!");
             if (userLogin.User_PersonId.IsUserActivated != "Y" ||
                 userLogin.User_PersonId.StatusId != Utility.StatusEnabled) throw new InvalidOperationException("User is not activated!");
@@ -423,7 +411,8 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
                 IsUserActivated = userLogin.User_PersonId.IsUserActivated,
                 SecurityToken = Utility.GetSecurityToken(),
                 UserId = userLogin.PersonId,
-                UserLoginId = userLogin.UserLoginId
+                UserLoginId = userLogin.UserLoginId,
+                UserTypeId = userLogin.UserRoleUserLogin_UserLoginId.FirstOrDefault()?.RoleTypeId
             };
             return Utility.CommandSuccess(userLoginCommandResult);
         }
@@ -450,16 +439,33 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             userLogin.CurrentPassword = Utility.HashPassword(newPassword);
             userLogin.RequirePasswordChange = "N";
             UserLogin().Update(userLogin);
-            return Utility.CommandSuccess(new UserLoginCommandResult());
+            var result = new UserLoginCommandResult
+            {
+                UserId = userLogin.User_PersonId.PersonId,
+                UserLoginId = userLogin.UserLoginId,
+                SecurityToken = Utility.GetSecurityToken()
+            };
+            return Utility.CommandSuccess(result);
         }
 
         public CommandResult ResendActivationCode(string userName)
         {
             var userLogin = UserLogin().FirstOrDefault(t => t.UserName == userName);
-            if (userLogin==null)
+            if (userLogin == null)
                 throw new InvalidOperationException("User not found. !");
             new CommonDataService().SendActivationCodeViaEmail(userLogin.User_PersonId, userName);
             return Utility.CommandSuccess();
+        }
+
+        public User CreateAgent(PersonalInformationArg personInfoArg)
+        {
+            var user = CreateUser(
+                    SetUser(Utility.RoleTypeAgent, personInfoArg.UserName, Utility.DefaultPassword, personInfoArg.Email,
+                        Utility.StatusDisabled, "N", personInfoArg.PrimaryPhone), personInfoArg.UserName);
+            PersonalInformation().Add(SetPersonalInfo(personInfoArg, user.PersonId, user.UserLoginId));
+            SetUserAppl(personInfoArg.OfferTypeId, user.PersonId, user.UserLoginId);
+            AddUserRole(user.PersonId, Utility.RoleTypeAgent, user.UserLoginId);
+            return user;
         }
     }
 }

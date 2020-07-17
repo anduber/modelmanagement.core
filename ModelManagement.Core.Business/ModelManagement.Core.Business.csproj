@@ -91,10 +91,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Business.Command\AppService\Class1.cs" />
+    <Compile Include="Business.Command\AppService\UserJobService.cs" />
     <Compile Include="Business.Command\CommandArgs\UserCommandArgs.cs" />
     <Compile Include="Business.Command\CommonDataCommands.cs" />
     <Compile Include="Business.Command\ContactCommands.cs" />
-    <Compile Include="Business.Command\FileUploadCommands.cs" />
+    <Compile Include="Business.Command\ContentCommands.cs" />
+    <Compile Include="Business.Command\UserJobCommands.cs" />
     <Compile Include="Business.Command\Utils\CommandBase.cs" />
     <Compile Include="Business.Command\Utils\CommandList.cs" />
     <Compile Include="Business.Command\Utils\CommandParser.cs" />
@@ -126,8 +128,14 @@
     <Compile Include="Business.Model\CommandModel\RoleTypeCommandModel.cs" />
     <Compile Include="Business.Model\CommandModel\StatusTypeCommandModel.cs" />
     <Compile Include="Business.Model\CommandModel\UserLoginCommandModel.cs" />
+    <Compile Include="Business.Query\AppService\ContentQueryAppService.cs" />
+    <Compile Include="Business.Query\AppService\UserJobQueryService.cs" />
+    <Compile Include="Business.Query\ContentQuery.cs" />
+    <Compile Include="Business.Query\Models\JobPostModel.cs" />
+    <Compile Include="Business.Query\UserJobQuery.cs" />
     <Compile Include="Business.Query\Models\CategoryQueryModel.cs" />
     <Compile Include="Business.Query\Models\ContactInformationQueryModel.cs" />
+    <Compile Include="Business.Query\Models\ContentModel.cs" />
     <Compile Include="Business.Query\Models\EnumerationListModel.cs" />
     <Compile Include="Business.Query\Models\GeoListModel.cs" />
     <Compile Include="Business.Query\Models\GetListSearchPersonalInfos.cs" />
@@ -173,7 +181,7 @@
     <Compile Include="Business.Command\AppService\CategoryService.cs" />
     <Compile Include="Business.Command\AppService\CommonDataService.cs" />
     <Compile Include="Business.Command\AppService\ContactService.cs" />
-    <Compile Include="Business.Command\AppService\FileUploadService.cs" />
+    <Compile Include="Business.Command\AppService\ContentService.cs" />
     <Compile Include="Business.Command\EntityRepositories\AppRepository.cs" />
     <Compile Include="Business.Command\AppService\UserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

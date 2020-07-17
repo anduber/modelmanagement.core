@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ModelManagement.Core.Data.Data.Model
 {
-    public class PersonalInformation : CommonEntity
+    public class PersonalInformation : Entity
     {
         public PersonalInformation()
         {
@@ -25,6 +25,8 @@ namespace ModelManagement.Core.Data.Data.Model
         public string Sex { get; set; }
         public string MaritialStatusEnumId  { get; set; }
         public string GeoId { get; set; }
+        public string CountryGeoId { get; set; }
+        public string CityGeoId { get; set; }
         public virtual Adderss Adderss { get; set; }
         public virtual PhysicalInformation PhysicalInformation_PersonId { get; set; }
         public virtual List<ContactInformation> ContactInformations_PersonId { get; set; }
@@ -38,5 +40,7 @@ namespace ModelManagement.Core.Data.Data.Model
         public virtual UserLogin UserLoginId_UserLogin { get; set; }
         public virtual Enumeration Enumeration_MaritialStatusEnumId { get; set; }
         public virtual Geo GeoId_Geo { get; set; }
+        public virtual Geo CountryGeoId_Geo { get; set; }
+        public virtual Geo CityGeoId_Geo { get; set; }
     }
 }

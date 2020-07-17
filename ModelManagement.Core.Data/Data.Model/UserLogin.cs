@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ModelManagement.Core.Data.Data.Model
 {
-    public class UserLogin : CommonEntity
+    public class UserLogin : Entity
     {
         public UserLogin()
         {
@@ -23,6 +23,8 @@ namespace ModelManagement.Core.Data.Data.Model
             OfferItemTypeMapUserLogin_UserLoginId = new List<OfferItemTypeMap>();
             UserLogin_JobPostUserLogin = new List<JobPost>();
             UserLogin_JobOfferUserLogin = new List<JobOffer>();
+            UserLogin_Contents = new List<Content>();
+            //UserLoginLastUpdatedBy_Contents = new List<Content>();
         }
         public string PersonId { get; set; }
         public string UserName { get; set; }
@@ -49,6 +51,8 @@ namespace ModelManagement.Core.Data.Data.Model
         public virtual List<Visitor> VisitorUserLogin_PersonId { get; set; }
         public virtual List<JobPost> UserLogin_JobPostUserLogin { get; set; }
         public virtual List<JobOffer> UserLogin_JobOfferUserLogin { get; set; }
+        public virtual List<Content> UserLogin_Contents { get; set; }
+        //public virtual List<Content> UserLoginLastUpdatedBy_Contents { get; set; }
 
         public void SetProperty(string personId,DateTime? fromDate,string requirePasswordChange,string currentPassword)
         {

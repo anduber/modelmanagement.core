@@ -27,7 +27,7 @@ namespace ModelManagement.Business.Test
 
         private void InvokeTest()
         {
-            
+
         }
 
         [TestMethod]
@@ -37,7 +37,7 @@ namespace ModelManagement.Business.Test
             {
                 UserCommandArg = new UserCommandArg
                 {
-                    Description   = "test",
+                    Description = "test",
                     UserName = "askuale",
                     PrimaryPhoneNumber = "125545",
                     StatusId = "ENABLED",
@@ -69,7 +69,7 @@ namespace ModelManagement.Business.Test
         [TestMethod]
         public void RemoveUserCommandTest()
         {
-            var removeUserComman = new RemoveUserCommand {PersonId = "9558128e683a4793b148728d640681cf"};
+            var removeUserComman = new RemoveUserCommand { PersonId = "9558128e683a4793b148728d640681cf" };
             var result = _service.InvokeCommand(removeUserComman);
             Assert.IsTrue(result.IsSuccess);
         }
@@ -116,7 +116,7 @@ namespace ModelManagement.Business.Test
                 LastName = "Eshetu",
                 Sex = "F",
                 DateOfBirth = DateTime.Now,
-                GeoId="ETH"
+                GeoId = "ETH"
             };
             updatePersonalInfoCmd.CategoryTypeIds = new List<string>
             {
@@ -219,7 +219,7 @@ namespace ModelManagement.Business.Test
                     HeightEnumId = "METER",
                     Weight = 65,
                     WeightEnumId = "KG",
-                    Complexion= "lula@gmail.com"
+                    Complexion = "lula@gmail.com"
                 },
                 ContactInfoArgs = new List<ContactInfoArg>()
                 {
@@ -329,7 +329,7 @@ namespace ModelManagement.Business.Test
             var xclImport = new ImportFromExcel();
             var geoTypeImportList = xclImport.ExportToList<GeoTypeImp>("G:/WorkFiles/ModelManagement/res/geo/geo.xlsx", "GEO_ASSOC_TYPE");
 
-            var geoTypeArgs = geoTypeImportList.Select(gtyMap => new GeoTypeArg {GeoTypeId = gtyMap.GEO_TYPE_ID, Description = gtyMap.DESCRIPTION, GeoTypePurposeId = "GEO_ASSOC"}).ToList();
+            var geoTypeArgs = geoTypeImportList.Select(gtyMap => new GeoTypeArg { GeoTypeId = gtyMap.GEO_TYPE_ID, Description = gtyMap.DESCRIPTION, GeoTypePurposeId = "GEO_ASSOC" }).ToList();
             var createGeoTypesCommand = new CreateGeoTypesCommand
             {
                 GeoTypeArgs = geoTypeArgs
@@ -345,14 +345,15 @@ namespace ModelManagement.Business.Test
             var xclImport = new ImportFromExcel();
             var geoImportList = xclImport.ExportToList<GeoImport>("G:/WorkFiles/ModelManagement/res/geo/geo_dial.xlsx", "Sheet1");
             var geoArgs = (from geoImp in geoImportList
-                where !string.IsNullOrEmpty(geoImp.GEO_CODE)
-                select new GeoArg
-                {
-                    //GeoId = geoImp.GEO_ID,
-                    //GeoTypeId = geoImp.GEO_TYPE_ID,
-                    //GeoName = geoImp.GEO_NAME,
-                    GeoCode = geoImp.GEO_CODE, DialingCode = geoImp.DIALING_CODE
-                }).ToList();
+                           where !string.IsNullOrEmpty(geoImp.GEO_CODE)
+                           select new GeoArg
+                           {
+                               //GeoId = geoImp.GEO_ID,
+                               //GeoTypeId = geoImp.GEO_TYPE_ID,
+                               //GeoName = geoImp.GEO_NAME,
+                               GeoCode = geoImp.GEO_CODE,
+                               DialingCode = geoImp.DIALING_CODE
+                           }).ToList();
             ;
             var createGeoCommand = new CreateGeosCommand
             {
@@ -390,8 +391,8 @@ namespace ModelManagement.Business.Test
         {
             var contactInfoCommand = new CreateContactInfosCommand
             {
-                ContactInfoArgs = new List<ContactInfoArg> 
-                { 
+                ContactInfoArgs = new List<ContactInfoArg>
+                {
                     new ContactInfoArg
                     {
                         ContactMechTypeId="FACEBOOK",
@@ -442,42 +443,12 @@ namespace ModelManagement.Business.Test
             var command = new SetVisitorCommand
             {
                 //VisitorId = "e46a4463-eff9-43c1-a2cb-0e0e47abdcce",
-               // UserLoginId = "04b63753-53a2-4b13-bf86-7f064079ad9d",
-                VisitorArg = new VisitorArg (),
+                // UserLoginId = "04b63753-53a2-4b13-bf86-7f064079ad9d",
+                VisitorArg = new VisitorArg(),
                 UserAgentTypeId = "WEB_APP"
             };
             var result = _service.InvokeCommand(command);
         }
-
-        [TestMethod]
-        public void CreateJobPostCommandTest()
-        {
-            var command = new CreateJobPostCommand
-            {
-                JobPostCommandArg = new JobPostCommandArg
-                {
-                    UserId = "a9b8f74b-8f2b-4b79-8309-2aa0794c5412",
-                    JobTitle="For Modeling 2356",
-                    JobDueDate = DateTime.Now.AddDays(40)
-                },
-                ModelIds = new List<string> { "98f001bd-b8b4-40b8-ad2f-eb542fccee52", "cbc07178-5f59-4443-be89-24b1c830848a", "5d0882cb-80b0-4773-b9fe-86be1d9bc396" }
-            };
-           var result = _service.InvokeCommand(command);
-        }
-
-       [TestMethod]
-       public void CreateJobOfferCommandTest()
-        {
-            var command = new CreateJobOfferCommand
-            {
-                JobPostId= "ae3f8145-bd2d-4dc1-ba29-83efe829c18b",
-                ModelId = "0fc74448-7478-436d-aca7-d84fc24c2610",
-                UserLoginId= "142f29b4-f873-4bf8-b1fe-88db902e46b1"
-            };
-
-            var result = _service.InvokeCommand(command);
-        }
-
         #endregion
     }
 }

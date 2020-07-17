@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace ModelManagement.Core.Data.Data.Model
 {
-    public class Geo:CommonEntity
+    public class Geo:Entity
     {
         public Geo()
         {
@@ -15,6 +11,8 @@ namespace ModelManagement.Core.Data.Data.Model
             PersonId_PersonalInformation = new List<PersonalInformation>();
             Geo_JobPostAgentLocations = new List<JobPost>();
             Geo_JobPostJobLocationGeoes = new List<JobPost>();
+            Country_PersonGeoId_PersonalInformation = new List<PersonalInformation>();
+            City_PersonGeoId_PersonalInformation = new List<PersonalInformation>();
         }
         public string GeoId { get; set; }
         public string GeoTypeId { get; set; }
@@ -27,5 +25,7 @@ namespace ModelManagement.Core.Data.Data.Model
         public virtual List<PersonalInformation> PersonId_PersonalInformation { get; set; }
         public virtual List<JobPost> Geo_JobPostJobLocationGeoes { get; set; }
         public virtual List<JobPost> Geo_JobPostAgentLocations { get; set; }
+        public virtual List<PersonalInformation> Country_PersonGeoId_PersonalInformation { get; set; }
+        public virtual List<PersonalInformation> City_PersonGeoId_PersonalInformation { get; set; }
     }
 }

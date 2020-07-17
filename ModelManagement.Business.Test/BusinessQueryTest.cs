@@ -257,15 +257,15 @@ namespace ModelManagement.Business.Test
             var result = _queryService.InvokeQuery(query);
         }
 
-        [TestMethod]
-        public void ListJobPostQueryTest()
-        {
-            var query = new ListJobPostQuery
-            {
-                UserId= "a9b8f74b-8f2b-4b79-8309-2aa0794c5412"
-            };
-            var result = _queryService.InvokeQuery(query);
-        }
+        //[TestMethod]
+        //public void ListJobPostQueryTest()
+        //{
+        //    var query = new ListJobPostQuery
+        //    {
+        //        UserId= "a9b8f74b-8f2b-4b79-8309-2aa0794c5412"
+        //    };
+        //    var result = _queryService.InvokeQuery(query);
+        //}
 
         [TestMethod]
         public void ListJobOfferQueryTest()

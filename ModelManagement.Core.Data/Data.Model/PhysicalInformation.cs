@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ModelManagement.Core.Data.Data.Model
 {
-    public class PhysicalInformation : CommonEntity
+    public class PhysicalInformation : Entity
     {
         public string PersonId { get; set; }
         public Nullable<double> Height { get; set; }

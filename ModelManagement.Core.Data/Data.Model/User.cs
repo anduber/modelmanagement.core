@@ -2,7 +2,7 @@
 
 namespace ModelManagement.Core.Data.Data.Model
 {
-    public class User : CommonEntity
+    public class User : Entity
     {
         public User()
         {
@@ -12,6 +12,8 @@ namespace ModelManagement.Core.Data.Data.Model
             UserStatusId_UserStatuses = new List<UserStatus>();
             User_JobPosts = new List<JobPost>();
             User_JobOffers = new List<JobOffer>();
+            User_Contents = new List<Content>();
+            User_JobApplications = new List<JobApplication>();
         }
         public string PersonId { get; set; }
         public string UserNumber { get; set; }
@@ -30,6 +32,8 @@ namespace ModelManagement.Core.Data.Data.Model
         public virtual List<UserStatus> UserStatusId_UserStatuses{ get; set; }
         public virtual List<JobPost> User_JobPosts{ get; set; }
         public virtual List<JobOffer> User_JobOffers{ get; set; }
+        public virtual List<Content> User_Contents { get; set; }
+        public virtual List<JobApplication> User_JobApplications { get; set; }
 
         public void SetProperty(string primaryEmail, string primaryPhoneNumber, string description, string statusId)
         {

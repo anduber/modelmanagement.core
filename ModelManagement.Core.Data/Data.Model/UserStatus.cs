@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ModelManagement.Core.Data.Data.Model
 {
-    public class UserStatus:CommonEntity
+    public class UserStatus:Entity
     {
 
         public string UserStatusId { get; set; }

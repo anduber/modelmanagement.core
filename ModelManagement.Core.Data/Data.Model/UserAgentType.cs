@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ModelManagement.Core.Data.Data.Model
 {
-    public class UserAgentType:CommonEntity
+    public class UserAgentType:Entity
     {
         public UserAgentType()
         {

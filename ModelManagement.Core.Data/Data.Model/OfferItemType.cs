@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ModelManagement.Core.Data.Data.Model
 {
-    public class OfferItemType:CommonEntity
+    public class OfferItemType:Entity
     {
         public OfferItemType()
         {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ModelManagement.Core.Data.Data.Model
 {
-    public class UserRole:CommonEntity
+    public class UserRole:Entity
     {
         public string UserId { get; set; }
         public string RoleTypeId { get; set; }

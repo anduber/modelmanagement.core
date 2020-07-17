@@ -13,40 +13,50 @@ namespace ModelManagement.Core.Data.Data.Mapping
         public PersonalInformationMap()
         {
             #region Configuration
-            this.HasKey(t => new { t.PersonId});
+            this.HasKey(t => new { t.PersonId });
 
-            this.HasOptional(t => t.Adderss)
+            HasOptional(t => t.Adderss)
                 .WithRequired(s => s.PersonId_PersonalInformation);
-            this.HasOptional(t => t.PhysicalInformation_PersonId)
+            HasOptional(t => t.PhysicalInformation_PersonId)
                 .WithRequired(s => s.PersonalInformation);
-            this.HasOptional(t => t.Enumeration_MaritialStatusEnumId)
+            HasOptional(t => t.Enumeration_MaritialStatusEnumId)
                .WithMany(t => t.MaritialStatus_PersonalInformation)
                .HasForeignKey(t => t.MaritialStatusEnumId);
 
-            this.HasOptional(t => t.GeoId_Geo)
+            HasOptional(t => t.GeoId_Geo)
                .WithMany(t => t.PersonId_PersonalInformation)
                .HasForeignKey(t => t.GeoId);
-            
-            this.HasOptional(t => t.UserLoginId_UserLogin)
+
+            HasOptional(t => t.CountryGeoId_Geo)
+               .WithMany(t => t.Country_PersonGeoId_PersonalInformation)
+               .HasForeignKey(t => t.CountryGeoId);
+
+            HasOptional(t => t.CityGeoId_Geo)
+               .WithMany(t => t.City_PersonGeoId_PersonalInformation)
+               .HasForeignKey(t => t.CityGeoId);
+
+            HasOptional(t => t.UserLoginId_UserLogin)
               .WithMany(t => t.PersonalInformationUserLogin_PersonId)
               .HasForeignKey(t => t.UserLoginId);
             #endregion
 
             #region Property
-            this.Property(t => t.PersonId).HasColumnName("PERSON_ID");
-            this.Property(t => t.FirstName).HasMaxLength(50).HasColumnName("FIRST_NAME");
-            this.Property(t => t.FatherName).HasMaxLength(50).HasColumnName("FATHER_NAME");
-            this.Property(t => t.LastName).HasMaxLength(50).HasColumnName("LAST_NAME");
-            this.Property(t => t.DateOfBirth).HasColumnName("DATE_OF_BIRTH");
-            this.Property(t => t.Sex).HasMaxLength(1).HasColumnName("SEX");
-            this.Property(t => t.GeoId).HasColumnName("GEO_ID");
-            this.Property(t => t.MaritialStatusEnumId).HasColumnName("MARITIAL_STATUS_ENUM_ID");
-            this.Property(t => t.UserLoginId).HasColumnName("USER_LOGIN_ID");
-            this.Property(t => t.CreatedStamp).HasColumnName("CREATED_STAMP");
-            this.Property(t => t.LastUpdatedStamp).HasColumnName("LAST_UPDATED_STAMP");
+            Property(t => t.PersonId).HasColumnName("PERSON_ID");
+            Property(t => t.FirstName).HasMaxLength(50).HasColumnName("FIRST_NAME");
+            Property(t => t.FatherName).HasMaxLength(50).HasColumnName("FATHER_NAME");
+            Property(t => t.LastName).HasMaxLength(50).HasColumnName("LAST_NAME");
+            Property(t => t.DateOfBirth).HasColumnName("DATE_OF_BIRTH");
+            Property(t => t.Sex).HasMaxLength(1).HasColumnName("SEX");
+            Property(t => t.GeoId).HasColumnName("GEO_ID");
+            Property(t => t.CityGeoId).HasColumnName("CITY_GEO_ID");
+            Property(t => t.CountryGeoId).HasColumnName("COUNTRY_GEO_ID");
+            Property(t => t.MaritialStatusEnumId).HasColumnName("MARITIAL_STATUS_ENUM_ID");
+            Property(t => t.UserLoginId).HasColumnName("USER_LOGIN_ID");
+            Property(t => t.CreatedStamp).HasColumnName("CREATED_STAMP");
+            Property(t => t.LastUpdatedStamp).HasColumnName("LAST_UPDATED_STAMP");
             #endregion
 
-            this.ToTable("personal_information");
+            ToTable("personal_information");
         }
     }
 }

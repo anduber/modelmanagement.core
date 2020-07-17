@@ -22,7 +22,9 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
 
         public CommonDataService(ModelManagementContext context = null):base(context)
         {
-            _context = context ?? new ModelManagementContext();
+            var appContext = context ?? new ModelManagementContext();
+            _appRepository = new AppRepository(appContext);
+
             _geoTypeRepository = new EntityRepository<GeoType>(_context);
             _geoRepository = new EntityRepository<Geo>(_context);
             _geoAssocRepository = new EntityRepository<GeoAssoc>(_context);
@@ -166,9 +168,9 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
         public CommandResult RemoveOfferItemTypeMap(string offerTypeId, string offerItemTypeId)
         {
             var offerItemTypeMap =
-                _appRepository.OfferItemTypeMap()
+                OfferItemTypeMap()
                     .Find(t => t.OfferItemTypeId == offerItemTypeId && t.OfferTypeId == offerTypeId);
-            _appRepository.OfferItemTypeMap().Delete(offerItemTypeMap);
+            OfferItemTypeMap().Delete(offerItemTypeMap);
             return Utility.CommandSuccess();
         }
 
@@ -180,22 +182,22 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
                 Description = description,
                 UserLoginId = userLoginId
             };
-            _appRepository.EnumerationType().Create(enumerationType);
+            EnumerationType().Create(enumerationType);
             return Utility.CommandSuccess();
         }
 
         public CommandResult UpdateEnumerationType(string enumerationTypeId, string description)
         {
-            var enumType = _appRepository.EnumerationType().Find(enumerationTypeId);
+            var enumType = EnumerationType().Find(enumerationTypeId);
             enumType.Description = description;
-            _appRepository.EnumerationType().Update(enumType);
+            EnumerationType().Update(enumType);
             return Utility.CommandSuccess();
         }
 
         public CommandResult RemoveEnumerationType(string enumerationTypeId)
         {
-            var enumType = _appRepository.EnumerationType().Find(enumerationTypeId);
-            _appRepository.EnumerationType().Delete(enumType);
+            var enumType = EnumerationType().Find(enumerationTypeId);
+            EnumerationType().Delete(enumType);
             return Utility.CommandSuccess();
         }
 
@@ -208,22 +210,22 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
                 Description = description,
                 UserLoginId = userLoginId
             };
-            _appRepository.Enumeration().Create(enumeration);
+            Enumeration().Create(enumeration);
             return Utility.CommandSuccess(enumeration.EnumerationId);
         }
 
         public CommandResult UpdateEnumeration(string enumerationId, string enumerationTypeId, string description, string userLoginId)
         {
-            var enumeration = _appRepository.Enumeration().Find(enumerationId);
+            var enumeration = Enumeration().Find(enumerationId);
             enumeration.EnumerationTypeId = enumerationTypeId;
             enumeration.Description = description;
-            _appRepository.Enumeration().Update(enumeration);
+            Enumeration().Update(enumeration);
             return Utility.CommandSuccess();
         }
 
         public CommandResult RemoveEnumeration(string enumerationId)
         {
-            _appRepository.Enumeration().Delete(enumerationId);
+            Enumeration().Delete(enumerationId);
             return Utility.CommandSuccess();
         }
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ModelManagement.Core.Data.Data.Model
 {
-    public class FileType : CommonEntity
+    public class FileType : Entity
     {
         public FileType()
         {

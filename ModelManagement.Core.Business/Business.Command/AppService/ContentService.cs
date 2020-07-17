@@ -8,14 +8,16 @@ using ModelManagement.Core.Data.Data.Repository.GenericRepository;
 
 namespace ModelManagement.Core.Business.Business.Command.AppService
 {
-    public class FileUploadService:AppRepository
+    public class ContentService : AppRepository
     {
-        private ModelManagementContext _context;
+        //private ModelManagementContext _context;
         private EntityRepository<Uploadable> _uplodableRepository;
         private ObjectMapper _mapper;
-        public FileUploadService(ModelManagementContext context = null):base(context)
+        private AppRepository _appRepository;
+        public ContentService(ModelManagementContext context = null) : base(context)
         {
-            _context = context ?? new ModelManagementContext();
+            var appContext = context ?? new ModelManagementContext();
+            _appRepository = new AppRepository(appContext);
             //_uplodableRepository = new EntityRepository<Uploadable>(_context);
             _mapper = new ObjectMapper();
         }
@@ -70,7 +72,7 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             _uplodableRepository.Delete(_uplodableRepository.FirstOrDefault(t => t.FileUploadId == fileUploadId));
         }
 
-        public void AddAUploadables(List<UploadableArg> uploadableArgs,string personId,string userLoginId)
+        public void AddAUploadables(List<UploadableArg> uploadableArgs, string personId, string userLoginId)
         {
             foreach (var uploadableArg in uploadableArgs)
             {
@@ -85,6 +87,68 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             return uploadable;
         }
 
+        public void AddContents(List<ContentArg> contentArgs, string userId, string userLoginId)
+        {
+            foreach (var content in contentArgs)
+            {
+                AddContent(content, userId, userLoginId);
+            }
+        }
+
+        public Content AddContent(ContentArg contentArg, string userId, string userLoginId)
+        {
+            var content = SetContentProperty(contentArg, userId, userLoginId);
+            content.ContentId = Utility.GetId();
+            Content().Add(content);
+            AddContentData(content.ContentId, contentArg.Data, userLoginId);
+            return content;
+        }
+
+        public Content SetContentProperty(ContentArg contentArg, string userId, string userLoginId)
+        {
+            return new Content
+            {
+                ContentDescription = contentArg.ContentDescription,
+                ContentTypeId = contentArg.ContentTypeId,
+                ContentUserId = userId,
+                ContentName = contentArg.ContentName,
+                MimeTypeId = contentArg.MimeTypeId,
+                UserLoginId = userLoginId
+            };
+        }
+
+        public void AddContentData(string contentId, byte[] data, string userLoginId)
+        {
+            var contentData = new ContentData
+            {
+                ContentId = contentId,
+                Data = data,
+                UserLoginId = userLoginId,
+                //LastUpdatedByUserLoginId = userLoginId
+            };
+            ContentData().Add(contentData);
+        }
+
+        public void RemoveContent(string contentId)
+        {
+            var content = Content().Find(contentId);
+            var contentData = ContentData().Find(contentId);
+            Content().Remove(content);
+            if (contentData!=null)
+            {
+                ContentData().Remove(contentData);
+            }
+        }
+
+        public void SetProfilePicture(string userId,string contentId)
+        {
+            var userContents = Content().Filter(t => t.ContentUserId == userId);
+            foreach (var content in userContents)
+            {
+                content.ContentTypeId = content.ContentId==contentId ? Utility.ContentTypeProfilePic : Utility.HeaderPic;
+                Content().UpdateEntity(content);
+            }
+        }
 
 
     }

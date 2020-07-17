@@ -92,7 +92,7 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
 
         public QueryResult LookupContactMechType(QueryParamArg queryParamArg)
         {
-            return ModelManagementContext().ContactMechTypes.QueryResultList<KeyDescription>(queryParamArg);
+            return ModelManagementContext().ContactMechTypes.Where(t=>t.IsActive=="Y").QueryResultList<KeyDescription>(queryParamArg);
         }
 
         public QueryResult ListOfferType(QueryParamArg queryParamArg)

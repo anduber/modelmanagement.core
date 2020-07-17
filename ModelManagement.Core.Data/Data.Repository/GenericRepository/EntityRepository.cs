@@ -9,7 +9,7 @@ using System.Linq.Expressions;
 
 namespace ModelManagement.Core.Data.Data.Repository.GenericRepository
 {
-    public class EntityRepository<TEntity> where TEntity : CommonEntity
+    public class EntityRepository<TEntity> where TEntity : Entity
     {
         private ModelManagementContext _context { get; set; }
 

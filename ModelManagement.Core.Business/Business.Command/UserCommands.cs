@@ -198,7 +198,8 @@ namespace ModelManagement.Core.Business.Business.Command
         public PhysicalInformationArg PhysicalInformationArg { get; set; }
         public List<ContactInfoArg> ContactInfoArgs { get; set; }
         public List<string> CategoryTypeIds { get; set; }
-        public List<UploadableArg> UploadableArgs { get; set; }
+        public List<ContentArg> ContentArgs { get; set; }
+
 
         public CommandResult Execute()
         {
@@ -207,13 +208,13 @@ namespace ModelManagement.Core.Business.Business.Command
                 var userService = new UserService(transaction.Context);
                 var categoryService = new CategoryService(transaction.Context);
                 var contactService = new ContactService(transaction.Context);
-                var fileUploadService = new FileUploadService(transaction.Context);
+                var contentServie = new ContentService(transaction.Context);
 
                 var user = userService.RegisterModel(PersonalInformationArg, PhysicalInformationArg);
                 categoryService.CreateCategories(CategoryTypeIds, user.PersonId, user.UserLoginId);
                 contactService.CreateContactInfos(ContactInfoArgs, user.PersonId, user.UserLoginId);
-                fileUploadService.AddAUploadables(UploadableArgs,user.PersonId,user.UserLoginId);
-
+                //contentServie.AddAUploadables(UploadableArgs,user.PersonId,user.UserLoginId);
+                contentServie.AddContents(ContentArgs, user.PersonId, user.UserLoginId);
                 transaction.CompleteTransaction();
 
                 try
@@ -232,7 +233,7 @@ namespace ModelManagement.Core.Business.Business.Command
         }
     }
 
-    public class CreateContactCommand:CommandBase,ICommand
+    public class CreateContactCommand:CommandBase,ICommand 
     {
         public string PersonId { get; set; }
         public ContactInfoArg ContactInfoArg { get; set; }
@@ -256,41 +257,21 @@ namespace ModelManagement.Core.Business.Business.Command
         }
     }
 
-    public class CreateJobPostCommand:CommandBase,ICommand
-    {
-        public JobPostCommandArg JobPostCommandArg { get; set; }
-        public List<string> ModelIds { get; set; }
 
-        public CreateJobPostCommand()
-        {
-            ModelIds = new List<string>();
-        }
-
-        public CommandResult Execute()
-        {
-            using (var transaction = new TransactionScope())
-            {
-                var result = new UserService(transaction.Context).CreateJobPost(JobPostCommandArg, ModelIds, UserLoginId);
-                transaction.CompleteTransaction();
-                return result;
-            }
-        }
-    }
-
-    public class CreateJobOfferCommand : CommandBase, ICommand
-    {
-        public string JobPostId { get; set; }
-        public string ModelId { get; set; }
-        public CommandResult Execute()
-        {
-            using (var transaction = new TransactionScope())
-            {
-                var result = new UserService(transaction.Context).CreateJobOffer(JobPostId, ModelId, UserLoginId);
-                transaction.CompleteTransaction();
-                return result;
-            }
-        }
-    }
+    //public class CreateJobOfferCommand : CommandBase, ICommand
+    //{
+    //    public string JobPostId { get; set; }
+    //    public string ModelId { get; set; }
+    //    public CommandResult Execute()
+    //    {
+    //        using (var transaction = new TransactionScope())
+    //        {
+    //            var result = new UserService(transaction.Context).CreateJobOffer(JobPostId, ModelId, UserLoginId);
+    //            transaction.CompleteTransaction();
+    //            return result;
+    //        }
+    //    }
+    //}
 
     public class ActivateUserAccountCommand:CommandBase,ICommand
     {
@@ -334,6 +315,24 @@ namespace ModelManagement.Core.Business.Business.Command
         public CommandResult Execute()
         {
             return new UserService().ResendActivationCode(UserName);
+        }
+    }
+
+    public class CreateAgentCommand : CommandBase, ICommand
+    {
+        public PersonalInformationArg PersonalInformationArg { get; set; }
+        public CreateAgentCommand()
+        {
+            PersonalInformationArg = new PersonalInformationArg();
+        }
+        public CommandResult Execute()
+        {
+            using (var transaction = new TransactionScope())
+            {
+                var user = new UserService(transaction.Context).CreateAgent(PersonalInformationArg);
+                transaction.CompleteTransaction();
+                return Utility.CommandSuccess(user.VerificationCode);
+            }
         }
     }
 }

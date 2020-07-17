@@ -77,14 +77,7 @@ namespace ModelManagement.Core.Business.Business.Query
         }
     }
 
-    public class ListJobPostQuery : QueryCommandBase, IQuery
-    {
-        public string UserId { get; set; }
-        public QueryResult Execute()
-        {
-            return new UserQueryAppService().ListJobPost(UserId, QueryParamArg);
-        }
-    }
+
 
     public class ListJobOfferQuery : QueryCommandBase, IQuery
     {
@@ -92,6 +85,20 @@ namespace ModelManagement.Core.Business.Business.Query
         public QueryResult Execute()
         {
             return new UserQueryAppService().ListJobOffer(JobPostId, QueryParamArg);
+        }
+    }
+
+    public class ListModelsQuery : QueryCommandBase, IQuery
+    {
+        public ListModelsQueryParamArg ListModelsQueryParamArg { get; set; }
+
+        public ListModelsQuery()
+        {
+            ListModelsQueryParamArg = new ListModelsQueryParamArg();
+        }
+        public QueryResult Execute()
+        {
+            return new UserQueryAppService().ListModels(ListModelsQueryParamArg, QueryParamArg);
         }
     }
 

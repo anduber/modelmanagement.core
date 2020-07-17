@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ModelManagement.Core.Data.Data.Model
 {
-    public class UserLoginPasswordHistory:CommonEntity
+    public class UserLoginPasswordHistory:Entity
     {
         public DateTime FromDate { get; set; }
         public DateTime? ThruDate { get; set; }

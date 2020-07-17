@@ -1,6 +1,6 @@
 ﻿namespace ModelManagement.Core.Data.Data.Model
 {
-    public class Uploadable : CommonEntity
+    public class Uploadable : Entity
     {
         public string FileUploadId { get; set; }
         public string PersonId { get; set; }

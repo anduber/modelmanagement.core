@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ModelManagement.Core.Data.Data.Model
 {
-    public class Visitor:CommonEntity
+    public class Visitor:Entity
     {
         public Visitor()
         {

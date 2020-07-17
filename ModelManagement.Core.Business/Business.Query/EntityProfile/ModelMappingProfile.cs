@@ -52,7 +52,7 @@ namespace ModelManagement.Core.Business.Business.Query.EntityProfile
                 ;
 
             CreateMap<PersonalInformation, PersonalInfoListModel>()
-              //  .ForMember(t => t.UserName, opt => opt.MapFrom(t => t.PersonId_User.UserName))
+                //  .ForMember(t => t.UserName, opt => opt.MapFrom(t => t.PersonId_User.UserName))
                 .ForMember(t => t.UserNumber, opt => opt.MapFrom(t => t.PersonId_User.UserNumber))
                 .ForMember(t => t.StatusId, opt => opt.MapFrom(t => t.PersonId_User.StatusId))
                 .ForMember(t => t.Status, opt => opt.MapFrom(t => t.PersonId_User.StatusId_StatusItem.Description))
@@ -97,25 +97,25 @@ namespace ModelManagement.Core.Business.Business.Query.EntityProfile
                 ;
 
             CreateMap<PersonalInformation, ModelsInfoListModel>()
-                .ForMember(t => t.Age,
-                    opt => opt.MapFrom(t => t.DateOfBirth == null ? 0 : DateConverter.CalculateAge(t.DateOfBirth.Value)))
-                .ForMember(t => t.Height, opt => opt.MapFrom(t => t.PhysicalInformation_PersonId.Height))
-                .ForMember(t => t.HeightUom,
-                    opt => opt.MapFrom(t => t.PhysicalInformation_PersonId.HeightEnumId_Enumeration.Description))
-                .ForMember(t => t.Weight, opt => opt.MapFrom(t => t.PhysicalInformation_PersonId.Weight))
-                .ForMember(t => t.WeightUom,
-                    opt => opt.MapFrom(t => t.PhysicalInformation_PersonId.WeightEnumId_Enumeration.Description))
-                .ForMember(t => t.Height, opt => opt.MapFrom(t => t.PhysicalInformation_PersonId.Height))
-                .ForMember(t => t.ProfilePic,
-                    opt =>
-                        opt.MapFrom(
-                            t =>
-                                t.Uploadables_PersonId.FirstOrDefault(x => x.FileTypeId == Utility.FileTypeProfilePic) ==
-                                null
-                                    ? null
-                                    : t.Uploadables_PersonId.FirstOrDefault(
-                                        x => x.FileTypeId == Utility.FileTypeProfilePic)
-                                        .FileData))
+                //.ForMember(t => t.Age,
+                //    opt => opt.MapFrom(t => t.DateOfBirth == null ? 0 : DateConverter.CalculateAge(t.DateOfBirth.Value)))
+                //.ForMember(t => t.Height, opt => opt.MapFrom(t => t.PhysicalInformation_PersonId.Height))
+                //.ForMember(t => t.HeightUom,
+                //    opt => opt.MapFrom(t => t.PhysicalInformation_PersonId.HeightEnumId_Enumeration.Description))
+                //.ForMember(t => t.Weight, opt => opt.MapFrom(t => t.PhysicalInformation_PersonId.Weight))
+                //.ForMember(t => t.WeightUom,
+                //    opt => opt.MapFrom(t => t.PhysicalInformation_PersonId.WeightEnumId_Enumeration.Description))
+                //.ForMember(t => t.Height, opt => opt.MapFrom(t => t.PhysicalInformation_PersonId.Height))
+                //.ForMember(t => t.ProfilePic,
+                //    opt =>
+                //        opt.MapFrom(
+                //            t =>
+                //                t.Uploadables_PersonId.FirstOrDefault(x => x.FileTypeId == Utility.ContentTypeProfilePic) ==
+                //                null
+                //                    ? null
+                //                    : t.Uploadables_PersonId.FirstOrDefault(
+                //                        x => x.FileTypeId == Utility.ContentTypeProfilePic)
+                //                        .FileData))
                 ;
 
             CreateMap<User, UserQueryModel>()
@@ -131,7 +131,7 @@ namespace ModelManagement.Core.Business.Business.Query.EntityProfile
                 .ForMember(t => t.CategoryType, opt => opt.MapFrom(t => t.CategoryTypeId_CategoryType))
                 .ForMember(t => t.CategoryId, opt => opt.MapFrom(t => t.CategoryTypeId));
             CreateMap<ContactInformation, ContactInformationListModel>();
-               //.ForMember(t => t.ContactMechType, opt => opt.MapFrom(t => t.ContactMechTypeId_ContactMechType));
+            //.ForMember(t => t.ContactMechType, opt => opt.MapFrom(t => t.ContactMechTypeId_ContactMechType));
 
             CreateMap<Enumeration, EnumerationListModel>();
 
@@ -158,8 +158,22 @@ namespace ModelManagement.Core.Business.Business.Query.EntityProfile
                 ;
             CreateMap<JobOffer, JobOfferListModel>()
                 .ForMember(t => t.ModelUser, opt => opt.MapFrom(t => t.JobOffer_ModelUserId))
-
                 ;
+
+            CreateMap<Content, ContentListModel>();
+
+            CreateMap<User, ModelListModel>()
+                .ForMember(t => t.FirstName, opt => opt.MapFrom(t => t.PersonalInformation.FirstName))
+                .ForMember(t => t.FatherName, opt => opt.MapFrom(t => t.PersonalInformation.FatherName))
+                ;
+
+            CreateMap<ContentData, ContentDataListModel>();
+
+            CreateMap<JobApplication, JobApplicationListModel>()
+                .ForMember(t => t.ApplyingUser, opt => opt.MapFrom(t => t.JobApplication_ApplyingUser.UserNumber));
+
+            ;
+
         }
     }
 }

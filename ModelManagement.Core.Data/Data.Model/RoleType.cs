@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ModelManagement.Core.Data.Data.Model
 {
-    public class RoleType : CommonEntity
+    public class RoleType : Entity
     {
         public RoleType()
         {

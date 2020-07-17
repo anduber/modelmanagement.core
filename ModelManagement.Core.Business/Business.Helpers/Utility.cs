@@ -24,10 +24,21 @@ namespace ModelManagement.Core.Business.Business.Helpers
         public const string RoleTypeUser = "SYS_USER";
         public const string RoleTypeAdmin = "SYS_ADMIN";
         public const string RoleTypeModel = "SYS_MODEL";
+        public const string RoleTypeAgent = "SYS_AGENT";
 
-        public const string FileTypeProfilePic = "PROFILE_PIC";
+        public const string ContentTypeProfilePic = "PROFILE_PIC";
+        public const string HeaderPic = "HEADER_PIC";
         public const string DefaultFilePath = "image/profile.png";
         public const string DefaultPassword = "test";
+
+        public class Status
+        {
+            public const string JobOfferOffered = "JOB_OFFER_OFFERED";
+            public const string JobOfferAccepted = "JOB_OFFER_ACCEPTED";
+            public const string JobApplied = "JOB_APP_APPLIED";
+            public const string JobQualified = "JOB_APP_QUALIFIED";
+            public const string JobRejected = "JOB_APP_REJECTED";
+        }
 
         public class GeoTypes
         {
@@ -177,7 +188,7 @@ namespace ModelManagement.Core.Business.Business.Helpers
         public static QueryResult QueryResultList<T>(this IQueryable queryResult, QueryParamArg queryParamArg = null)
         {
             ValidateQueryParamArg(queryParamArg);
-            var result = Paginate(queryResult, queryParamArg);
+            var result = GetResult(queryResult, queryParamArg);
             return new QueryResult
             {
                 Data = result.ProjectTo<T>().ToList(),
@@ -202,7 +213,7 @@ namespace ModelManagement.Core.Business.Business.Helpers
 
         private static IQueryable Paginate(IQueryable source, QueryParamArg queryParamArg)
         {
-            if (queryParamArg.Pagination == null)
+            if (queryParamArg?.Pagination == null)
             {
                 return source;
             }
@@ -210,6 +221,19 @@ namespace ModelManagement.Core.Business.Business.Helpers
                 .Skip(queryParamArg.Pagination.Page * queryParamArg.Pagination.PageSize)
                 .Take(queryParamArg.Pagination.PageSize);
         }
+
+        private static IQueryable GetResult(IQueryable source, QueryParamArg queryParamArg)
+        {
+            if (queryParamArg?.Pagination != null && !string.IsNullOrEmpty(queryParamArg.SortingColumnName) && !string.IsNullOrEmpty(queryParamArg.SortDirection))
+            {
+                return source.OrderBy(queryParamArg.SortingColumnName + " " + queryParamArg.SortDirection)
+                    .Skip(queryParamArg.Pagination.Page * queryParamArg.Pagination.PageSize)
+                    .Take(queryParamArg.Pagination.PageSize);
+            }
+            return string.IsNullOrEmpty(queryParamArg?.SortDirection) ? source : source.OrderBy(queryParamArg.SortingColumnName + " " + queryParamArg.SortDirection);
+
+        }
+
 
         public static QueryResult QueryResultGet<T>(this IQueryable queryResult)
         {
@@ -244,13 +268,13 @@ namespace ModelManagement.Core.Business.Business.Helpers
             var key = BitConverter.GetBytes(visitorId.Length);
             var id = BitConverter.GetBytes(visitId.Length);
             var data = new byte[time.Length + key.Length + id.Length];
-            Buffer.BlockCopy(time,0,data,0,time.Length);
-            Buffer.BlockCopy(key,0,data,time.Length,key.Length);
-            Buffer.BlockCopy(id,0,data,time.Length+key.Length,id.Length);
+            Buffer.BlockCopy(time, 0, data, 0, time.Length);
+            Buffer.BlockCopy(key, 0, data, time.Length, key.Length);
+            Buffer.BlockCopy(id, 0, data, time.Length + key.Length, id.Length);
             return Convert.ToBase64String(data.ToArray());
         }
 
-        public static void ValidateToken(string visitorId,string visitId,string token)
+        public static void ValidateToken(string visitorId, string visitId, string token)
         {
             var data = Convert.FromBase64String(token);
             var time = data.Take(8).ToArray();

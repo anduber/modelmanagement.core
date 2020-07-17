@@ -145,14 +145,24 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
             return Utility.QuerySuccessResult(result);
         }
 
-        public QueryResult ListJobPost(string userId, QueryParamArg queryParamArg)
-        {
-            return ModelManagementContext().JobPosts.Where(t => t.UserId == userId && t.IsActive == "Y").QueryResultList<JobPostListModel>(queryParamArg);
-        }
-
         public QueryResult ListJobOffer(string jobPostId, QueryParamArg queryParamArg)
         {
             return ModelManagementContext().JobOffers.Where(t => t.JobPostId == jobPostId).QueryResultList<JobOfferListModel>(queryParamArg);
+        }
+
+        public QueryResult ListModels(ListModelsQueryParamArg listModelsQueryParamArg,QueryParamArg queryParamArg)
+        {
+            var result = ModelManagementContext()
+                                    .Users.Where(t =>
+                                        t.IsUserActivated == "Y" && t.StatusId == Utility.StatusEnabled &&
+                                        t.UserRoleId_UserRoles.Any(l => l.RoleTypeId == Utility.RoleTypeModel) &&
+                                        (string.IsNullOrEmpty(listModelsQueryParamArg.Sex) ||
+                                            t.PersonalInformation.Sex == listModelsQueryParamArg.Sex) &&
+                                        (string.IsNullOrEmpty(listModelsQueryParamArg.CategoryTypeId) ||
+                                            t.PersonalInformation.Categories_PersonId
+                                                .Any(c => c.CategoryTypeId == listModelsQueryParamArg.CategoryTypeId))
+                                                );
+            return result.QueryResultList<ModelListModel>(queryParamArg);
         }
     }
 }

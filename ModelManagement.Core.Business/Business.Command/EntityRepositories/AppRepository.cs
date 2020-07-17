@@ -30,6 +30,11 @@ namespace ModelManagement.Core.Business.Business.Command.EntityRepositories
         private EntityRepository<Uploadable> _uploadableRepository;
         private EntityRepository<Category> _categoryRepository;
         private EntityRepository<ContactInformation> _contactInfoRepository;
+        private EntityRepository<Content> _contentRepository;
+        private EntityRepository<ContentType> _contentTypeRepository;
+        private EntityRepository<ContentData> _contentDataRepository;
+        private EntityRepository<StatusType> _statusTypeRepository;
+        private EntityRepository<JobApplication> _jobApplicationRepository;
 
         public AppRepository(ModelManagementContext context = null)
         {
@@ -78,32 +83,32 @@ namespace ModelManagement.Core.Business.Business.Command.EntityRepositories
 
         public EntityRepository<ContactInformation> ContactInfo()
         {
-            return _contactInfoRepository ?? (_contactInfoRepository = new EntityRepository<ContactInformation>(Context)) ;
+            return _contactInfoRepository ?? (_contactInfoRepository = new EntityRepository<ContactInformation>(Context));
         }
 
         public EntityRepository<OfferItemType> OfferItemType()
         {
-            return _offerItemTypeRepository ?? new EntityRepository<OfferItemType>(Context);
+            return _offerItemTypeRepository ?? (_offerItemTypeRepository = new EntityRepository<OfferItemType>(Context));
         }
 
         public EntityRepository<OfferItemTypeMap> OfferItemTypeMap()
         {
-            return _offerItemTypeMapRepository ?? new EntityRepository<OfferItemTypeMap>(Context);
+            return _offerItemTypeMapRepository ?? (_offerItemTypeMapRepository = new EntityRepository<OfferItemTypeMap>(Context));
         }
 
         public EntityRepository<Visitor> Visitor()
         {
-            return _visitorRepository ?? new EntityRepository<Visitor>(Context);
+            return _visitorRepository ?? (_visitorRepository = new EntityRepository<Visitor>(Context));
         }
 
         public EntityRepository<Visit> Visit()
         {
-            return _visitRepository ?? new EntityRepository<Visit>(Context);
+            return _visitRepository ?? (_visitRepository = new EntityRepository<Visit>(Context));
         }
 
         public EntityRepository<EnumerationType> EnumerationType()
         {
-            return _enumerationTypeRepository ?? new EntityRepository<EnumerationType>(Context);
+            return _enumerationTypeRepository ?? (_enumerationTypeRepository = new EntityRepository<EnumerationType>(Context));
         }
 
         public EntityRepository<Enumeration> Enumeration()
@@ -146,5 +151,29 @@ namespace ModelManagement.Core.Business.Business.Command.EntityRepositories
             return _categoryRepository ?? (_categoryRepository = new EntityRepository<Category>(Context));
         }
 
+        public EntityRepository<Content> Content()
+        {
+            return _contentRepository ?? (_contentRepository = new EntityRepository<Content>(Context));
+        }
+
+        public EntityRepository<ContentType> ContentType()
+        {
+            return _contentTypeRepository ?? (_contentTypeRepository = new EntityRepository<ContentType>(Context));
+        }
+
+        public EntityRepository<ContentData> ContentData()
+        {
+            return _contentDataRepository ?? (_contentDataRepository = new EntityRepository<ContentData>(Context));
+        }
+
+        public EntityRepository<StatusType> StatusType()
+        {
+            return _statusTypeRepository ?? (_statusTypeRepository = new EntityRepository<StatusType>(Context));
+        }
+
+        public EntityRepository<JobApplication> JobApplication()
+        {
+            return _jobApplicationRepository ?? (_jobApplicationRepository = new EntityRepository<JobApplication>(Context));
+        }
     }
 }

@@ -27,7 +27,7 @@ namespace ModelManagement.Core.Data.Data.Context
         public DbSet<PhysicalInformation> PhysicalInformations { get; set; }
         public DbSet<ContactInformation> ContactInformations { get; set; }
         public DbSet<ContactMechType> ContactMechTypes { get; set; }
-        public DbSet<StatusItem> StatusTypes { get; set; }
+        public DbSet<StatusItem> StatusItems { get; set; }
         public DbSet<FileType> FileTypes { get; set; }
         public DbSet<Uploadable> Uploadables { get; set; }
         public DbSet<User> Users { get; set; }
@@ -52,6 +52,13 @@ namespace ModelManagement.Core.Data.Data.Context
         public DbSet<Visit> Visits { get; set; }
         public DbSet<JobPost> JobPosts { get; set; }
         public DbSet<JobOffer> JobOffers { get; set; }
+        public DbSet<ContentType> ContentTypes { get; set; }
+        public DbSet<Content> Contents { get; set; }
+        public DbSet<ContentData> ContentDatas { get; set; }
+        public DbSet<SkillType> SkillTypes { get; set; }
+        public DbSet<StatusType> StatusTypes { get; set; }
+        public DbSet<JobApplication> JobApplications { get; set; }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -92,6 +99,12 @@ namespace ModelManagement.Core.Data.Data.Context
             modelBuilder.Configurations.Add(new VisitMap());
             modelBuilder.Configurations.Add(new JobPostMap());
             modelBuilder.Configurations.Add(new JobOfferMap());
+            modelBuilder.Configurations.Add(new ContentTypeMap());
+            modelBuilder.Configurations.Add(new ContentMap());
+            modelBuilder.Configurations.Add(new ContentDataMap());
+            modelBuilder.Configurations.Add(new SkillTypeMap());
+            modelBuilder.Configurations.Add(new StatusTypeMap());
+            modelBuilder.Configurations.Add(new JobApplicationMap());
         }
     }
 }

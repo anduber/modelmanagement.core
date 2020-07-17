@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ModelManagement.Core.Data.Data.Model
 {
-    public class OfferItemTypeMap:CommonEntity
+    public class OfferItemTypeMap:Entity
     {
         public string OfferTypeId { get; set; }
         public string OfferItemTypeId { get; set; }

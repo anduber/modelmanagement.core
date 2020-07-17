@@ -42,4 +42,16 @@ namespace ModelManagement.Core.Business.Business.Model.Utils
         public string Status { get; set; }
         public bool? IsActive { get; set; }
     }
+
+    public class ListModelsQueryParamArg
+    {
+        public string Sex { get; set; }
+        public string Complexion { get; set; }
+        public double? HeightFrom { get; set; }
+        public double? HeightThru { get; set; }
+        public string CategoryTypeId { get; set; }
+        public double? WeightFrom { get; set; }
+        public double? WeightThru { get; set; }
+
+    }
 }

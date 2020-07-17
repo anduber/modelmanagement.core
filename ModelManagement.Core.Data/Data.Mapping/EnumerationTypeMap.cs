@@ -1,10 +1,5 @@
 ﻿using ModelManagement.Core.Data.Data.Model;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity.ModelConfiguration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ModelManagement.Core.Data.Data.Mapping
 {
@@ -24,7 +19,7 @@ namespace ModelManagement.Core.Data.Data.Mapping
             this.Property(t => t.LastUpdatedStamp).HasColumnName("LAST_UPDATED_STAMP");
             #endregion
 
-            this.ToTable("enumeration_type");
+            ToTable("enumeration_type");
         }
     }
 }

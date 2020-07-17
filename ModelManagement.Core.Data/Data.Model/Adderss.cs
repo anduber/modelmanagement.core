@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ModelManagement.Core.Data.Data.Model
 {
-    public class Adderss : CommonEntity
+    public class Adderss : Entity
     {
         public string PersonId { get; set; }
         public string City { get; set; }

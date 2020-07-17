@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ModelManagement.Core.Data.Data.Model
 {
-    public class EnumerationType : CommonEntity
+    public class EnumerationType : Entity
     {
         public EnumerationType()
         {

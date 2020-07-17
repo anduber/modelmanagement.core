@@ -10,7 +10,7 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
     public class CategoryService:AppRepository
     {
         private ModelManagementContext _context;
-        private EntityRepository<Category> _categotyRepo;
+        //private EntityRepository<Category> _categotyRepo;
 
         private AppRepository _appRepository;
 
@@ -25,7 +25,7 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
         public List<Category> CreateCategories(List<string> categoryTypeIds, string personId, string userLoginId)
         {
             var categories = SetCategories(categoryTypeIds, personId, userLoginId);
-            _categotyRepo.AddRange(categories);
+            Category().AddRange(categories);
             return categories;
         }
 

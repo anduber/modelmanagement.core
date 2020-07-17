@@ -229,7 +229,8 @@ namespace ModelManagement.Core.Business.Business.Query
 
         public List<KeyDescription> LookupStatusTypes()
         {
-            return _context.StatusTypes.ToLookUp();
+            //return _context.StatusTypes.ToLookUp();
+            return new List<KeyDescription>();
         }
 
         #endregion

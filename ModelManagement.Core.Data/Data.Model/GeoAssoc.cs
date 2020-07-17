@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ModelManagement.Core.Data.Data.Model
 {
-    public class GeoAssoc:CommonEntity
+    public class GeoAssoc:Entity
     {
         public string GeoId { get; set; }
         public string GeoIdTo { get; set; }

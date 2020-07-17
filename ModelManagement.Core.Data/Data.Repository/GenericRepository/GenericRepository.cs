@@ -28,7 +28,7 @@ namespace ModelManagement.Core.Data.Data.Repository.GenericRepository
         }
     }
 
-    public class GenericRepository<TEntity> where TEntity : CommonEntity
+    public class GenericRepository<TEntity> where TEntity : Entity
     {
         public static UnitOfWork sharedUow;
         public UnitOfWork uow;

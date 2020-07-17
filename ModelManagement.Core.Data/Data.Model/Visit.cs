@@ -1,6 +1,6 @@
 ﻿namespace ModelManagement.Core.Data.Data.Model
 {
-    public class Visit:CommonEntity
+    public class Visit:Entity
     {
         public string VisitId { get; set; }
         public string VisitorId { get; set; }
