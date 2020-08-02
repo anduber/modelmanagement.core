@@ -165,6 +165,17 @@ namespace ModelManagement.Core.Business.Business.Query.EntityProfile
             CreateMap<User, ModelListModel>()
                 .ForMember(t => t.FirstName, opt => opt.MapFrom(t => t.PersonalInformation.FirstName))
                 .ForMember(t => t.FatherName, opt => opt.MapFrom(t => t.PersonalInformation.FatherName))
+                .ForMember(t => t.Sex, opt => opt.MapFrom(t => t.PersonalInformation.Sex))
+                .ForMember(t => t.Height,
+                    opt => opt.MapFrom(t => t.PersonalInformation.PhysicalInformation_PersonId.Height))
+                .ForMember(t => t.Weight,
+                    opt => opt.MapFrom(t => t.PersonalInformation.PhysicalInformation_PersonId.Weight))
+                .ForMember(t => t.Complexion,
+                    opt => opt.MapFrom(t => t.PersonalInformation.PhysicalInformation_PersonId.Complexion))
+                .ForMember(t => t.HairColor,
+                    opt => opt.MapFrom(t => t.PersonalInformation.PhysicalInformation_PersonId.HairColor))
+                .ForMember(t => t.EyeColor,
+                    opt => opt.MapFrom(t => t.PersonalInformation.PhysicalInformation_PersonId.EyeColor))
                 ;
 
             CreateMap<ContentData, ContentDataListModel>();

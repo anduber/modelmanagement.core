@@ -81,9 +81,7 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
                                                 (queryParam.WeightFrom == null || t.PhysicalInformation_PersonId.Weight >= queryParam.WeightFrom) &&
                                                 (queryParam.WeightThru == null || t.PhysicalInformation_PersonId.Weight <= queryParam.WeightThru) &&
 
-                                                (queryParam.IsActive == null || (queryParam.IsActive.Value ?
-                                                t.PersonId_User.UserApplId_UserAppls.Any(p => p.FromDate <= DateTime.Now && p.ThruDate >= DateTime.Now)
-                                                : false)) &&
+                                                (queryParam.IsActive == null || (queryParam.IsActive.Value && t.PersonId_User.UserApplId_UserAppls.Any(p => p.FromDate <= DateTime.Now && p.ThruDate >= DateTime.Now))) &&
                                                 (queryParam.AgeFrom == 0 ||
                                                     (t.DateOfBirth.Value.Year <= birthDateFromAge.Year &&
                                                         (birthDateFromAge.Year - t.DateOfBirth.Value.Year > 0 ? true :
@@ -115,10 +113,13 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
 
         public QueryResult ListPersonUplodables(string personId, string fileTypeId, string fileUploadId)
         {
-            var result = ModelManagementContext().Uploadables.Where(t =>
-                    (string.IsNullOrEmpty(fileUploadId) || t.FileUploadId == fileUploadId) &&
-                    (string.IsNullOrEmpty(personId) || t.PersonId == personId) &&
-                    (string.IsNullOrEmpty(fileTypeId) || t.FileTypeId == fileTypeId)
+            var result =
+                ModelManagementContext()
+                    .Uploadables.Where(
+                        t =>
+                            (string.IsNullOrEmpty(fileUploadId) || t.FileUploadId == fileUploadId) &&
+                            (string.IsNullOrEmpty(personId) || t.PersonId == personId) &&
+                            (string.IsNullOrEmpty(fileTypeId) || t.FileTypeId == fileTypeId)
                     ).ToList<UplodableListModel>();
             return Utility.QuerySuccessResult(result);
         }
@@ -133,35 +134,69 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
 
         public QueryResult ListPersonContactInfo(string personId, QueryParamArg queryParamArg)
         {
-            var result = ModelManagementContext().ContactMechTypes.GroupBy(g => g.ContactMechTypeId)
-                .ToList()
-                .Select(s => new ContactInformationListModel
-                {
-                    PersonId = personId,
-                    ContactMechTypeId = s.Key,
-                    ContactMechType = s.FirstOrDefault()?.Description,
-                    ContactUrl = s.FirstOrDefault()?.ContactInformations.FirstOrDefault(t=>t.PersonId==personId)?.ContactUrl
-                }).ToList();
+            var result =
+                ModelManagementContext()
+                    .ContactMechTypes.GroupBy(g => g.ContactMechTypeId)
+                    .ToList()
+                    .Select(s => new ContactInformationListModel
+                    {
+                        PersonId = personId,
+                        ContactMechTypeId = s.Key,
+                        ContactMechType = s.FirstOrDefault()?.Description,
+                        ContactUrl =
+                            s.FirstOrDefault()?
+                                .ContactInformations.FirstOrDefault(t => t.PersonId == personId)?
+                                .ContactUrl
+                    }).ToList();
             return Utility.QuerySuccessResult(result);
         }
 
         public QueryResult ListJobOffer(string jobPostId, QueryParamArg queryParamArg)
         {
-            return ModelManagementContext().JobOffers.Where(t => t.JobPostId == jobPostId).QueryResultList<JobOfferListModel>(queryParamArg);
+            return
+                ModelManagementContext()
+                    .JobOffers.Where(t => t.JobPostId == jobPostId)
+                    .QueryResultList<JobOfferListModel>(queryParamArg);
         }
 
-        public QueryResult ListModels(ListModelsQueryParamArg listModelsQueryParamArg,QueryParamArg queryParamArg)
+        public QueryResult ListModels(ListModelsQueryParamArg listModelsQueryParamArg, QueryParamArg queryParamArg)
         {
-            var result = ModelManagementContext()
-                                    .Users.Where(t =>
-                                        t.IsUserActivated == "Y" && t.StatusId == Utility.StatusEnabled &&
-                                        t.UserRoleId_UserRoles.Any(l => l.RoleTypeId == Utility.RoleTypeModel) &&
-                                        (string.IsNullOrEmpty(listModelsQueryParamArg.Sex) ||
-                                            t.PersonalInformation.Sex == listModelsQueryParamArg.Sex) &&
-                                        (string.IsNullOrEmpty(listModelsQueryParamArg.CategoryTypeId) ||
-                                            t.PersonalInformation.Categories_PersonId
-                                                .Any(c => c.CategoryTypeId == listModelsQueryParamArg.CategoryTypeId))
-                                                );
+            var birthDateFromAge = DateTime.Now.AddYears(-listModelsQueryParamArg.AgeFrom);
+            var birthDateThruAge = DateTime.Now.AddYears(-(listModelsQueryParamArg.ThruAge + 1));
+
+            var result =
+                ModelManagementContext()
+                    .Users.Where(
+                        t =>
+                            t.IsUserActivated == "Y" && t.StatusId == Utility.StatusEnabled &&
+                            t.UserRoleId_UserRoles.Any(l => l.RoleTypeId == Utility.RoleTypeModel) &&
+                            (string.IsNullOrEmpty(listModelsQueryParamArg.Sex) ||
+                             t.PersonalInformation.Sex == listModelsQueryParamArg.Sex) &&
+                            (listModelsQueryParamArg.CategoryTypeIds.Count == 0 ||
+                             t.PersonalInformation.Categories_PersonId.Any(
+                                 c => listModelsQueryParamArg.CategoryTypeIds.Contains(c.CategoryTypeId))
+                                ) &&
+                            (listModelsQueryParamArg.HeightFrom == null ||
+                             t.PersonalInformation.PhysicalInformation_PersonId.Height >=
+                             listModelsQueryParamArg.HeightFrom) &&
+                            (listModelsQueryParamArg.HeightThru == null ||
+                             t.PersonalInformation.PhysicalInformation_PersonId.Height <=
+                             listModelsQueryParamArg.HeightThru) &&
+                            (string.IsNullOrEmpty(listModelsQueryParamArg.CategoryTypeId) ||
+                             t.PersonalInformation.Categories_PersonId
+                                 .Any(c => c.CategoryTypeId == listModelsQueryParamArg.CategoryTypeId)
+                                ) &&
+                            (listModelsQueryParamArg.AgeFrom == 0 ||
+                             (t.PersonalInformation.DateOfBirth.Value.Year <= birthDateFromAge.Year &&
+                              (birthDateFromAge.Year - t.PersonalInformation.DateOfBirth.Value.Year > 0 ||
+                               t.PersonalInformation.DateOfBirth.Value.Month <= birthDateFromAge.Month)
+                                 )) &&
+                            (listModelsQueryParamArg.ThruAge == 0 ||
+                             (t.PersonalInformation.DateOfBirth.Value.Year >= birthDateThruAge.Year &&
+                              (t.PersonalInformation.DateOfBirth.Value.Year - birthDateThruAge.Year > 0 ||
+                               t.PersonalInformation.DateOfBirth.Value.Month > birthDateThruAge.Month)
+                                 ))
+                    );
             return result.QueryResultList<ModelListModel>(queryParamArg);
         }
     }

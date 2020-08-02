@@ -45,13 +45,19 @@ namespace ModelManagement.Core.Business.Business.Model.Utils
 
     public class ListModelsQueryParamArg
     {
+        public ListModelsQueryParamArg()
+        {
+            CategoryTypeIds = new List<string>();
+        }
         public string Sex { get; set; }
         public string Complexion { get; set; }
         public double? HeightFrom { get; set; }
         public double? HeightThru { get; set; }
         public string CategoryTypeId { get; set; }
+        public List<string> CategoryTypeIds { get; set; }
         public double? WeightFrom { get; set; }
         public double? WeightThru { get; set; }
-
+        public int AgeFrom { get; set; }
+        public int ThruAge { get; set; }
     }
 }

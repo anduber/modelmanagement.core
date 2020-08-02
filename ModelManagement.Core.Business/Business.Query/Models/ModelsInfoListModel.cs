@@ -27,5 +27,12 @@ namespace ModelManagement.Core.Business.Business.Query.Models
         public string PersonId { get; set; }
         public string FirstName { get; set; }
         public string FatherName { get; set; }
+        public string Sex { get; set; }
+        public double? Height { get; set; }
+        public double? Weight { get; set; }
+        public string Complexion { get; set; }
+        public string HairColor { get; set; }
+        public string EyeColor { get; set; }
+
     }
 }

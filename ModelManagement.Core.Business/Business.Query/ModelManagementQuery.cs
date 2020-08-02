@@ -22,24 +22,20 @@ namespace ModelManagement.Core.Business.Business.Query
         #region UserQuery
         public List<PersonalInformationQueryModel> ListPersonalInformation(QueryCommandBase queryParam)
         {
-
             var personalInfos = _context.PersonalInformations.Where(t =>
-                                                                        (t.PersonId_User.StatusId != null)
-                                                                    );
+                (t.PersonId_User.StatusId != null)
+                );
             if (string.IsNullOrEmpty(queryParam.SearchText))
-            {
                 return personalInfos.Paginate(t => t.PersonId, queryParam.Pagination)
                     .ToList().AsQueryable()
-                                     .ToList<PersonalInformationQueryModel>();
-            }
-            else
+                    .ToList<PersonalInformationQueryModel>();
             {
                 string searchTextLower = queryParam.SearchText.ToLower();
                 return personalInfos.Where(t =>
-                                                t.PersonId_User.UserNumber.ToLower().Contains(searchTextLower)
-                                           )
-                                           .Paginate(t => t.PersonId, queryParam.Pagination)
-                                           .ToList<PersonalInformationQueryModel>();
+                    t.PersonId_User.UserNumber.ToLower().Contains(searchTextLower)
+                    )
+                    .Paginate(t => t.PersonId, queryParam.Pagination)
+                    .ToList<PersonalInformationQueryModel>();
             }
         }
 
@@ -49,45 +45,59 @@ namespace ModelManagement.Core.Business.Business.Query
             var birthDateThruAge = DateTime.Now.AddYears(-(queryParam.ThruAge + 1));
 
             var personalInfos = _context.PersonalInformations.Where(t => t.PersonId_User.StatusId != null &&
-                                                                (queryParam.AgeFrom == 0 ? true :
-                                                                    (t.DateOfBirth.Value.Year <= birthDateFromAge.Year &&
-                                                                        (
-                                                                            birthDateFromAge.Year - t.DateOfBirth.Value.Year > 0 ? true
-                                                                            : t.DateOfBirth.Value.Month <= birthDateFromAge.Month
-                                                                        )
-                                                                    )
-                                                                )
-                                                                &&
-                                                                (queryParam.ThruAge == 0 ? true :
-                                                                    (t.DateOfBirth.Value.Year >= birthDateThruAge.Year &&
-                                                                        (
-                                                                            t.DateOfBirth.Value.Year - birthDateThruAge.Year > 0 ? true
-                                                                            : t.DateOfBirth.Value.Month > birthDateThruAge.Month
-                                                                        )
-                                                                    )
-                                                                )
-                                                                &&
-                                                                (string.IsNullOrEmpty(queryParam.Sex) == true ? true : t.Sex == queryParam.Sex) &&
-                                                                (string.IsNullOrEmpty(queryParam.FirstName) == true ? true : t.FirstName.ToLower().Contains(queryParam.FirstName.ToLower())) &&
-                                                                (string.IsNullOrEmpty(queryParam.Complexion) == true ? true : t.PhysicalInformation_PersonId.Complexion == queryParam.Complexion) &&
-                                                                (string.IsNullOrEmpty(queryParam.UserNumber) == true ? true : t.PersonId_User.UserNumber.ToLower().Contains(queryParam.UserNumber.ToLower())) &&
-                                                                (queryParam.CategoryTypeIds.Count == 0 ? true :
-                                                                        t.Categories_PersonId
-                                                                         .Any(l =>
-                                                                                queryParam.CategoryTypeIds.Contains(l.CategoryTypeId))) &&
-                                                                (queryParam.HeightFrom == null ? true :
-                                                                    (
-                                                                        t.PhysicalInformation_PersonId.Height >= queryParam.HeightFrom &&
-                                                                        t.PhysicalInformation_PersonId.HeightEnumId == queryParam.HeightUom
-                                                                    )
-                                                                ) &&
-                                                                (queryParam.HeightThru == null ? true :
-                                                                    (
-                                                                        t.PhysicalInformation_PersonId.Height <= queryParam.HeightThru &&
-                                                                        t.PhysicalInformation_PersonId.HeightEnumId == queryParam.HeightUom
-                                                                    )
-                                                                )
-                                                           );
+                                                                         (queryParam.AgeFrom == 0 ||
+                                                                          (t.DateOfBirth.Value.Year <=
+                                                                           birthDateFromAge.Year &&
+                                                                           (
+                                                                               birthDateFromAge.Year -
+                                                                               t.DateOfBirth.Value.Year > 0 ||
+                                                                               t.DateOfBirth.Value.Month <=
+                                                                               birthDateFromAge.Month
+                                                                               )
+                                                                              )
+                                                                             )
+                                                                         &&
+                                                                         (queryParam.ThruAge == 0 ||
+                                                                          (t.DateOfBirth.Value.Year >=
+                                                                           birthDateThruAge.Year &&
+                                                                           (
+                                                                               t.DateOfBirth.Value.Year -
+                                                                               birthDateThruAge.Year > 0 ||
+                                                                               t.DateOfBirth.Value.Month >
+                                                                               birthDateThruAge.Month
+                                                                               )
+                                                                              )
+                                                                             )
+                                                                         &&
+                                                                         (string.IsNullOrEmpty(queryParam.Sex) ||
+                                                                          t.Sex == queryParam.Sex) &&
+                                                                         (string.IsNullOrEmpty(queryParam.FirstName) ||
+                                                                          t.FirstName.ToLower()
+                                                                              .Contains(queryParam.FirstName.ToLower())) &&
+                                                                         (string.IsNullOrEmpty(queryParam.Complexion) ||
+                                                                          t.PhysicalInformation_PersonId.Complexion ==
+                                                                          queryParam.Complexion) &&
+                                                                         (string.IsNullOrEmpty(queryParam.UserNumber) ||
+                                                                          t.PersonId_User.UserNumber.ToLower()
+                                                                              .Contains(queryParam.UserNumber.ToLower())) &&
+                                                                         (queryParam.CategoryTypeIds.Count == 0 ||
+                                                                          t.Categories_PersonId
+                                                                              .Any(l =>
+                                                                                  queryParam.CategoryTypeIds.Contains(
+                                                                                      l.CategoryTypeId))) &&
+                                                                         (queryParam.HeightFrom == null || (
+                                                                             t.PhysicalInformation_PersonId.Height >=
+                                                                             queryParam.HeightFrom &&
+                                                                             t.PhysicalInformation_PersonId.HeightEnumId ==
+                                                                             queryParam.HeightUom
+                                                                             )
+                                                                             ) &&
+                                                                         (queryParam.HeightThru == null || (
+                                                                             t.PhysicalInformation_PersonId.Height <=
+                                                                             queryParam.HeightThru &&
+                                                                             t.PhysicalInformation_PersonId.HeightEnumId ==
+                                                                             queryParam.HeightUom)
+                                                                             ));
             return new GetListSearchPersonalInfos()
             {
                 PersonalInfos = personalInfos.Paginate(t => t.PersonId_User.UserNumber, queryParam.Pagination.Page, queryParam.Pagination.PageSize).OrderBy(t => t.FirstName).ToList().AsQueryable().ToList<PersonalInformationQueryModel>(),
