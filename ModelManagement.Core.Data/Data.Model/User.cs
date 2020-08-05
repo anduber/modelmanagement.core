@@ -24,7 +24,7 @@ namespace ModelManagement.Core.Data.Data.Model
         public string StatusId { get; set; }
         public string IsUserActivated { get; set; }
         public string VerificationCode { get; set; }
-        public virtual PersonalInformation PersonalInformation { get; set; }
+        public virtual PersonalInformation PersonId_PersonalInformation { get; set; }
         public virtual List<UserAppl> UserApplId_UserAppls { get; set; }
         public virtual StatusItem StatusId_StatusItem { get; set; }
         public virtual List<UserRole> UserRoleId_UserRoles { get; set; }

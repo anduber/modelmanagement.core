@@ -15,7 +15,7 @@ namespace ModelManagement.Core.Business.Business.Query.EntityProfile
             MapDesc<FileType>(t => t.Description);
             MapDesc<StatusItem>(t => t.Description);
             MapDesc<RoleType>(t => t.Description);
-            MapDesc<UserLogin>(t => t.User_PersonId.PersonalInformation.FirstName);
+            MapDesc<UserLogin>(t => t.User_PersonId.PersonId_PersonalInformation.FirstName);
             MapDesc<User>(t => t.Description);
             #endregion
 
@@ -57,8 +57,8 @@ namespace ModelManagement.Core.Business.Business.Query.EntityProfile
                 .ForMember(t => t.StatusId, opt => opt.MapFrom(t => t.PersonId_User.StatusId))
                 .ForMember(t => t.Status, opt => opt.MapFrom(t => t.PersonId_User.StatusId_StatusItem.Description))
                 //.ForMember(t => t.Age, opt => opt.MapFrom(t => t.DateOfBirth == null ? 0 : DateConverter.CalculateAge(t.DateOfBirth.Value)))
-                .ForMember(t => t.Height, opt => opt.MapFrom(t => t.PhysicalInformation_PersonId.Height))
-                .ForMember(t => t.Weight, opt => opt.MapFrom(t => t.PhysicalInformation_PersonId.Weight))
+                .ForMember(t => t.Height, opt => opt.MapFrom(t => t.PersonId_PhysicalInformation.Height))
+                .ForMember(t => t.Weight, opt => opt.MapFrom(t => t.PersonId_PhysicalInformation.Weight))
 
                 ;
 
@@ -163,19 +163,19 @@ namespace ModelManagement.Core.Business.Business.Query.EntityProfile
             CreateMap<Content, ContentListModel>();
 
             CreateMap<User, ModelListModel>()
-                .ForMember(t => t.FirstName, opt => opt.MapFrom(t => t.PersonalInformation.FirstName))
-                .ForMember(t => t.FatherName, opt => opt.MapFrom(t => t.PersonalInformation.FatherName))
-                .ForMember(t => t.Sex, opt => opt.MapFrom(t => t.PersonalInformation.Sex))
+                .ForMember(t => t.FirstName, opt => opt.MapFrom(t => t.PersonId_PersonalInformation.FirstName))
+                .ForMember(t => t.FatherName, opt => opt.MapFrom(t => t.PersonId_PersonalInformation.FatherName))
+                .ForMember(t => t.Sex, opt => opt.MapFrom(t => t.PersonId_PersonalInformation.Sex))
                 .ForMember(t => t.Height,
-                    opt => opt.MapFrom(t => t.PersonalInformation.PhysicalInformation_PersonId.Height))
+                    opt => opt.MapFrom(t => t.PersonId_PersonalInformation.PersonId_PhysicalInformation.Height))
                 .ForMember(t => t.Weight,
-                    opt => opt.MapFrom(t => t.PersonalInformation.PhysicalInformation_PersonId.Weight))
+                    opt => opt.MapFrom(t => t.PersonId_PersonalInformation.PersonId_PhysicalInformation.Weight))
                 .ForMember(t => t.Complexion,
-                    opt => opt.MapFrom(t => t.PersonalInformation.PhysicalInformation_PersonId.Complexion))
+                    opt => opt.MapFrom(t => t.PersonId_PersonalInformation.PersonId_PhysicalInformation.Complexion))
                 .ForMember(t => t.HairColor,
-                    opt => opt.MapFrom(t => t.PersonalInformation.PhysicalInformation_PersonId.HairColor))
+                    opt => opt.MapFrom(t => t.PersonId_PersonalInformation.PersonId_PhysicalInformation.HairColor))
                 .ForMember(t => t.EyeColor,
-                    opt => opt.MapFrom(t => t.PersonalInformation.PhysicalInformation_PersonId.EyeColor))
+                    opt => opt.MapFrom(t => t.PersonId_PersonalInformation.PersonId_PhysicalInformation.EyeColor))
                 ;
 
             CreateMap<ContentData, ContentDataListModel>();

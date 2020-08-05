@@ -42,28 +42,26 @@ namespace ModelManagement.Core.Business.Business.Helpers
         }
         public static int CalculateAge(DateTime dateOfBirth)
         {
-            DateTime now = DateTime.Now;
-            int years = new DateTime(DateTime.Now.Subtract(dateOfBirth).Ticks).Year - 1;
-            DateTime pastYearDate = dateOfBirth.AddYears(years);
-            int months = 0;
-            for (int i = 0; i <= 12; i++)
+            var now = DateTime.Now;
+            var years = new DateTime(DateTime.Now.Subtract(dateOfBirth).Ticks).Year - 1;
+            var pastYearDate = dateOfBirth.AddYears(years);
+            var months = 0;
+            for (var i = 0; i <= 12; i++)
             {
                 if (pastYearDate.AddMonths(i)==now)
                 {
                     months = i;
                     break;
                 }
-                else if (pastYearDate.AddMonths(i) >= now)
-                {
-                    months = i - 1;
-                    break;
-                }
+                if (pastYearDate.AddMonths(i) < now) continue;
+                months = i - 1;
+                break;
             }
 
-            int days = now.Subtract(pastYearDate.AddMonths(months)).Days;
-            int hours = now.Subtract(pastYearDate).Hours;
-            int minutes = now.Subtract(pastYearDate).Minutes;
-            int seconds = now.Subtract(pastYearDate).Seconds;
+            var days = now.Subtract(pastYearDate.AddMonths(months)).Days;
+            var hours = now.Subtract(pastYearDate).Hours;
+            var minutes = now.Subtract(pastYearDate).Minutes;
+            var seconds = now.Subtract(pastYearDate).Seconds;
             return years;
             
             

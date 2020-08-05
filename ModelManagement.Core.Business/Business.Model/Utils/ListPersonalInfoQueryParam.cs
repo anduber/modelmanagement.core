@@ -54,6 +54,8 @@ namespace ModelManagement.Core.Business.Business.Model.Utils
         public double? HeightFrom { get; set; }
         public double? HeightThru { get; set; }
         public string CategoryTypeId { get; set; }
+        public string CountryGeoId { get; set; }
+        public string CityGeoId { get; set; }
         public List<string> CategoryTypeIds { get; set; }
         public double? WeightFrom { get; set; }
         public double? WeightThru { get; set; }

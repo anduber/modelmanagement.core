@@ -28,7 +28,7 @@ namespace ModelManagement.Core.Data.Data.Model
         public string CountryGeoId { get; set; }
         public string CityGeoId { get; set; }
         public virtual Adderss Adderss { get; set; }
-        public virtual PhysicalInformation PhysicalInformation_PersonId { get; set; }
+        public virtual PhysicalInformation PersonId_PhysicalInformation { get; set; }
         public virtual List<ContactInformation> ContactInformations_PersonId { get; set; }
         public virtual List<Category> Categories_PersonId { get; set; }
         public virtual List<Uploadable> Uploadables_PersonId { get; set; }

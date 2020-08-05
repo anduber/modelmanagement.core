@@ -11,7 +11,7 @@ namespace ModelManagement.Core.Data.Data.Mapping
         {
             #region Configuration
             HasKey(t => new { t.PersonId });
-            HasOptional(t => t.PersonalInformation).WithRequired(s => s.PersonId_User).WillCascadeOnDelete(false);
+            HasOptional(t => t.PersonId_PersonalInformation).WithRequired(s => s.PersonId_User).WillCascadeOnDelete(false);
             HasOptional(t => t.StatusId_StatusItem).WithMany(t => t.UserId_Users).HasForeignKey(t => t.StatusId);
 
             #endregion

@@ -19,6 +19,9 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
         public PersonalInfoEditModel EditPersonalInfo(string personId)
         {
             var personalInfo = ModelManagementContext().PersonalInformations.Where(t => t.PersonId == personId).Get<PersonalInfoEditModel>();
+            personalInfo.Age = personalInfo.DateOfBirth == null
+                ? 0
+                : DateConverter.CalculateAge(personalInfo.DateOfBirth.Value);
             if (string.IsNullOrEmpty(personalInfo.CityGeoId)) return personalInfo;
             {
                 var geoAssoc =
@@ -30,6 +33,7 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
                                  t.GeoAssocTypeId == Utility.GeoTypes.Regions));
                 personalInfo.CountryGeoId = geoAssoc?.GeoId;
             }
+
             return personalInfo;
         }
 
@@ -72,14 +76,14 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
                                         .Where(t =>
                                                 (string.IsNullOrEmpty(queryParam.Status) || t.PersonId_User.StatusId == queryParam.Status) &&
                                                 (string.IsNullOrEmpty(queryParam.Sex) || t.Sex == queryParam.Sex) &&
-                                                (string.IsNullOrEmpty(queryParam.Complextion) || t.PhysicalInformation_PersonId.Complexion == queryParam.Complextion) &&
+                                                (string.IsNullOrEmpty(queryParam.Complextion) || t.PersonId_PhysicalInformation.Complexion == queryParam.Complextion) &&
                                                 (string.IsNullOrEmpty(queryParam.CategoryTypeId) || t.Categories_PersonId.Any(c => c.CategoryTypeId == queryParam.CategoryTypeId)) &&
-                                                (string.IsNullOrEmpty(queryParam.HeightEnumId) || t.PhysicalInformation_PersonId.HeightEnumId == queryParam.HeightEnumId) &&
-                                                (queryParam.HeightFrom == null || t.PhysicalInformation_PersonId.Height >= queryParam.HeightFrom) &&
-                                                (queryParam.HeightThru == null || t.PhysicalInformation_PersonId.Height <= queryParam.HeightThru) &&
-                                                (string.IsNullOrEmpty(queryParam.WeightEnumId) || t.PhysicalInformation_PersonId.WeightEnumId == queryParam.WeightEnumId) &&
-                                                (queryParam.WeightFrom == null || t.PhysicalInformation_PersonId.Weight >= queryParam.WeightFrom) &&
-                                                (queryParam.WeightThru == null || t.PhysicalInformation_PersonId.Weight <= queryParam.WeightThru) &&
+                                                (string.IsNullOrEmpty(queryParam.HeightEnumId) || t.PersonId_PhysicalInformation.HeightEnumId == queryParam.HeightEnumId) &&
+                                                (queryParam.HeightFrom == null || t.PersonId_PhysicalInformation.Height >= queryParam.HeightFrom) &&
+                                                (queryParam.HeightThru == null || t.PersonId_PhysicalInformation.Height <= queryParam.HeightThru) &&
+                                                (string.IsNullOrEmpty(queryParam.WeightEnumId) || t.PersonId_PhysicalInformation.WeightEnumId == queryParam.WeightEnumId) &&
+                                                (queryParam.WeightFrom == null || t.PersonId_PhysicalInformation.Weight >= queryParam.WeightFrom) &&
+                                                (queryParam.WeightThru == null || t.PersonId_PhysicalInformation.Weight <= queryParam.WeightThru) &&
 
                                                 (queryParam.IsActive == null || (queryParam.IsActive.Value && t.PersonId_User.UserApplId_UserAppls.Any(p => p.FromDate <= DateTime.Now && p.ThruDate >= DateTime.Now))) &&
                                                 (queryParam.AgeFrom == 0 ||
@@ -171,31 +175,38 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
                             t.IsUserActivated == "Y" && t.StatusId == Utility.StatusEnabled &&
                             t.UserRoleId_UserRoles.Any(l => l.RoleTypeId == Utility.RoleTypeModel) &&
                             (string.IsNullOrEmpty(listModelsQueryParamArg.Sex) ||
-                             t.PersonalInformation.Sex == listModelsQueryParamArg.Sex) &&
+                             t.PersonId_PersonalInformation.Sex == listModelsQueryParamArg.Sex) &&
                             (listModelsQueryParamArg.CategoryTypeIds.Count == 0 ||
-                             t.PersonalInformation.Categories_PersonId.Any(
+                             t.PersonId_PersonalInformation.Categories_PersonId.Any(
                                  c => listModelsQueryParamArg.CategoryTypeIds.Contains(c.CategoryTypeId))
                                 ) &&
                             (listModelsQueryParamArg.HeightFrom == null ||
-                             t.PersonalInformation.PhysicalInformation_PersonId.Height >=
+                             t.PersonId_PersonalInformation.PersonId_PhysicalInformation.Height >=
                              listModelsQueryParamArg.HeightFrom) &&
                             (listModelsQueryParamArg.HeightThru == null ||
-                             t.PersonalInformation.PhysicalInformation_PersonId.Height <=
+                             t.PersonId_PersonalInformation.PersonId_PhysicalInformation.Height <=
                              listModelsQueryParamArg.HeightThru) &&
                             (string.IsNullOrEmpty(listModelsQueryParamArg.CategoryTypeId) ||
-                             t.PersonalInformation.Categories_PersonId
+                             t.PersonId_PersonalInformation.Categories_PersonId
                                  .Any(c => c.CategoryTypeId == listModelsQueryParamArg.CategoryTypeId)
                                 ) &&
                             (listModelsQueryParamArg.AgeFrom == 0 ||
-                             (t.PersonalInformation.DateOfBirth.Value.Year <= birthDateFromAge.Year &&
-                              (birthDateFromAge.Year - t.PersonalInformation.DateOfBirth.Value.Year > 0 ||
-                               t.PersonalInformation.DateOfBirth.Value.Month <= birthDateFromAge.Month)
+                             (t.PersonId_PersonalInformation.DateOfBirth.Value.Year <= birthDateFromAge.Year &&
+                              (birthDateFromAge.Year - t.PersonId_PersonalInformation.DateOfBirth.Value.Year > 0 ||
+                               t.PersonId_PersonalInformation.DateOfBirth.Value.Month <= birthDateFromAge.Month)
                                  )) &&
                             (listModelsQueryParamArg.ThruAge == 0 ||
-                             (t.PersonalInformation.DateOfBirth.Value.Year >= birthDateThruAge.Year &&
-                              (t.PersonalInformation.DateOfBirth.Value.Year - birthDateThruAge.Year > 0 ||
-                               t.PersonalInformation.DateOfBirth.Value.Month > birthDateThruAge.Month)
-                                 ))
+                             (t.PersonId_PersonalInformation.DateOfBirth.Value.Year >= birthDateThruAge.Year &&
+                              (t.PersonId_PersonalInformation.DateOfBirth.Value.Year - birthDateThruAge.Year > 0 ||
+                               t.PersonId_PersonalInformation.DateOfBirth.Value.Month > birthDateThruAge.Month)
+                                 )) &&
+                            (string.IsNullOrEmpty(listModelsQueryParamArg.Complexion) ||
+                             t.PersonId_PersonalInformation.PersonId_PhysicalInformation.Complexion ==
+                             listModelsQueryParamArg.Complexion) &&
+                            (string.IsNullOrEmpty(listModelsQueryParamArg.CountryGeoId) ||
+                             t.PersonId_PersonalInformation.CountryGeoId == listModelsQueryParamArg.CountryGeoId) &&
+                            (string.IsNullOrEmpty(listModelsQueryParamArg.CityGeoId) ||
+                             t.PersonId_PersonalInformation.CityGeoId == listModelsQueryParamArg.CityGeoId)
                     );
             return result.QueryResultList<ModelListModel>(queryParamArg);
         }

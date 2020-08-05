@@ -75,7 +75,7 @@ namespace ModelManagement.Core.Business.Business.Query
                                                                           t.FirstName.ToLower()
                                                                               .Contains(queryParam.FirstName.ToLower())) &&
                                                                          (string.IsNullOrEmpty(queryParam.Complexion) ||
-                                                                          t.PhysicalInformation_PersonId.Complexion ==
+                                                                          t.PersonId_PhysicalInformation.Complexion ==
                                                                           queryParam.Complexion) &&
                                                                          (string.IsNullOrEmpty(queryParam.UserNumber) ||
                                                                           t.PersonId_User.UserNumber.ToLower()
@@ -86,16 +86,16 @@ namespace ModelManagement.Core.Business.Business.Query
                                                                                   queryParam.CategoryTypeIds.Contains(
                                                                                       l.CategoryTypeId))) &&
                                                                          (queryParam.HeightFrom == null || (
-                                                                             t.PhysicalInformation_PersonId.Height >=
+                                                                             t.PersonId_PhysicalInformation.Height >=
                                                                              queryParam.HeightFrom &&
-                                                                             t.PhysicalInformation_PersonId.HeightEnumId ==
+                                                                             t.PersonId_PhysicalInformation.HeightEnumId ==
                                                                              queryParam.HeightUom
                                                                              )
                                                                              ) &&
                                                                          (queryParam.HeightThru == null || (
-                                                                             t.PhysicalInformation_PersonId.Height <=
+                                                                             t.PersonId_PhysicalInformation.Height <=
                                                                              queryParam.HeightThru &&
-                                                                             t.PhysicalInformation_PersonId.HeightEnumId ==
+                                                                             t.PersonId_PhysicalInformation.HeightEnumId ==
                                                                              queryParam.HeightUom)
                                                                              ));
             return new GetListSearchPersonalInfos()
@@ -125,14 +125,14 @@ namespace ModelManagement.Core.Business.Business.Query
                                         .Where(t =>
                                                
                                                 (string.IsNullOrEmpty(queryParam.Sex) || t.Sex == queryParam.Sex) &&
-                                                (string.IsNullOrEmpty(queryParam.Complextion) || t.PhysicalInformation_PersonId.Complexion == queryParam.Complextion) &&
+                                                (string.IsNullOrEmpty(queryParam.Complextion) || t.PersonId_PhysicalInformation.Complexion == queryParam.Complextion) &&
                                                 (string.IsNullOrEmpty(queryParam.CategoryTypeId) || t.Categories_PersonId.Any(c => c.CategoryTypeId == queryParam.CategoryTypeId)) &&
-                                                (string.IsNullOrEmpty(queryParam.HeightEnumId) || t.PhysicalInformation_PersonId.HeightEnumId == queryParam.HeightEnumId) &&
-                                                (queryParam.HeightFrom == null || t.PhysicalInformation_PersonId.Height >= queryParam.HeightFrom) &&
-                                                (queryParam.HeightThru == null || t.PhysicalInformation_PersonId.Height <= queryParam.HeightThru) &&
-                                                (string.IsNullOrEmpty(queryParam.WeightEnumId) || t.PhysicalInformation_PersonId.WeightEnumId == queryParam.WeightEnumId) &&
-                                                (queryParam.WeightFrom == null || t.PhysicalInformation_PersonId.Weight >= queryParam.WeightFrom) &&
-                                                (queryParam.WeightThru == null || t.PhysicalInformation_PersonId.Weight <= queryParam.WeightThru) &&
+                                                (string.IsNullOrEmpty(queryParam.HeightEnumId) || t.PersonId_PhysicalInformation.HeightEnumId == queryParam.HeightEnumId) &&
+                                                (queryParam.HeightFrom == null || t.PersonId_PhysicalInformation.Height >= queryParam.HeightFrom) &&
+                                                (queryParam.HeightThru == null || t.PersonId_PhysicalInformation.Height <= queryParam.HeightThru) &&
+                                                (string.IsNullOrEmpty(queryParam.WeightEnumId) || t.PersonId_PhysicalInformation.WeightEnumId == queryParam.WeightEnumId) &&
+                                                (queryParam.WeightFrom == null || t.PersonId_PhysicalInformation.Weight >= queryParam.WeightFrom) &&
+                                                (queryParam.WeightThru == null || t.PersonId_PhysicalInformation.Weight <= queryParam.WeightThru) &&
                                                 (queryParam.AgeFrom == 0 ||
                                                     (t.DateOfBirth.Value.Year <= birthDateFromAge.Year &&
                                                         (birthDateFromAge.Year - t.DateOfBirth.Value.Year > 0 || t.DateOfBirth.Value.Month <= birthDateFromAge.Month)

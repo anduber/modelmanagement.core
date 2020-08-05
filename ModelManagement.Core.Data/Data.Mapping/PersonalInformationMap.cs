@@ -17,7 +17,7 @@ namespace ModelManagement.Core.Data.Data.Mapping
 
             HasOptional(t => t.Adderss)
                 .WithRequired(s => s.PersonId_PersonalInformation);
-            HasOptional(t => t.PhysicalInformation_PersonId)
+            HasOptional(t => t.PersonId_PhysicalInformation)
                 .WithRequired(s => s.PersonalInformation);
             HasOptional(t => t.Enumeration_MaritialStatusEnumId)
                .WithMany(t => t.MaritialStatus_PersonalInformation)
