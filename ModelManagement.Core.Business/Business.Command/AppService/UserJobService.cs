@@ -27,6 +27,7 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             jobPost.JobPostId = Utility.GetId();
             jobPost.UserLoginId = userLoginId;
             jobPost.IsActive = "Y";
+            jobPost.StatusId = Utility.Status.JobPostCreated;
             JobPost().Create(jobPost);
             return Utility.CommandSuccess(jobPost.JobPostId);
         }
@@ -48,14 +49,24 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
                 AgeThru = jobPostCommandArg.AgeThru,
                 JobLocation = jobPostCommandArg.JobLocation,
                 Quantity = jobPostCommandArg.Quantity,
-                Sex = jobPostCommandArg.Sex
+                Sex = jobPostCommandArg.Sex,
+                Complexion = jobPostCommandArg.Complexion,
+                HairColor = jobPostCommandArg.HairColor,
+                EyeColor = jobPostCommandArg.EyeColor,
+                Bust = jobPostCommandArg.Bust,
+                Waist = jobPostCommandArg.Waist,
+                Hip = jobPostCommandArg.Hip,
+                DressSize = jobPostCommandArg.DressSize,
+                ShoeSize = jobPostCommandArg.ShoeSize
             };
         }
 
         public CommandResult RemoveJobPost(string jobPostId)
         {
             var jobPost = JobPost().Find(jobPostId);
-            JobPost().Delete(jobPost);
+            //JobPost().Delete(jobPost);
+            jobPost.IsActive = "N";
+            JobPost().Update(jobPost);
             return Utility.CommandSuccess();
         }
 

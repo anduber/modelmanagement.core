@@ -9,11 +9,14 @@ namespace ModelManagement.Core.Data.Data.Mapping
         {
             HasKey(t => t.JobPostId);
             HasOptional(t => t.JobPost_UserId).WithMany(t => t.User_JobPosts).HasForeignKey(k => k.UserId);
-            HasOptional(t => t.JobPost_AgentJobEnumId).WithMany(t => t.Enumeration_AgentJobEnum).HasForeignKey(k => k.AgentJobEnumId);
+            HasOptional(t => t.JobPost_AgentJobEnumId)
+                .WithMany(t => t.Enumeration_AgentJobEnum)
+                .HasForeignKey(k => k.AgentJobEnumId);
             HasOptional(t => t.JobPost_PaymentMethodEnumId).WithMany(t => t.Enumeration_JobPostPaymentMethodEnum).HasForeignKey(k => k.PaymentMethodEnumId);
             HasOptional(t => t.JobPost_AgentLocationGeoId).WithMany(t => t.Geo_JobPostAgentLocations).HasForeignKey(k => k.AgentLocationGeoId);
             HasOptional(t => t.JobPost_JobLocationGeoId).WithMany(t => t.Geo_JobPostJobLocationGeoes).HasForeignKey(k => k.JobLocationGeoId);
             HasOptional(t => t.JobPost_UserLoginId).WithMany(t => t.UserLogin_JobPostUserLogin).HasForeignKey(k => k.UserLoginId);
+            HasOptional(t => t.JobPost_StatusId).WithMany(t => t.StatusItem_JobPostes).HasForeignKey(t => t.StatusId);
 
             Property(t => t.JobPostId).HasMaxLength(50).HasColumnName("JOB_POST_ID");
             Property(t => t.UserId).HasMaxLength(50).HasColumnName("USER_ID");
@@ -28,6 +31,15 @@ namespace ModelManagement.Core.Data.Data.Mapping
             Property(t => t.HeightThru).HasColumnName("HEIGHT_THRU");
             Property(t => t.AgeFrom).HasColumnName("AGE_FROM");
             Property(t => t.AgeThru).HasColumnName("AGE_THRU");
+            Property(t => t.Complexion).HasMaxLength(50).HasColumnName("COMPLEXION");
+            Property(t => t.HairColor).HasMaxLength(50).HasColumnName("HAIR_COLOR");
+            Property(t => t.EyeColor).HasMaxLength(50).HasColumnName("EYE_COLOR");
+            Property(t => t.Bust).HasColumnName("BUST");
+            Property(t => t.Waist).HasColumnName("WAIST");
+            Property(t => t.StatusId).HasMaxLength(50).HasColumnName("STATUS_ID");
+            Property(t => t.Hip).HasColumnName("HIP");
+            Property(t => t.DressSize).HasMaxLength(50).HasColumnName("DRESS_SIZE");
+            Property(t => t.ShoeSize).HasColumnName("SHOE_SIZE");
             Property(t => t.JobLocationGeoId).HasMaxLength(50).HasColumnName("JOB_LOCATION_GEO_ID");
             Property(t => t.AgentJobEnumId).HasMaxLength(50).HasColumnName("AGENT_JOB_ENUM_ID");
             Property(t => t.AgentLocationGeoId).HasMaxLength(50).HasColumnName("AGENT_LOCATION_GEO_ID");

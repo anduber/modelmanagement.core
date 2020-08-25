@@ -48,6 +48,15 @@ namespace ModelManagement.Core.Business.Business.Query
         }
     }
 
+    public class CheckUserPhoneQuery:QueryCommandBase,IQuery
+    {
+        public string PrimaryPhoneNumber { get; set; }
+        public QueryResult Execute()
+        {
+            return new UserQueryAppService().CheckUserPhone(PrimaryPhoneNumber);
+        }
+    }
+
     public class ListPersonUplodablesQuery : QueryCommandBase, IQuery
     {
         public string PersonId { get; set; }

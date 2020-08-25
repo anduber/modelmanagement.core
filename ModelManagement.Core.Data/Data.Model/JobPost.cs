@@ -14,6 +14,7 @@ namespace ModelManagement.Core.Data.Data.Model
         public string UserId { get; set; }
         public string JobTitle { get; set; }
         public string JobDescription { get; set; }
+        public string StatusId { get; set; }
         public DateTime? JobStartDate { get; set; }
         public DateTime? JobDueDate { get; set; }
         public string PaymentMethodEnumId { get; set; }
@@ -28,6 +29,14 @@ namespace ModelManagement.Core.Data.Data.Model
         public string AgentLocationGeoId { get; set; }
         public decimal? Quantity { get; set; }
         public string Sex { get; set; }
+        public string Complexion { get; set; }
+        public string HairColor { get; set; }
+        public string EyeColor { get; set; }
+        public double? Bust { get; set; }
+        public double? Waist { get; set; }
+        public double? Hip { get; set; }
+        public string DressSize { get; set; }
+        public double? ShoeSize { get; set; }
         public string IsActive { get; set; }
         public virtual User JobPost_UserId { get; set; }
         public virtual Enumeration JobPost_PaymentMethodEnumId { get; set; }
@@ -37,6 +46,7 @@ namespace ModelManagement.Core.Data.Data.Model
         public virtual UserLogin JobPost_UserLoginId { get; set; }
         public virtual List<JobOffer> JobPost_JobOffers { get; set; }
         public virtual List<JobApplication> JobPost_JobApplications { get; set; }
+        public virtual StatusItem JobPost_StatusId { get; set; }
 
         public void SetProperty(string userId,string jobTitle,string jobDescription,DateTime? jobDueDate,string paymentMethodEnumId,string jobLocationGeoId,string agentJobEnumId,string agentLocationGeoId,string jobLocation)
         {

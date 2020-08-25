@@ -30,7 +30,7 @@ namespace ModelManagement.Core.Data.Data.Mapping
                                               IsUnique = true
                                           }));
             Property(t => t.PrimaryEmail)
-               .IsRequired()
+               .IsOptional()
                .HasMaxLength(60)
                .HasColumnAnnotation(IndexAnnotation.AnnotationName,
                                     new IndexAnnotation(
@@ -39,15 +39,6 @@ namespace ModelManagement.Core.Data.Data.Mapping
                                             IsUnique = true
                                         }));
 
-            //Property(t => t.UserName)
-            //     .IsRequired()
-            //     .HasMaxLength(60)
-            //     .HasColumnAnnotation(IndexAnnotation.AnnotationName,
-            //                          new IndexAnnotation(
-            //                              new IndexAttribute("IX_UserName,1")
-            //                              {
-            //                                  IsUnique = true
-            //                              }));
 
             Property(t => t.PersonId).HasColumnName("PERSON_ID");
             Property(t => t.UserNumber).HasColumnName("USER_NUMBER");

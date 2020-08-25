@@ -1,9 +1,5 @@
-﻿using ModelManagement.Core.Data.Data.Context;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ModelManagement.Core.Business.Business.Helpers;
 using ModelManagement.Core.Business.Business.Query.EntityProfile;
 using ModelManagement.Core.Business.Business.Model.Utils;
@@ -18,7 +14,6 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
         {
 
         }
-
 
         public List<GeoListModel> ListGeos(string geoTypeId)
         {
@@ -53,20 +48,20 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
         public QueryResult LookupCategoryType(QueryParamArg queryParamArg)
         {
             var categoryTypes = ModelManagementContext()
-                .CategoryTypes.Where(t => !string.IsNullOrEmpty(t.ParentTypeId))
+                .CategoryTypes
                 .GroupBy(g => g.ParentTypeId).ToList()
                 .Select(s => new CategoryTypeLookupModel
                 {
-                    CategoryTypeParent = s.FirstOrDefault()?.Description,
-                    CategoryTypes = s.AsQueryable().ToLookUp()
+                    CategoryTypeParent = s.FirstOrDefault(t=>t.CategoryTypeId==s.Key)?.Description,
+                    CategoryTypes = s.AsQueryable().Where(t=>t.CategoryTypeId!=s.Key).ToLookUp()
                 }).ToList();
             return Utility.QuerySuccessResult(categoryTypes);
         }
 
         public QueryResult LookupOffersQuery()
         {
-            var offerTypes = ModelManagementContext().OfferTypes.OrderBy(o => o.Sequence).ToList<OfferListModel>();
-            var offerItemTypes = ModelManagementContext().OfferItemTypes.ToList<OfferItemTypeListModel>();
+            var offerTypes = ModelManagementContext().OfferTypes.Where(t=>t.IsActive=="Y").OrderBy(o => o.Sequence).ToList<OfferListModel>();
+            var offerItemTypes = ModelManagementContext().OfferItemTypes.Where(t=>t.IsActive=="Y").ToList<OfferItemTypeListModel>();
             foreach (var offerType in offerTypes)
             {
                 SetOfferTypes(offerItemTypes, offerType.OfferItemTypes);
@@ -92,7 +87,7 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
 
         public QueryResult LookupContactMechType(QueryParamArg queryParamArg)
         {
-            return ModelManagementContext().ContactMechTypes.Where(t=>t.IsActive=="Y").QueryResultList<KeyDescription>(queryParamArg);
+            return ModelManagementContext().ContactMechTypes.Where(t => t.IsActive == "Y").QueryResultList<KeyDescription>(queryParamArg);
         }
 
         public QueryResult ListOfferType(QueryParamArg queryParamArg)

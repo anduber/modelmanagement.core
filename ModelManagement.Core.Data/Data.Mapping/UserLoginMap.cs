@@ -18,7 +18,7 @@ namespace ModelManagement.Core.Data.Data.Mapping
             HasOptional(t => t.User_PersonId).WithMany(t => t.User_UserLogin).HasForeignKey(t => t.PersonId);
 
             Property(t => t.UserName)
-                 .IsRequired()
+                 .IsOptional()
                  .HasMaxLength(60)
                  .HasColumnAnnotation(IndexAnnotation.AnnotationName,
                                       new IndexAnnotation(

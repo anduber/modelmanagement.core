@@ -17,6 +17,7 @@ namespace ModelManagement.Core.Data.Data.Model
         public string CategoryTypeId { get; set; }
         public string ParentTypeId { get; set; }
         public string Description { get; set; }
+        public string IsActive { get; set; }
         public virtual CategoryType CategoryType_ParentTypeId { get; set; }
         public virtual List<CategoryType> CategoryType_Child { get; set; }
         public virtual List<Category> CategoryType_Categories { get; set; }

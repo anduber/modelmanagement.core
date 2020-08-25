@@ -13,6 +13,7 @@ namespace ModelManagement.Core.Data.Data.Model
         public string HeightEnumId { get; set; }
         public double? Weight { get; set; }
         public string WeightEnumId { get; set; }
+        public double? BmI { get; set; }
         public string Complexion { get; set; }
         public string HairColor { get; set; }
         public string EyeColor { get; set; }

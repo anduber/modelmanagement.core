@@ -24,6 +24,8 @@ namespace ModelManagement.Core.Data.Data.Mapping
             Property(t => t.ContentId).HasMaxLength(50).HasColumnName("CONTENT_ID");
             Property(t => t.ContentTypeId).HasMaxLength(50).HasColumnName("CONTENT_TYPE_ID");
             Property(t => t.ContentUserId).HasMaxLength(50).HasColumnName("CONTENT_USER_ID");
+            Property(t => t.FromDate).HasColumnName("FROM_DATE");
+            Property(t => t.ThruDate).HasColumnName("THRU_DATE");
             Property(t => t.ContentName).HasColumnName("CONTENT_NAME");
             Property(t => t.ContentDescription).HasMaxLength(50).HasColumnName("CONTENT_DESCRIPTION");
             Property(t => t.LongDescription).HasColumnName("LONG_DESCRIPTION");

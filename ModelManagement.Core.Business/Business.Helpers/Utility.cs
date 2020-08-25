@@ -38,6 +38,7 @@ namespace ModelManagement.Core.Business.Business.Helpers
             public const string JobApplied = "JOB_APP_APPLIED";
             public const string JobQualified = "JOB_APP_QUALIFIED";
             public const string JobRejected = "JOB_APP_REJECTED";
+            public const string JobPostCreated = "JOB_POST_CREATED";
         }
 
         public class GeoTypes
@@ -344,6 +345,15 @@ namespace ModelManagement.Core.Business.Business.Helpers
         public string GetPlaceHolderPic()
         {
             return ConfigurationManager.AppSettings["PlaceHolderPic"];
+        }
+
+        public static double CalculateBmI(double? height,double? weight)
+        {
+            if (height==null || weight==null)
+            {
+                return 0;
+            }
+            return (weight/height*height).Value;
         }
 
     }

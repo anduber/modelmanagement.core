@@ -25,8 +25,8 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
 
         public User CreateUser(User user, string userName)
         {
-            if (UserLogin().Find(t => t.UserName == userName) != null)
-                throw new InvalidOperationException("UserName already exsists");
+            if (User().Find(t => t.PrimaryPhoneNumber == user.PrimaryPhoneNumber) != null)
+                throw new InvalidOperationException("User already exsists");
             User().Add(user);
             CreateUserLogin(user, userName);
             AddUserStatus(user.PersonId, user.StatusId, user.UserLoginId);
@@ -110,7 +110,7 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             {
                 PersonId = Utility.GetId(),
                 UserNumber = Utility.GetUserNumber(),
-                VerificationCode = Utility.GetVerificationCode(),
+                //VerificationCode = Utility.GetVerificationCode(),
                 PrimaryPhoneNumber = primaryPhoneNumber,
                 PrimaryEmail = email,
                 IsUserActivated = isUserActivated,
@@ -138,7 +138,7 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             personalInfo.PersonId = personId;
             personalInfo.GeoId = personalInfoArg.GeoId;
             personalInfo.CityGeoId = personalInfoArg.CityGeoId;
-            personalInfo.CountryGeoId = personalInfoArg.CountryGeoId;
+            personalInfo.CountryGeoId = personalInfoArg.CountryGeoId;            
             return personalInfo;
         }
 
@@ -189,6 +189,7 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
                 physicalInfo = _mapper.Map<PhysicalInformation>(physicalInfoArg);
                 physicalInfo.PersonId = personId;
                 physicalInfo.UserLoginId = userLoginId;
+                physicalInfo.BmI = UtilityMethods.CalculateBmI(physicalInfo.Height, physicalInfo.Weight);
                 PhysicalInformation().Add(physicalInfo);
             }
             else
@@ -204,6 +205,7 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
                 physicalInfo.Hip = physicalInfoArg.Hip;
                 physicalInfo.Waist = physicalInfoArg.Waist;
                 physicalInfo.Weight = physicalInfoArg.Weight;
+                physicalInfo.BmI = UtilityMethods.CalculateBmI(physicalInfo.Height, physicalInfo.Weight);
                 physicalInfo.WeightEnumId = physicalInfoArg.WeightEnumId;
                 physicalInfo.UserLoginId = userLoginId;
                 PhysicalInformation().UpdateEntity(physicalInfo);
@@ -466,6 +468,14 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             SetUserAppl(personInfoArg.OfferTypeId, user.PersonId, user.UserLoginId);
             AddUserRole(user.PersonId, Utility.RoleTypeAgent, user.UserLoginId);
             return user;
+        }
+
+        public CommandResult SetUserActivationCode(string userId,string verificationCode)
+        {
+            var user = User().Find(userId);
+            user.VerificationCode = verificationCode;
+            User().Update(user);
+            return Utility.CommandSuccess();
         }
     }
 }

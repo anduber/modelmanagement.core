@@ -11,6 +11,7 @@ namespace ModelManagement.Core.Data.Data.Model
             StatusItem_RoleTypes = new List<RoleType>();
             StatusItem_JobOffers = new List<JobOffer>();
             StatusItem_JobApplications = new List<JobApplication>();
+            StatusItem_JobPostes = new List<JobPost>();
         }
         public string StatusId { get; set; }
         public string StatusTypeId { get; set; }
@@ -23,6 +24,7 @@ namespace ModelManagement.Core.Data.Data.Model
         public virtual List<JobOffer> StatusItem_JobOffers { get; set; }
         public virtual StatusType StatusItem_StatusType { get; set; }
         public virtual List<JobApplication> StatusItem_JobApplications { get; set; }
+        public virtual List<JobPost> StatusItem_JobPostes { get; set; }
 
     }
 }

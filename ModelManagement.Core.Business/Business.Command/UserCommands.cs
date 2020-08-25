@@ -213,22 +213,10 @@ namespace ModelManagement.Core.Business.Business.Command
                 var user = userService.RegisterModel(PersonalInformationArg, PhysicalInformationArg);
                 categoryService.CreateCategories(CategoryTypeIds, user.PersonId, user.UserLoginId);
                 contactService.CreateContactInfos(ContactInfoArgs, user.PersonId, user.UserLoginId);
-                //contentServie.AddAUploadables(UploadableArgs,user.PersonId,user.UserLoginId);
                 contentServie.AddContents(ContentArgs, user.PersonId, user.UserLoginId);
                 transaction.CompleteTransaction();
 
-                try
-                {
-                    var commonService = new CommonDataService();
-                    commonService.SendActivationCodeViaEmail(user, PersonalInformationArg.UserName);
-                }
-                catch (Exception)
-                {
-                    throw new InvalidOperationException("Error while sending email!");
-                }
-
-
-                return Utility.CommandSuccess(user.VerificationCode);
+                return Utility.CommandSuccess(user.PersonId);
             }
         }
     }
@@ -333,6 +321,16 @@ namespace ModelManagement.Core.Business.Business.Command
                 transaction.CompleteTransaction();
                 return Utility.CommandSuccess(user.VerificationCode);
             }
+        }
+    }
+
+    public class SetUserVerificationCodeCommand:CommandBase,ICommand
+    {
+        public string UserId { get; set; }
+        public string VerificationCode { get; set; }
+        public CommandResult Execute()
+        {
+            return new UserService().SetUserActivationCode(UserId,VerificationCode);
         }
     }
 }
