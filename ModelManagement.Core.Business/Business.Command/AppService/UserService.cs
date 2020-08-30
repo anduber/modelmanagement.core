@@ -372,27 +372,47 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
         //    return jobOffer;
         //}
 
-        public CommandResult ActivateUserAccount(string userName, string verificationCode, string newPassword)
+        public CommandResult ActivateUserAccount(string userName, string verificationCode,string phoneNumber, string newPassword)
         {
-            var userLogin = UserLogin().FirstOrDefault(t => t.UserName == userName);
-            if (userLogin == null) throw new InvalidOperationException("User not found!");
-            var user = User().Find(userLogin.PersonId);
-            if (user.IsUserActivated == "Y")
-                throw new InvalidOperationException("User is already activated!");
-            if (verificationCode != user.VerificationCode)
-                throw new InvalidOperationException("Your verification code is Incorrect!");
+            //var userLogin = UserLogin().FirstOrDefault(t => t.UserName == userName);
+            //if (userLogin == null) throw new InvalidOperationException("User not found!");
+            //var user = User().Find(userLogin.PersonId);
+            //if (user.IsUserActivated == "Y")
+            //    throw new InvalidOperationException("User is already activated!");
+            //if (verificationCode != user.VerificationCode)
+            //    throw new InvalidOperationException("Your verification code is Incorrect!");
+            //user.IsUserActivated = "Y";
+            //user.StatusId = Utility.StatusEnabled;
+            //User().UpdateEntity(user);
+            //userLogin.RequirePasswordChange = "N";
+            //userLogin.CurrentPassword = Utility.HashPassword(newPassword);
+            //UserLogin().UpdateEntity(userLogin);
+            var user = User().FirstOrDefault(t => t.PrimaryPhoneNumber == phoneNumber);
+            if (user==null) throw new InvalidOperationException("User not found!");
             user.IsUserActivated = "Y";
             user.StatusId = Utility.StatusEnabled;
+            user.VerificationCode = verificationCode;
             User().UpdateEntity(user);
-            userLogin.RequirePasswordChange = "N";
+            var userLogin = UserLogin().FirstOrDefault(t=>t.PersonId==user.PersonId);
             userLogin.CurrentPassword = Utility.HashPassword(newPassword);
+            userLogin.RequirePasswordChange = "N";
             UserLogin().UpdateEntity(userLogin);
-            return Utility.CommandSuccess();
+            var userLoginCommandResult = new UserLoginCommandResult
+            {
+                IsLoginSuccess = true,
+                RequirePasswordChange = userLogin.RequirePasswordChange,
+                IsUserActivated = userLogin.User_PersonId.IsUserActivated,
+                SecurityToken = Utility.GetSecurityToken(),
+                UserId = userLogin.PersonId,
+                UserLoginId = userLogin.UserLoginId,
+                UserTypeId = userLogin.UserRoleUserLogin_UserLoginId.FirstOrDefault()?.RoleTypeId
+            };
+            return Utility.CommandSuccess(userLoginCommandResult);
         }
 
-        public CommandResult AuthenticateUser(string userName, string password)
+        public CommandResult AuthenticateUser(string userName, string password,string phoneNumber)
         {
-            var userLogin = UserLogin().FirstOrDefault(t => t.UserName == userName);
+            var userLogin = UserLogin().FirstOrDefault(t => t.User_PersonId.PrimaryPhoneNumber == phoneNumber);
             if (userLogin == null)
                 throw new InvalidOperationException("Username or Password Is Incorrect!");
             if (userLogin.User_PersonId.IsUserActivated != "Y" ||

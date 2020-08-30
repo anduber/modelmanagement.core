@@ -264,6 +264,7 @@ namespace ModelManagement.Core.Business.Business.Command
     public class ActivateUserAccountCommand:CommandBase,ICommand
     {
         public string UserName { get; set; }
+        public string PhoneNumber { get; set; }
         public string VerificationCode { get; set; }
         public string NewPassword { get; set; }
 
@@ -271,7 +272,8 @@ namespace ModelManagement.Core.Business.Business.Command
         {
             using (var transaction = new TransactionScope())
             {
-                var result = new UserService(transaction.Context).ActivateUserAccount(UserName,VerificationCode,NewPassword);
+                var result = new UserService(transaction.Context).ActivateUserAccount(UserName, VerificationCode,
+                    PhoneNumber, NewPassword);
                 transaction.CompleteTransaction();
                 return result;
             }
@@ -281,10 +283,11 @@ namespace ModelManagement.Core.Business.Business.Command
     public class UserLoginCommand:CommandBase,ICommand
     {
         public string UserName { get; set; }
+        public string PhoneNumber { get; set; }
         public string Password { get; set; }
         public CommandResult Execute()
         {
-            return new UserService().AuthenticateUser(UserName,Password);
+            return new UserService().AuthenticateUser(UserName,Password,PhoneNumber);
         }
     }
 
@@ -331,6 +334,15 @@ namespace ModelManagement.Core.Business.Business.Command
         public CommandResult Execute()
         {
             return new UserService().SetUserActivationCode(UserId,VerificationCode);
+        }
+    }
+
+    public class CheckUserVerifiedCommand:CommandBase,ICommand
+    {
+        public string PhoneNumber { get; set; }
+        public CommandResult Execute()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -118,7 +118,11 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
         public QueryResult CheckUserPhone(string phoneNumber)
         {
             var userFound = ModelManagementContext().Users.FirstOrDefault(t => t.PrimaryPhoneNumber == phoneNumber);
-            return Utility.QuerySuccessResult(userFound == null);
+            if (userFound == null)
+                return new QueryResult {IsSuccess = false, ErrorMessage = "Your phone number is not registered!"};
+            return userFound.IsUserActivated == "Y"
+                ? new QueryResult {IsSuccess = false, ErrorMessage = "Your account is already activated!"}
+                : Utility.QuerySuccessResult(true);
         }
 
         public QueryResult ListPersonUplodables(string personId, string fileTypeId, string fileUploadId)

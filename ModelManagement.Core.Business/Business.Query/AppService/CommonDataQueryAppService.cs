@@ -48,7 +48,7 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
         public QueryResult LookupCategoryType(QueryParamArg queryParamArg)
         {
             var categoryTypes = ModelManagementContext()
-                .CategoryTypes
+                .CategoryTypes.Where(t=>t.IsActive=="Y")
                 .GroupBy(g => g.ParentTypeId).ToList()
                 .Select(s => new CategoryTypeLookupModel
                 {
@@ -61,11 +61,11 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
         public QueryResult LookupOffersQuery()
         {
             var offerTypes = ModelManagementContext().OfferTypes.Where(t=>t.IsActive=="Y").OrderBy(o => o.Sequence).ToList<OfferListModel>();
-            var offerItemTypes = ModelManagementContext().OfferItemTypes.Where(t=>t.IsActive=="Y").ToList<OfferItemTypeListModel>();
-            foreach (var offerType in offerTypes)
-            {
-                SetOfferTypes(offerItemTypes, offerType.OfferItemTypes);
-            }
+            //var offerItemTypes = ModelManagementContext().OfferItemTypes.Where(t=>t.IsActive=="Y").ToList<OfferItemTypeListModel>();
+            //foreach (var offerType in offerTypes)
+            //{
+            //    SetOfferTypes(offerItemTypes, offerType.OfferItemTypes);
+            //}
             return Utility.QuerySuccessResult(offerTypes);
         }
 
