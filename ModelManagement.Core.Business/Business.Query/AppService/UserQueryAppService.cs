@@ -125,6 +125,12 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
                 : Utility.QuerySuccessResult(true);
         }
 
+        public QueryResult CheckUserPhoneExists(string phoneNumber)
+        {
+            var user = ModelManagementContext().Users.FirstOrDefault(t => t.PrimaryPhoneNumber == phoneNumber);
+            return Utility.QuerySuccessResult(user == null);
+        }
+
         public QueryResult ListPersonUplodables(string personId, string fileTypeId, string fileUploadId)
         {
             var result =

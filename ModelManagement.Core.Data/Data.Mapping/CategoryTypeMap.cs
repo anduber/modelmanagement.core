@@ -9,9 +9,9 @@ namespace ModelManagement.Core.Data.Data.Mapping
         {
             #region Configuration
             HasKey(t => new { t.CategoryTypeId });
-            //HasOptional(t => t.CategoryType_ParentTypeId)
-            //    .WithMany(t => t.CategoryType_Child)
-            //    .HasForeignKey(t => t.ParentTypeId);
+            HasOptional(t => t.CategoryType_ParentTypeId)
+                .WithMany(t => t.CategoryType_Child)
+                .HasForeignKey(t => t.ParentTypeId);
             #endregion
 
             #region Property
