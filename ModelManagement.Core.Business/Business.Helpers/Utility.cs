@@ -347,13 +347,14 @@ namespace ModelManagement.Core.Business.Business.Helpers
             return ConfigurationManager.AppSettings["PlaceHolderPic"];
         }
 
-        public static double CalculateBmI(double? height,double? weight)
+        public static double CalculateBmI(double? height, double? weight)
         {
-            if (height==null || weight==null)
+            if (height == null || weight == null)
             {
                 return 0;
             }
-            return (weight/height*height).Value;
+            var heightCm = height * 10;
+            return (weight / heightCm * heightCm).Value;
         }
 
     }

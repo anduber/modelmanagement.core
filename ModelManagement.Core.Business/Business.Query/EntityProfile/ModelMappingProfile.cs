@@ -71,10 +71,10 @@ namespace ModelManagement.Core.Business.Business.Query.EntityProfile
                 .ForMember(t => t.Categories, opt => opt.MapFrom(t => t.Categories_PersonId))
                 .ForMember(t => t.PrimaryEmail, opt => opt.MapFrom(t => t.PersonId_User.PrimaryEmail))
                 .ForMember(t => t.PrimaryPhoneNumber, opt => opt.MapFrom(t => t.PersonId_User.PrimaryPhoneNumber))
-                .ForMember(t => t.CountryGeoId,
-                    opt => opt.MapFrom(t => t.GeoId_Geo.GeoTypeId == Utility.GeoTypes.Country ? t.GeoId : null))
-                .ForMember(t => t.CityGeoId,
-                    opt => opt.MapFrom(t => t.GeoId_Geo.GeoTypeId == Utility.GeoTypes.City ? t.GeoId : null))
+                //.ForMember(t => t.CountryGeoId,
+                //    opt => opt.MapFrom(t => t.GeoId_Geo.GeoTypeId == Utility.GeoTypes.Country ? t.GeoId : null))
+                //.ForMember(t => t.CityGeoId,
+                //    opt => opt.MapFrom(t => t.GeoId_Geo.GeoTypeId == Utility.GeoTypes.City ? t.GeoId : null))
                 //.ForMember(t => t.ProfilePic,
                 //    opt =>
                 //        opt.MapFrom(

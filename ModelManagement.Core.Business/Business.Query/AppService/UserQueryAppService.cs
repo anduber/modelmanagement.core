@@ -22,17 +22,17 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
             personalInfo.Age = personalInfo.DateOfBirth == null
                 ? 0
                 : DateConverter.CalculateAge(personalInfo.DateOfBirth.Value);
-            if (string.IsNullOrEmpty(personalInfo.CityGeoId)) return personalInfo;
-            {
-                var geoAssoc =
-                    ModelManagementContext()
-                        .GeoAssoces.FirstOrDefault(
-                            t =>
-                                t.GeoIdTo == personalInfo.CityGeoId &&
-                                (t.GeoAssocTypeId == Utility.GeoTypes.City ||
-                                 t.GeoAssocTypeId == Utility.GeoTypes.Regions));
-                personalInfo.CountryGeoId = geoAssoc?.GeoId;
-            }
+            //if (string.IsNullOrEmpty(personalInfo.CityGeoId)) return personalInfo;
+            //{
+            //    var geoAssoc =
+            //        ModelManagementContext()
+            //            .GeoAssoces.FirstOrDefault(
+            //                t =>
+            //                    t.GeoIdTo == personalInfo.CityGeoId &&
+            //                    (t.GeoAssocTypeId == Utility.GeoTypes.City ||
+            //                     t.GeoAssocTypeId == Utility.GeoTypes.Regions));
+            //    personalInfo.CountryGeoId = geoAssoc?.GeoId;
+            //}
 
             return personalInfo;
         }
@@ -156,7 +156,8 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
         {
             var result =
                 ModelManagementContext()
-                    .ContactMechTypes.GroupBy(g => g.ContactMechTypeId)
+                    .ContactMechTypes.Where(t=>t.IsActive=="Y")
+                    .GroupBy(g => g.ContactMechTypeId)
                     .ToList()
                     .Select(s => new ContactInformationListModel
                     {
