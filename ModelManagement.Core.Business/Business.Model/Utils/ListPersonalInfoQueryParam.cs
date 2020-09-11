@@ -48,6 +48,7 @@ namespace ModelManagement.Core.Business.Business.Model.Utils
         public ListModelsQueryParamArg()
         {
             CategoryTypeIds = new List<string>();
+            SelectedCities = new List<string>();
         }
         public string Sex { get; set; }
         public string Complexion { get; set; }
@@ -61,5 +62,8 @@ namespace ModelManagement.Core.Business.Business.Model.Utils
         public double? WeightThru { get; set; }
         public int AgeFrom { get; set; }
         public int ThruAge { get; set; }
+        public double? BmiFrom { get; set; }
+        public double? BmiThru { get; set; }
+        public List<string> SelectedCities { get; set; }
     }
 }

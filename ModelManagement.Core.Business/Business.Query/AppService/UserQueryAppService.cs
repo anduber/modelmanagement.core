@@ -119,9 +119,9 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
         {
             var userFound = ModelManagementContext().Users.FirstOrDefault(t => t.PrimaryPhoneNumber == phoneNumber);
             if (userFound == null)
-                return new QueryResult {IsSuccess = false, ErrorMessage = "Your phone number is not registered!"};
+                return new QueryResult { IsSuccess = false, ErrorMessage = "Your phone number is not registered!" };
             return userFound.IsUserActivated == "Y"
-                ? new QueryResult {IsSuccess = false, ErrorMessage = "Your account is already activated!"}
+                ? new QueryResult { IsSuccess = false, ErrorMessage = "Your account is already activated!" }
                 : Utility.QuerySuccessResult(true);
         }
 
@@ -156,7 +156,7 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
         {
             var result =
                 ModelManagementContext()
-                    .ContactMechTypes.Where(t=>t.IsActive=="Y")
+                    .ContactMechTypes.Where(t => t.IsActive == "Y")
                     .GroupBy(g => g.ContactMechTypeId)
                     .ToList()
                     .Select(s => new ContactInformationListModel
@@ -223,7 +223,16 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
                             (string.IsNullOrEmpty(listModelsQueryParamArg.CountryGeoId) ||
                              t.PersonId_PersonalInformation.CountryGeoId == listModelsQueryParamArg.CountryGeoId) &&
                             (string.IsNullOrEmpty(listModelsQueryParamArg.CityGeoId) ||
-                             t.PersonId_PersonalInformation.CityGeoId == listModelsQueryParamArg.CityGeoId)
+                             t.PersonId_PersonalInformation.CityGeoId == listModelsQueryParamArg.CityGeoId) &&
+                            (listModelsQueryParamArg.BmiFrom == null ||
+                                t.PersonId_PersonalInformation.PersonId_PhysicalInformation.BmI >= listModelsQueryParamArg.BmiFrom) &&
+                            (listModelsQueryParamArg.BmiThru == null ||
+                                t.PersonId_PersonalInformation.PersonId_PhysicalInformation.BmI <= listModelsQueryParamArg.BmiThru) &&
+                            (listModelsQueryParamArg.WeightFrom == null ||
+                                t.PersonId_PersonalInformation.PersonId_PhysicalInformation.Weight >= listModelsQueryParamArg.WeightFrom) &&
+                            (listModelsQueryParamArg.WeightThru == null ||
+                                t.PersonId_PersonalInformation.PersonId_PhysicalInformation.Weight <= listModelsQueryParamArg.WeightThru) &&
+                            (listModelsQueryParamArg.SelectedCities.Count == 0 || listModelsQueryParamArg.SelectedCities.Contains(t.PersonId_PersonalInformation.CityGeoId))
                     );
             return result.QueryResultList<ModelListModel>(queryParamArg);
         }

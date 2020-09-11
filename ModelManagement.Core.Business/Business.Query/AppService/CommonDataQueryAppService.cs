@@ -39,10 +39,10 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
             return enums.ToLookUp();
         }
 
-        public List<KeyDescription> LookupCategoryType()
+        public List<KeyDescriptionId> LookupCategoryType()
         {
             var categoryTypes = ModelManagementContext().CategoryTypes.OrderBy(o => o.Description);
-            return categoryTypes.ToLookUp();
+            return categoryTypes.ToLookUpKeyDescId();
         }
 
         public QueryResult LookupCategoryType(QueryParamArg queryParamArg)

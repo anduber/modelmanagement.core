@@ -22,6 +22,11 @@ namespace ModelManagement.Core.Business.Business.Query.EntityProfile
             return source.ProjectTo<KeyDescription>().ToList();
         }
 
+        public static List<KeyDescriptionId> ToLookUpKeyDescId(this IQueryable source, params Expression<Func<KeyDescriptionId, object>>[] membersToExpand)
+        {
+            return source.ProjectTo<KeyDescriptionId>().ToList();
+        }
+
         public static List<T> ToList<T>(this IQueryable source, params Expression<Func<KeyDescription, object>>[] membersToExpand)
         {
             return source.ProjectTo<T>().ToList();

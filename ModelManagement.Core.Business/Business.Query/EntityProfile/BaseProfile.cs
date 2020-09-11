@@ -25,6 +25,14 @@ namespace ModelManagement.Core.Business.Business.Query.EntityProfile
                 .ForMember(t => t.Description, m => m.MapFrom(descriptionMember));
         }
 
+        protected IMappingExpression<TSource, KeyDescriptionId> MapKeyDescId<TSource>(Expression<Func<TSource, string>> keyMember, Expression<Func<TSource, string>> descriptionMember, Expression<Func<TSource, string>> idMember)
+        {
+            return CreateMap<TSource, KeyDescriptionId>()
+                .ForMember(t => t.Key, m => m.MapFrom(keyMember))
+                .ForMember(t => t.Description, m => m.MapFrom(descriptionMember))
+                .ForMember(t => t.Id, m => m.MapFrom(idMember));
+        }
+
         protected IMappingExpression<TSource, EntityDescription> MapDesc<TSource>(Expression<Func<TSource, string>> descriptionMember)
         {
             return CreateMap<TSource, EntityDescription>()

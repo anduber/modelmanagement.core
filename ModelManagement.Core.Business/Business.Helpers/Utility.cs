@@ -353,8 +353,9 @@ namespace ModelManagement.Core.Business.Business.Helpers
             {
                 return 0;
             }
-            var heightCm = height * 10;
-            return (weight / heightCm * heightCm).Value;
+            //var heightCm = height * 100;
+            var result =  (weight / (height * height)).Value;
+            return Math.Round(result, 2);
         }
 
     }

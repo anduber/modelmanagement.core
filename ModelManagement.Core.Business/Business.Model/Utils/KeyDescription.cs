@@ -11,4 +11,9 @@ namespace ModelManagement.Core.Business.Business.Model.Utils
         public string Key { get; set; }
         public string Description { get; set; }
     }
+
+    public class KeyDescriptionId:KeyDescription
+    {
+        public string Id { get; set; }
+    }
 }

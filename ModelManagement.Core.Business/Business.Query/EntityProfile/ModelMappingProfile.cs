@@ -26,6 +26,7 @@ namespace ModelManagement.Core.Business.Business.Query.EntityProfile
             MapKeyDesc<RoleType>(t => t.RoleTypeId, t => t.Description);
             MapKeyDesc<StatusItem>(t => t.StatusId, t => t.Description);
             MapKeyDesc<CategoryType>(t => t.CategoryTypeId, t => t.Description);
+            MapKeyDescId<CategoryType>(t => t.CategoryTypeId, t => t.Description, t => t.ParentTypeId);
             MapKeyDesc<Category>(t => t.CategoryTypeId, t => t.CategoryTypeId_CategoryType.Description);
             #endregion
 
