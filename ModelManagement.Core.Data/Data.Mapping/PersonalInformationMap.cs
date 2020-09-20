@@ -1,10 +1,5 @@
 ﻿using ModelManagement.Core.Data.Data.Model;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity.ModelConfiguration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ModelManagement.Core.Data.Data.Mapping
 {
@@ -17,11 +12,13 @@ namespace ModelManagement.Core.Data.Data.Mapping
 
             HasOptional(t => t.Adderss)
                 .WithRequired(s => s.PersonId_PersonalInformation);
+
             HasOptional(t => t.PersonId_PhysicalInformation)
                 .WithRequired(s => s.PersonalInformation);
-            HasOptional(t => t.Enumeration_MaritialStatusEnumId)
-               .WithMany(t => t.MaritialStatus_PersonalInformation)
-               .HasForeignKey(t => t.MaritialStatusEnumId);
+
+            HasOptional(t => t.ExperienceEnumId_Enumeration)
+                .WithMany(t => t.PersonalInformationExperiance_PersonalInformation)
+                .HasForeignKey(t => t.ExperienceEnumId);
 
             HasOptional(t => t.GeoId_Geo)
                .WithMany(t => t.PersonId_PersonalInformation)
@@ -36,8 +33,8 @@ namespace ModelManagement.Core.Data.Data.Mapping
                .HasForeignKey(t => t.CityGeoId);
 
             HasOptional(t => t.UserLoginId_UserLogin)
-              .WithMany(t => t.PersonalInformationUserLogin_PersonId)
-              .HasForeignKey(t => t.UserLoginId);
+                .WithMany(t => t.PersonalInformationUserLogin_PersonId)
+                .HasForeignKey(t => t.UserLoginId);
             #endregion
 
             #region Property
@@ -49,8 +46,9 @@ namespace ModelManagement.Core.Data.Data.Mapping
             Property(t => t.Sex).HasMaxLength(1).HasColumnName("SEX");
             Property(t => t.GeoId).HasColumnName("GEO_ID");
             Property(t => t.CityGeoId).HasColumnName("CITY_GEO_ID");
-            Property(t => t.CountryGeoId).HasColumnName("COUNTRY_GEO_ID");
-            Property(t => t.MaritialStatusEnumId).HasColumnName("MARITIAL_STATUS_ENUM_ID");
+            Property(t => t.CountryGeoId).HasMaxLength(50).HasColumnName("COUNTRY_GEO_ID");
+            Property(t => t.MaritialStatusEnumId).HasMaxLength(50).HasColumnName("MARITIAL_STATUS_ENUM_ID");
+            Property(t => t.ExperienceEnumId).HasColumnName("EXPERIENCE_ENUM_ID");
             Property(t => t.UserLoginId).HasColumnName("USER_LOGIN_ID");
             Property(t => t.CreatedStamp).HasColumnName("CREATED_STAMP");
             Property(t => t.LastUpdatedStamp).HasColumnName("LAST_UPDATED_STAMP");

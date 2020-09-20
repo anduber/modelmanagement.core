@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Security.AccessControl;
 using ModelManagement.Core.Business.Business.Model.Utils;
 
 namespace ModelManagement.Core.Business.Business.Query.Models
@@ -33,6 +34,6 @@ namespace ModelManagement.Core.Business.Business.Query.Models
         public string Complexion { get; set; }
         public string HairColor { get; set; }
         public string EyeColor { get; set; }
-
+        public EntityDescription Experience { get; set; }
     }
 }

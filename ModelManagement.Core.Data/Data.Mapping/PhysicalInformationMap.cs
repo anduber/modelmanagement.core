@@ -8,16 +8,16 @@ namespace ModelManagement.Core.Data.Data.Mapping
         public PhysicalInformationMap()
         {
             #region Configuration
-            this.HasKey(t => t.PersonId);
-            this.HasOptional(t => t.UserLoginId_UserLogin)
+            HasKey(t => t.PersonId);
+            HasOptional(t => t.UserLoginId_UserLogin)
               .WithMany(t => t.PhysicalInformationUserLogin_PersonId)
               .HasForeignKey(t => t.UserLoginId);
-            this.HasOptional(t => t.HeightEnumId_Enumeration)
-              .WithMany(t => t.HeightEnumId_PhysicalInformation)
-              .HasForeignKey(t => t.HeightEnumId);
-            this.HasOptional(t => t.WeightEnumId_Enumeration)
-             .WithMany(t => t.WeightEnumId_PhysicalInformation)
-             .HasForeignKey(t => t.WeightEnumId);
+            HasOptional(t => t.Complexion_Enumeration)
+              .WithMany(t => t.Enumeration_Complexion)
+              .HasForeignKey(t => t.Complexion);
+            HasOptional(t => t.HairColor_Enumeration)
+                .WithMany(t => t.Enumeration_HairColor)
+                .HasForeignKey(t => t.HairColor);
             #endregion
 
             #region Property
@@ -38,7 +38,7 @@ namespace ModelManagement.Core.Data.Data.Mapping
             Property(t => t.UserLoginId).HasColumnName("USER_LOGIN_ID");
             Property(t => t.CreatedStamp).HasColumnName("CREATED_STAMP");
             Property(t => t.LastUpdatedStamp).HasColumnName("LAST_UPDATED_STAMP");
-       
+
             #endregion
 
             this.ToTable("physical_information");

@@ -24,6 +24,8 @@ namespace ModelManagement.Core.Business.Business.Query.Models
         public string PrimaryEmail { get; set; }
         public string PrimaryPhoneNumber { get; set; }
         public int Age { get; set; }
+        public string ExperienceEnumId { get; set; }
+        public EntityDescription Experience { get; set; }
         public List<KeyDescription> Categories { get; set; }
     }
 }

@@ -225,14 +225,19 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
                             (string.IsNullOrEmpty(listModelsQueryParamArg.CityGeoId) ||
                              t.PersonId_PersonalInformation.CityGeoId == listModelsQueryParamArg.CityGeoId) &&
                             (listModelsQueryParamArg.BmiFrom == null ||
-                                t.PersonId_PersonalInformation.PersonId_PhysicalInformation.BmI >= listModelsQueryParamArg.BmiFrom) &&
+                             t.PersonId_PersonalInformation.PersonId_PhysicalInformation.BmI >=
+                             listModelsQueryParamArg.BmiFrom) &&
                             (listModelsQueryParamArg.BmiThru == null ||
-                                t.PersonId_PersonalInformation.PersonId_PhysicalInformation.BmI <= listModelsQueryParamArg.BmiThru) &&
+                             t.PersonId_PersonalInformation.PersonId_PhysicalInformation.BmI <=
+                             listModelsQueryParamArg.BmiThru) &&
                             (listModelsQueryParamArg.WeightFrom == null ||
-                                t.PersonId_PersonalInformation.PersonId_PhysicalInformation.Weight >= listModelsQueryParamArg.WeightFrom) &&
+                             t.PersonId_PersonalInformation.PersonId_PhysicalInformation.Weight >=
+                             listModelsQueryParamArg.WeightFrom) &&
                             (listModelsQueryParamArg.WeightThru == null ||
-                                t.PersonId_PersonalInformation.PersonId_PhysicalInformation.Weight <= listModelsQueryParamArg.WeightThru) &&
-                            (listModelsQueryParamArg.SelectedCities.Count == 0 || listModelsQueryParamArg.SelectedCities.Contains(t.PersonId_PersonalInformation.CityGeoId))
+                             t.PersonId_PersonalInformation.PersonId_PhysicalInformation.Weight <=
+                             listModelsQueryParamArg.WeightThru) &&
+                            (listModelsQueryParamArg.SelectedCities.Count == 0 ||
+                             listModelsQueryParamArg.SelectedCities.Contains(t.PersonId_PersonalInformation.CityGeoId))
                     );
             return result.QueryResultList<ModelListModel>(queryParamArg);
         }

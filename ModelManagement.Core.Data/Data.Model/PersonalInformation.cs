@@ -27,6 +27,7 @@ namespace ModelManagement.Core.Data.Data.Model
         public string GeoId { get; set; }
         public string CountryGeoId { get; set; }
         public string CityGeoId { get; set; }
+        public string ExperienceEnumId { get; set; }
         public virtual Adderss Adderss { get; set; }
         public virtual PhysicalInformation PersonId_PhysicalInformation { get; set; }
         public virtual List<ContactInformation> ContactInformations_PersonId { get; set; }
@@ -38,9 +39,10 @@ namespace ModelManagement.Core.Data.Data.Model
         public virtual List<WorkExperiance> WorkExperiances { get; set; }
         public virtual User PersonId_User { get; set; }
         public virtual UserLogin UserLoginId_UserLogin { get; set; }
-        public virtual Enumeration Enumeration_MaritialStatusEnumId { get; set; }
+       // public virtual Enumeration Enumeration_MaritialStatusEnumId { get; set; }
         public virtual Geo GeoId_Geo { get; set; }
         public virtual Geo CountryGeoId_Geo { get; set; }
         public virtual Geo CityGeoId_Geo { get; set; }
+        public virtual Enumeration ExperienceEnumId_Enumeration { get; set; }
     }
 }

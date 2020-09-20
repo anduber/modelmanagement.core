@@ -33,10 +33,13 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
             return ListGeosFromAssoc(geoId);
         }
 
-        public List<KeyDescription> LookupEnumByType(string enumTypeId)
+        public QueryResult LookupEnumByType(string enumTypeId,QueryParamArg queryParamArg)
         {
-            var enums = ModelManagementContext().Enumerations.Where(t => t.EnumerationTypeId == enumTypeId).OrderBy(o => o.Description);
-            return enums.ToLookUp();
+            queryParamArg.SetDefaultSortColumn("SequenceId");
+            var enums =
+                ModelManagementContext()
+                    .Enumerations.Where(t => t.EnumerationTypeId == enumTypeId);
+            return enums.QueryResultList<KeyDescription>(queryParamArg);
         }
 
         public List<KeyDescriptionId> LookupCategoryType()

@@ -10,20 +10,23 @@ namespace ModelManagement.Core.Data.Data.Model
     {
         public Enumeration()
         {
-            MaritialStatus_PersonalInformation = new List<PersonalInformation>();
-            HeightEnumId_PhysicalInformation = new List<PhysicalInformation>();
-            WeightEnumId_PhysicalInformation = new List<PhysicalInformation>();
+            Enumeration_Complexion = new List<PhysicalInformation>();
             Enumeration_JobPostPaymentMethodEnum = new List<JobPost>();
             Enumeration_AgentJobEnum = new List<JobPost>();
+            PersonalInformationExperiance_PersonalInformation = new List<PersonalInformation>();
+            Enumeration_HairColor = new List<PhysicalInformation>();
         }
         public string EnumerationId { get; set; }
         public string EnumerationTypeId { get; set; }
         public string Description { get; set; }
+        public string SequenceId { get; set; }
+        public string IsActive { get; set; }
         public virtual EnumerationType EnumerationType { get; set; }
-        public virtual List<PersonalInformation> MaritialStatus_PersonalInformation { get; set; }
-        public virtual List<PhysicalInformation> HeightEnumId_PhysicalInformation { get; set; }
-        public virtual List<PhysicalInformation> WeightEnumId_PhysicalInformation { get; set; }
+        public virtual List<PhysicalInformation> Enumeration_Complexion { get; set; }
+        public virtual List<PhysicalInformation> Enumeration_HairColor { get; set; }
         public virtual List<JobPost> Enumeration_JobPostPaymentMethodEnum { get; set; }
         public virtual List<JobPost> Enumeration_AgentJobEnum { get; set; }
+        public virtual List<PersonalInformation> PersonalInformationExperiance_PersonalInformation { get; set; }
+
     }
 }

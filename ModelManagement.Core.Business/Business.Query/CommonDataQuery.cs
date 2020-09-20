@@ -44,7 +44,7 @@ namespace ModelManagement.Core.Business.Business.Query
         public string EnumTypeId { get; set; }
         public QueryResult Execute()
         {
-            return Utility.QuerySuccessResult(new CommonDataQueryAppService().LookupEnumByType(EnumTypeId));
+            return new CommonDataQueryAppService().LookupEnumByType(EnumTypeId, QueryParamArg);
         }
     }
 

@@ -17,6 +17,7 @@ namespace ModelManagement.Core.Business.Business.Query.EntityProfile
             MapDesc<RoleType>(t => t.Description);
             MapDesc<UserLogin>(t => t.User_PersonId.PersonId_PersonalInformation.FirstName);
             MapDesc<User>(t => t.Description);
+            MapDesc<Enumeration>(t => t.Description);
             #endregion
 
             #region KeyDescriptions
@@ -70,6 +71,7 @@ namespace ModelManagement.Core.Business.Business.Query.EntityProfile
                 .ForMember(t => t.StatusId, opt => opt.MapFrom(t => t.PersonId_User.StatusId))
                 .ForMember(t => t.Status, opt => opt.MapFrom(t => t.PersonId_User.StatusId_StatusItem.Description))
                 .ForMember(t => t.Categories, opt => opt.MapFrom(t => t.Categories_PersonId))
+                .ForMember(t => t.Experience, opt => opt.MapFrom(t => t.ExperienceEnumId_Enumeration))
                 .ForMember(t => t.PrimaryEmail, opt => opt.MapFrom(t => t.PersonId_User.PrimaryEmail))
                 .ForMember(t => t.PrimaryPhoneNumber, opt => opt.MapFrom(t => t.PersonId_User.PrimaryPhoneNumber))
                 //.ForMember(t => t.CountryGeoId,
@@ -128,7 +130,10 @@ namespace ModelManagement.Core.Business.Business.Query.EntityProfile
                  //.ForMember(t => t.FileType, opt => opt.MapFrom(t => t.FileType_FileTypeId))
                  //.ForMember(t => t.ParentFileType, opt => opt.MapFrom(t => t.FileType_FileTypeId.FileType_ParentFileTypeId.Description))
                  ;
-            CreateMap<PhysicalInformation, PhysicalInformationEditModel>();
+            CreateMap<PhysicalInformation, PhysicalInformationEditModel>()
+                .ForMember(t=>t.ComplexionDesc,opt=> opt.MapFrom(t=>t.Complexion_Enumeration))
+                .ForMember(t=>t.HairColorDesc,opt=> opt.MapFrom(t=>t.HairColor_Enumeration))
+                ;
             CreateMap<Category, CategoryQueryModel>()
                 .ForMember(t => t.CategoryType, opt => opt.MapFrom(t => t.CategoryTypeId_CategoryType))
                 .ForMember(t => t.CategoryId, opt => opt.MapFrom(t => t.CategoryTypeId));
@@ -167,6 +172,8 @@ namespace ModelManagement.Core.Business.Business.Query.EntityProfile
             CreateMap<User, ModelListModel>()
                 .ForMember(t => t.FirstName, opt => opt.MapFrom(t => t.PersonId_PersonalInformation.FirstName))
                 .ForMember(t => t.FatherName, opt => opt.MapFrom(t => t.PersonId_PersonalInformation.FatherName))
+                .ForMember(t => t.Experience,
+                    opt => opt.MapFrom(t => t.PersonId_PersonalInformation.ExperienceEnumId_Enumeration))
                 .ForMember(t => t.Sex, opt => opt.MapFrom(t => t.PersonId_PersonalInformation.Sex))
                 .ForMember(t => t.Height,
                     opt => opt.MapFrom(t => t.PersonId_PersonalInformation.PersonId_PhysicalInformation.Height))

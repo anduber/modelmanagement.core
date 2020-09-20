@@ -138,7 +138,8 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             personalInfo.PersonId = personId;
             personalInfo.GeoId = personalInfoArg.GeoId;
             personalInfo.CityGeoId = personalInfoArg.CityGeoId;
-            personalInfo.CountryGeoId = personalInfoArg.CountryGeoId;            
+            personalInfo.CountryGeoId = personalInfoArg.CountryGeoId;
+            personalInfo.ExperienceEnumId = personalInfoArg.ExperienceEnumId;           
             return personalInfo;
         }
 
