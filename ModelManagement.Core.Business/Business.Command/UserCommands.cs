@@ -342,7 +342,7 @@ namespace ModelManagement.Core.Business.Business.Command
         public string PhoneNumber { get; set; }
         public CommandResult Execute()
         {
-            throw new NotImplementedException();
+            return new UserService().CheckUserVerified(PhoneNumber);
         }
     }
 }

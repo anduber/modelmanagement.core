@@ -498,5 +498,20 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             User().Update(user);
             return Utility.CommandSuccess();
         }
+
+        public CommandResult CheckUserVerified(string phoneNumber)
+        {
+            var userFound = User().FirstOrDefault(t => t.PrimaryPhoneNumber == phoneNumber);
+            if (userFound == null)
+                //return new QueryResult { IsSuccess = false, ErrorMessage = "Your phone number is not registered!" };
+                return Utility.CommandError("Your phone number is not registered!");
+            if (userFound.IsUserActivated == "Y")
+            {
+                return Utility.CommandError("Your account is already activated!");
+            }
+            userFound.VerificationCode = Utility.GetVerificationCode();
+            User().Update(userFound);
+            return Utility.CommandSuccess(userFound.VerificationCode);
+        }
     }
 }

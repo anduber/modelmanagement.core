@@ -237,9 +237,22 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
                              t.PersonId_PersonalInformation.PersonId_PhysicalInformation.Weight <=
                              listModelsQueryParamArg.WeightThru) &&
                             (listModelsQueryParamArg.SelectedCities.Count == 0 ||
-                             listModelsQueryParamArg.SelectedCities.Contains(t.PersonId_PersonalInformation.CityGeoId))
+                             listModelsQueryParamArg.SelectedCities.Contains(t.PersonId_PersonalInformation.CityGeoId)) &&
+                            (string.IsNullOrEmpty(listModelsQueryParamArg.ExperienceId) ||
+                             t.PersonId_PersonalInformation.ExperienceEnumId == listModelsQueryParamArg.ExperienceId)
                     );
             return result.QueryResultList<ModelListModel>(queryParamArg);
+        }
+
+        public QueryResult CheckUserVerificationCode(string phoneNumber,string verificationCode)
+        {
+            var result =
+                ModelManagementContext()
+                    .Users.FirstOrDefault(
+                        t => t.PrimaryPhoneNumber == phoneNumber && t.VerificationCode == verificationCode);
+            return result == null
+                ? Utility.QueryErrorResult("Invalid verification code.")
+                : Utility.QuerySuccessResult(true);
         }
     }
 }

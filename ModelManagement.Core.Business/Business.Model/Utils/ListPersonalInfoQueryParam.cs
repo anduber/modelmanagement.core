@@ -64,6 +64,7 @@ namespace ModelManagement.Core.Business.Business.Model.Utils
         public int ThruAge { get; set; }
         public double? BmiFrom { get; set; }
         public double? BmiThru { get; set; }
+        public string ExperienceId { get; set; }
         public List<string> SelectedCities { get; set; }
     }
 }

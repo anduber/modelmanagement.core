@@ -120,5 +120,15 @@ namespace ModelManagement.Core.Business.Business.Query
         }
     }
 
+    public class CheckUserVerificationCodeQuery:QueryCommandBase,IQuery
+    {
+        public string PhoneNumber { get; set; }
+        public string VerificationCode { get; set; }
+        public QueryResult Execute()
+        {
+            return new UserQueryAppService().CheckUserVerificationCode(PhoneNumber,VerificationCode);
+        }
+    }
+
 
 }
