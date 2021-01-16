@@ -58,7 +58,7 @@ namespace ModelManagement.Core.Data.Data.Context
         public DbSet<SkillType> SkillTypes { get; set; }
         public DbSet<StatusType> StatusTypes { get; set; }
         public DbSet<JobApplication> JobApplications { get; set; }
-
+        public DbSet<UserType> UserTypes { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -105,6 +105,7 @@ namespace ModelManagement.Core.Data.Data.Context
             modelBuilder.Configurations.Add(new SkillTypeMap());
             modelBuilder.Configurations.Add(new StatusTypeMap());
             modelBuilder.Configurations.Add(new JobApplicationMap());
+            modelBuilder.Configurations.Add(new UserTypeMap());
         }
     }
 }

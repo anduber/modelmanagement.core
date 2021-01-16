@@ -13,6 +13,13 @@ namespace ModelManagement.Core.Data.Data.Mapping
             HasKey(t => new { t.PersonId });
             HasOptional(t => t.PersonId_PersonalInformation).WithRequired(s => s.PersonId_User).WillCascadeOnDelete(false);
             HasOptional(t => t.StatusId_StatusItem).WithMany(t => t.UserId_Users).HasForeignKey(t => t.StatusId);
+            HasOptional(t => t.UserTypeId_UserType)
+                .WithMany(t => t.UserType_UserTypeIds)
+                .HasForeignKey(t => t.UserTypeId);
+            HasOptional(t => t.UserMainTypeId_UserType)
+                .WithMany(t => t.UserType_UserMainTypeIds)
+                .HasForeignKey(t => t.UserMainTypeId);
+
 
             #endregion
 
@@ -21,29 +28,29 @@ namespace ModelManagement.Core.Data.Data.Mapping
                     .IsRequired()
                     .HasMaxLength(50);
             Property(t => t.UserNumber)
-                 .IsRequired()
-                 .HasMaxLength(60)
-                 .HasColumnAnnotation(IndexAnnotation.AnnotationName,
-                                      new IndexAnnotation(
-                                          new IndexAttribute("IX_UserNumber,1")
-                                          {
-                                              IsUnique = true
-                                          }));
+                .IsRequired()
+                .HasMaxLength(60)
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName,
+                    new IndexAnnotation(
+                        new IndexAttribute("IX_UserNumber,1")
+                        {
+                            IsUnique = true
+                        }));
             Property(t => t.PrimaryEmail)
-               .IsOptional()
-               .HasMaxLength(60)
-               .HasColumnAnnotation(IndexAnnotation.AnnotationName,
-                                    new IndexAnnotation(
-                                        new IndexAttribute("IX_Email,1")
-                                        {
-                                            IsUnique = true
-                                        }));
+                .IsOptional()
+                .HasMaxLength(60)
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName,
+                    new IndexAnnotation(
+                        new IndexAttribute("IX_Email,1")
+                        {
+                            IsUnique = true
+                        }));
 
 
             Property(t => t.PersonId).HasColumnName("PERSON_ID");
             Property(t => t.UserNumber).HasColumnName("USER_NUMBER");
-            //this.Property(t => t.RoleTypeId).HasColumnName("ROLE_TYPE_ID");
-            //Property(t => t.UserName).HasColumnName("USER_NAME");
+            Property(t => t.UserMainTypeId).HasMaxLength(50).HasColumnName("USER_MAIN_TYPEID");
+            Property(t => t.UserTypeId).HasMaxLength(50).HasColumnName("USER_TYPE_ID");
             //this.Property(t => t.Password).HasColumnName("PASSWORD");
             Property(t => t.PrimaryEmail).HasMaxLength(100).HasColumnName("PRIMARY_EMAIL");
             Property(t => t.StatusId).HasColumnName("STATUS_ID");
@@ -53,13 +60,14 @@ namespace ModelManagement.Core.Data.Data.Mapping
             //Property(t => t.RequirePasswordChange).HasMaxLength(1).HasColumnName("REQUIRE_PASSWORD_CHANGE");
             Property(t => t.IsUserActivated).HasMaxLength(1).HasColumnName("IS_USER_ACTIVATED");
             Property(t => t.VerificationCode).HasMaxLength(50).HasColumnName("VERIFICATION_CODE");
+            Property(t => t.TaxId).HasMaxLength(50).HasColumnName("TAX_ID");
             Property(t => t.UserLoginId).HasMaxLength(50).HasColumnName("USER_LOGIN_ID");
             Property(t => t.CreatedStamp).HasColumnName("CREATED_STAMP");
             Property(t => t.LastUpdatedStamp).HasColumnName("LAST_UPDATED_STAMP");
 
             #endregion
 
-            this.ToTable("user");
+            ToTable("user");
         }
     }
 }

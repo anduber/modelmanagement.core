@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace ModelManagement.Core.Data.Data.Model
 {
@@ -10,15 +6,13 @@ namespace ModelManagement.Core.Data.Data.Model
     {
         public UserType()
         {
-            //UserApplId_UserAppls = new List<UserAppl>();
+            UserType_UserTypeIds = new List<User>();
+            UserType_UserMainTypeIds = new List<User>();
         }
         public string UserTypeId { get; set; }
-        public string Sequence { get; set; }
         public string Description { get; set; }
-        public string LongDescription { get; set; }
-        public int? ValidNoOfDays { get; set; }
-        public double? FeeAmount { get; set; }
-        public virtual UserLogin UserLoginId_UserLogin { get; set; }
-        //public virtual List<UserAppl> UserApplId_UserAppls { get; set; }
+        public virtual List<User> UserType_UserTypeIds { get; set; }
+        public virtual List<User> UserType_UserMainTypeIds { get; set; }
+
     }
 }

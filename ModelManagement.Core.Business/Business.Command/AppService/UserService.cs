@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using ModelManagement.Core.Business.Business.Command.CommandArgs;
 using ModelManagement.Core.Business.Business.Command.EntityRepositories;
@@ -486,7 +487,8 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
                     SetUser(Utility.RoleTypeAgent, personInfoArg.UserName, Utility.DefaultPassword, personInfoArg.Email,
                         Utility.StatusDisabled, "N", personInfoArg.PrimaryPhone), personInfoArg.UserName);
             PersonalInformation().Add(SetPersonalInfo(personInfoArg, user.PersonId, user.UserLoginId));
-            SetUserAppl(personInfoArg.OfferTypeId, user.PersonId, user.UserLoginId);
+            if(!string.IsNullOrEmpty(personInfoArg.OfferTypeId))
+                SetUserAppl(personInfoArg.OfferTypeId, user.PersonId, user.UserLoginId);
             AddUserRole(user.PersonId, Utility.RoleTypeAgent, user.UserLoginId);
             return user;
         }

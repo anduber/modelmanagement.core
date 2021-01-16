@@ -35,7 +35,7 @@ namespace ModelManagement.Core.Business.Business.Command
             var user = service.UpdateUser(PersonId, RoleTypeId, Email);
             return Utility.CommandSuccess();
         }
-    }        
+    }
 
     public class RemoveUserCommand : CommandBase, ICommand
     {
@@ -113,7 +113,7 @@ namespace ModelManagement.Core.Business.Business.Command
                 {
                     categoryService.UpdateCategories(CategoryTypeIds, PersonId, UserLoginId);
                 }
-                if (ContactInfoArgs.Count>0)
+                if (ContactInfoArgs.Count > 0)
                 {
                     contactService.UpdateContactInfos(PersonId, ContactInfoArgs, UserLoginId);
                 }
@@ -140,7 +140,7 @@ namespace ModelManagement.Core.Business.Business.Command
     }
 
 
-    public class UpdatePhysicalInfoCommand:CommandBase,ICommand
+    public class UpdatePhysicalInfoCommand : CommandBase, ICommand
     {
         public string PersonId { get; set; }
         public PhysicalInformationArg PhysicalInformationArg { get; set; }
@@ -151,7 +151,7 @@ namespace ModelManagement.Core.Business.Business.Command
         }
         public CommandResult Execute()
         {
-            return new UserService().UpdatePhysicalInfo(PersonId,PhysicalInformationArg,UserLoginId);
+            return new UserService().UpdatePhysicalInfo(PersonId, PhysicalInformationArg, UserLoginId);
         }
     }
 
@@ -163,7 +163,7 @@ namespace ModelManagement.Core.Business.Business.Command
 
         public CommandResult Execute()
         {
-            return new UserService().ChangeUserPassword(UserName,CurrentPassword,NewPassword);
+            return new UserService().ChangeUserPassword(UserName, CurrentPassword, NewPassword);
         }
     }
 
@@ -221,24 +221,24 @@ namespace ModelManagement.Core.Business.Business.Command
         }
     }
 
-    public class CreateContactCommand:CommandBase,ICommand 
+    public class CreateContactCommand : CommandBase, ICommand
     {
         public string PersonId { get; set; }
         public ContactInfoArg ContactInfoArg { get; set; }
         public CommandResult Execute()
         {
-            return new UserService().CreateContactInfo(PersonId,ContactInfoArg,UserLoginId);
+            return new UserService().CreateContactInfo(PersonId, ContactInfoArg, UserLoginId);
         }
     }
 
-    public class SetVisitorCommand:CommandBase,ICommand
+    public class SetVisitorCommand : CommandBase, ICommand
     {
         public VisitorArg VisitorArg { get; set; }
         public CommandResult Execute()
         {
             using (var transaction = new TransactionScope())
             {
-                var result = new UserService(transaction.Context).SetVisitor(VisitorId,UserLoginId,UserAgentTypeId,SecurityToken,VisitorArg);
+                var result = new UserService(transaction.Context).SetVisitor(VisitorId, UserLoginId, UserAgentTypeId, SecurityToken, VisitorArg);
                 transaction.CompleteTransaction();
                 return result;
             }
@@ -261,7 +261,7 @@ namespace ModelManagement.Core.Business.Business.Command
     //    }
     //}
 
-    public class ActivateUserAccountCommand:CommandBase,ICommand
+    public class ActivateUserAccountCommand : CommandBase, ICommand
     {
         public string UserName { get; set; }
         public string PhoneNumber { get; set; }
@@ -280,18 +280,18 @@ namespace ModelManagement.Core.Business.Business.Command
         }
     }
 
-    public class UserLoginCommand:CommandBase,ICommand
+    public class UserLoginCommand : CommandBase, ICommand
     {
         public string UserName { get; set; }
         public string PhoneNumber { get; set; }
         public string Password { get; set; }
         public CommandResult Execute()
         {
-            return new UserService().AuthenticateUser(UserName,Password,PhoneNumber);
+            return new UserService().AuthenticateUser(UserName, Password, PhoneNumber);
         }
     }
 
-    public class ResetPasswordCommand:CommandBase,ICommand
+    public class ResetPasswordCommand : CommandBase, ICommand
     {
         public string Email { get; set; }
         public CommandResult Execute()
@@ -300,7 +300,7 @@ namespace ModelManagement.Core.Business.Business.Command
         }
     }
 
-    public class ResendActivationCodeCommand:CommandBase,ICommand
+    public class ResendActivationCodeCommand : CommandBase, ICommand
     {
         public string UserName { get; set; }
         public CommandResult Execute()
@@ -311,33 +311,36 @@ namespace ModelManagement.Core.Business.Business.Command
 
     public class CreateAgentCommand : CommandBase, ICommand
     {
+        public ContentArg LogoImage { get; set; }
         public PersonalInformationArg PersonalInformationArg { get; set; }
         public CreateAgentCommand()
         {
             PersonalInformationArg = new PersonalInformationArg();
+            LogoImage = new ContentArg();
         }
         public CommandResult Execute()
         {
             using (var transaction = new TransactionScope())
             {
                 var user = new UserService(transaction.Context).CreateAgent(PersonalInformationArg);
+                new ContentService(transaction.Context).AddContent(LogoImage, user.PersonId, UserLoginId);
                 transaction.CompleteTransaction();
                 return Utility.CommandSuccess(user.VerificationCode);
             }
         }
     }
 
-    public class SetUserVerificationCodeCommand:CommandBase,ICommand
+    public class SetUserVerificationCodeCommand : CommandBase, ICommand
     {
         public string UserId { get; set; }
         public string VerificationCode { get; set; }
         public CommandResult Execute()
         {
-            return new UserService().SetUserActivationCode(UserId,VerificationCode);
+            return new UserService().SetUserActivationCode(UserId, VerificationCode);
         }
     }
 
-    public class CheckUserVerifiedCommand:CommandBase,ICommand
+    public class CheckUserVerifiedCommand : CommandBase, ICommand
     {
         public string PhoneNumber { get; set; }
         public CommandResult Execute()

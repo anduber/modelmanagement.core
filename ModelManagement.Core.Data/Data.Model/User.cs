@@ -17,14 +17,18 @@ namespace ModelManagement.Core.Data.Data.Model
         }
         public string PersonId { get; set; }
         public string UserNumber { get; set; }
-        //public string UserName { get; set; }
+        public string UserMainTypeId { get; set; }
+        public string UserTypeId { get; set; }
         public string PrimaryEmail { get; set; }
         public string PrimaryPhoneNumber { get; set; }
         public string Description { get; set; }
         public string StatusId { get; set; }
         public string IsUserActivated { get; set; }
         public string VerificationCode { get; set; }
+        public string TaxId { get; set; }
         public virtual PersonalInformation PersonId_PersonalInformation { get; set; }
+        public virtual UserType UserTypeId_UserType { get; set; }
+        public virtual UserType UserMainTypeId_UserType { get; set; }
         public virtual List<UserAppl> UserApplId_UserAppls { get; set; }
         public virtual StatusItem StatusId_StatusItem { get; set; }
         public virtual List<UserRole> UserRoleId_UserRoles { get; set; }
