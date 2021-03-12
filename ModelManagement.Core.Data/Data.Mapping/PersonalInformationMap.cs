@@ -46,6 +46,7 @@ namespace ModelManagement.Core.Data.Data.Mapping
             Property(t => t.Sex).HasMaxLength(1).HasColumnName("SEX");
             Property(t => t.GeoId).HasColumnName("GEO_ID");
             Property(t => t.CityGeoId).HasColumnName("CITY_GEO_ID");
+            Property(t => t.Description).HasMaxLength(50).HasColumnName("DESCRIPTION");
             Property(t => t.CountryGeoId).HasMaxLength(50).HasColumnName("COUNTRY_GEO_ID");
             Property(t => t.MaritialStatusEnumId).HasMaxLength(50).HasColumnName("MARITIAL_STATUS_ENUM_ID");
             Property(t => t.ExperienceEnumId).HasColumnName("EXPERIENCE_ENUM_ID");

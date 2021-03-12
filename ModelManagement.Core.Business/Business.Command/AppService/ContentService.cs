@@ -24,9 +24,9 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
 
         public Uploadable CreateUplodable(UploadableArg uplodableArg, string personId, string userLoginId)
         {
-            var _uplodable = SetUplodable(uplodableArg, personId, userLoginId);
-            _uplodableRepository.Create(_uplodable);
-            return _uplodable;
+            var uplodable = SetUplodable(uplodableArg, personId, userLoginId);
+            _uplodableRepository.Create(uplodable);
+            return uplodable;
         }
 
         public Uploadable SaveUplodable(UploadableArg uplodableArg, string personId, string userLoginId)

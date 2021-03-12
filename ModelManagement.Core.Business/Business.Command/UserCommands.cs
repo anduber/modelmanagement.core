@@ -199,7 +199,8 @@ namespace ModelManagement.Core.Business.Business.Command
         public List<ContactInfoArg> ContactInfoArgs { get; set; }
         public List<string> CategoryTypeIds { get; set; }
         public List<ContentArg> ContentArgs { get; set; }
-
+        public List<SkillArg> SkillArgs { get; set; }
+        
 
         public CommandResult Execute()
         {
@@ -211,6 +212,7 @@ namespace ModelManagement.Core.Business.Business.Command
                 var contentServie = new ContentService(transaction.Context);
 
                 var user = userService.RegisterModel(PersonalInformationArg, PhysicalInformationArg);
+                userService.AddSkills(SkillArgs,user.PersonId,user.UserLoginId);
                 categoryService.CreateCategories(CategoryTypeIds, user.PersonId, user.UserLoginId);
                 contactService.CreateContactInfos(ContactInfoArgs, user.PersonId, user.UserLoginId);
                 contentServie.AddContents(ContentArgs, user.PersonId, user.UserLoginId);

@@ -40,7 +40,6 @@ namespace ModelManagement.Core.Data.Data.Model
         public virtual List<WorkExperiance> WorkExperiances { get; set; }
         public virtual User PersonId_User { get; set; }
         public virtual UserLogin UserLoginId_UserLogin { get; set; }
-       // public virtual Enumeration Enumeration_MaritialStatusEnumId { get; set; }
         public virtual Geo GeoId_Geo { get; set; }
         public virtual Geo CountryGeoId_Geo { get; set; }
         public virtual Geo CityGeoId_Geo { get; set; }

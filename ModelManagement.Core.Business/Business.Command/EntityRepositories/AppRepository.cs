@@ -35,6 +35,7 @@ namespace ModelManagement.Core.Business.Business.Command.EntityRepositories
         private EntityRepository<ContentData> _contentDataRepository;
         private EntityRepository<StatusType> _statusTypeRepository;
         private EntityRepository<JobApplication> _jobApplicationRepository;
+        private EntityRepository<Skill> _skillRepository;
 
         public AppRepository(ModelManagementContext context = null)
         {
@@ -174,6 +175,11 @@ namespace ModelManagement.Core.Business.Business.Command.EntityRepositories
         public EntityRepository<JobApplication> JobApplication()
         {
             return _jobApplicationRepository ?? (_jobApplicationRepository = new EntityRepository<JobApplication>(Context));
+        }
+
+        public EntityRepository<Skill> Skill()
+        {
+            return _skillRepository ?? (_skillRepository = new EntityRepository<Skill>(Context));
         }
     }
 }

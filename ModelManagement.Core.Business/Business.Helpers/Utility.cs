@@ -228,7 +228,7 @@ namespace ModelManagement.Core.Business.Business.Helpers
             if (queryParamArg?.Pagination != null && !string.IsNullOrEmpty(queryParamArg.SortingColumnName) && !string.IsNullOrEmpty(queryParamArg.SortDirection))
             {
                 return source.OrderBy(queryParamArg.SortingColumnName + " " + queryParamArg.SortDirection)
-                    .Skip(queryParamArg.Pagination.Page * queryParamArg.Pagination.PageSize)
+                    .Skip(queryParamArg.Pagination.Page*queryParamArg.Pagination.PageSize)
                     .Take(queryParamArg.Pagination.PageSize);
             }
             return string.IsNullOrEmpty(queryParamArg?.SortDirection) ? source : source.OrderBy(queryParamArg.SortingColumnName + " " + queryParamArg.SortDirection);

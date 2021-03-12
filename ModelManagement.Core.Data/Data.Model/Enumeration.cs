@@ -15,6 +15,7 @@ namespace ModelManagement.Core.Data.Data.Model
             Enumeration_AgentJobEnum = new List<JobPost>();
             PersonalInformationExperiance_PersonalInformation = new List<PersonalInformation>();
             Enumeration_HairColor = new List<PhysicalInformation>();
+            Enumeration_SkillLevel = new List<Skill>();
         }
         public string EnumerationId { get; set; }
         public string EnumerationTypeId { get; set; }
@@ -27,6 +28,8 @@ namespace ModelManagement.Core.Data.Data.Model
         public virtual List<JobPost> Enumeration_JobPostPaymentMethodEnum { get; set; }
         public virtual List<JobPost> Enumeration_AgentJobEnum { get; set; }
         public virtual List<PersonalInformation> PersonalInformationExperiance_PersonalInformation { get; set; }
+        public virtual List<Skill> Enumeration_SkillLevel { get; set; }
+
 
     }
 }

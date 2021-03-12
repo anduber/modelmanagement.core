@@ -23,6 +23,7 @@ namespace ModelManagement.Core.Business.Business.Query.Models
         public decimal? Quantity { get; set; }
         public string Sex { get; set; }
         public string IsActive { get; set; }
+        public int NoOfPeopleApplied { get; set; }
     }
 
     public class JobOfferListModel : QueryEntity
@@ -44,5 +45,13 @@ namespace ModelManagement.Core.Business.Business.Query.Models
         public string ApplyingUser { get; set; }
         public string StatusId { get; set; }
         public DateTime? ApplicationDate { get; set; }
+    }
+
+    public class SkillListModel:QueryEntity
+    {
+        public string PersonId { get; set; }
+        public string SkillTypeId { get; set; }
+        public string SkillLevelEnumId { get; set; }
+        public string SkillInfo { get; set; }
     }
 }

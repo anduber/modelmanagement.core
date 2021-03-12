@@ -252,17 +252,17 @@ namespace ModelManagement.Business.Test
         [TestMethod]
         public void CreateUploadableCommandTest()
         {
-            CreateUploadableCommand _createUploadable = new CreateUploadableCommand
+            var createUploadable = new CreateUploadableCommand
             {
                 PersonId = "421f563f-1840-4635-9b70-a6e1fd57fe6a",
                 UplodableArg = new UploadableArg
                 {
                     FileTypeId = "PROFILE_PIC",
-                    File = new UtilityMethods().ConvertImageToByteArray("/res/23.jpg")
+                    File = new UtilityMethods().ConvertImageToByteArray("1.jpg")
                 },
                 UserLoginId = "142f29b4-f873-4bf8-b1fe-88db902e46b1"
             };
-            var _result = _service.InvokeCommand(_createUploadable);
+            var result = _service.InvokeCommand(createUploadable);
         }
 
         [TestMethod]

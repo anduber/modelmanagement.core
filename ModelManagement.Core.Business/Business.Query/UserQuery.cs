@@ -130,5 +130,22 @@ namespace ModelManagement.Core.Business.Business.Query
         }
     }
 
+    public class LookupSkillTypeQuery:QueryCommandBase,IQuery
+    {
+        public QueryResult Execute()
+        {
+            return new UserQueryAppService().LookupSkillType();
+        }
+    }
+
+    public class ListSkillQuery:QueryCommandBase,IQuery
+    {
+        public string PersonId { get; set; }
+        public QueryResult Execute()
+        {
+            return new UserQueryAppService().ListSkill(PersonId,QueryParamArg);
+        }
+    }
+
 
 }

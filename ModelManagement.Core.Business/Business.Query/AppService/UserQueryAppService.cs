@@ -254,5 +254,18 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
                 ? Utility.QueryErrorResult("Invalid verification code.")
                 : Utility.QuerySuccessResult(true);
         }
+
+        public QueryResult LookupSkillType()
+        {
+            return ModelManagementContext().SkillTypes.QueryResultList<KeyDescription>();
+        }
+
+        public QueryResult ListSkill(string personId,QueryParamArg queryParamArg)
+        {
+            return
+                ModelManagementContext()
+                    .Skills.Where(t => t.PersonId == personId)
+                    .QueryResultList<SkillListModel>(queryParamArg);
+        }
     }
 }

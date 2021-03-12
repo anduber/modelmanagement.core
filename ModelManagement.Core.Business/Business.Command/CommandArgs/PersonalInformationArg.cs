@@ -19,5 +19,7 @@ namespace ModelManagement.Core.Business.Business.Command.CommandArgs
         public string ProfilePicPath { get; set; }
         public string PrimaryPhone { get; set; }
         public string ExperienceEnumId { get; set; }
+        public string Description { get; set; }
+        public string TaxId { get; set; }
     }
 }

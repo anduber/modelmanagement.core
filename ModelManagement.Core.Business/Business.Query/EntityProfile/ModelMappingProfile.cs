@@ -29,6 +29,7 @@ namespace ModelManagement.Core.Business.Business.Query.EntityProfile
             MapKeyDesc<CategoryType>(t => t.CategoryTypeId, t => t.Description);
             MapKeyDescId<CategoryType>(t => t.CategoryTypeId, t => t.Description, t => t.ParentTypeId);
             MapKeyDesc<Category>(t => t.CategoryTypeId, t => t.CategoryTypeId_CategoryType.Description);
+            MapKeyDesc<SkillType>(t => t.SkillTypeId, t => t.Description);
             #endregion
 
             CreateMap<PersonalInformation, PersonalInformationQueryModel>()
@@ -161,8 +162,9 @@ namespace ModelManagement.Core.Business.Business.Query.EntityProfile
                 ;
 
             CreateMap<JobPost, JobPostListModel>()
-                //.ForMember(t => t.UserLogin, opt => opt.MapFrom(t => t.UserLoginId_UserLogin))
+                .ForMember(t => t.NoOfPeopleApplied, opt => opt.MapFrom(t => t.JobPost_JobApplications.Count))
                 ;
+
             CreateMap<JobOffer, JobOfferListModel>()
                 .ForMember(t => t.ModelUser, opt => opt.MapFrom(t => t.JobOffer_ModelUserId))
                 ;
@@ -193,6 +195,10 @@ namespace ModelManagement.Core.Business.Business.Query.EntityProfile
                 .ForMember(t => t.ApplyingUser, opt => opt.MapFrom(t => t.JobApplication_ApplyingUser.UserNumber));
 
             ;
+
+            CreateMap<Skill, SkillListModel>();
+
+
 
         }
     }

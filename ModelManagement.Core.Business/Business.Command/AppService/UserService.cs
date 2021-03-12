@@ -105,7 +105,7 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             return userLogin;
         }
 
-        public User SetUser(string roleTypeId, string userName, string password, string email, string statusId, string isUserActivated, string primaryPhoneNumber)
+        public User SetUser(string roleTypeId, string userName, string password, string email, string statusId, string isUserActivated, string primaryPhoneNumber,string taxId)
         {
             return new User
             {
@@ -115,6 +115,7 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
                 PrimaryPhoneNumber = primaryPhoneNumber,
                 PrimaryEmail = email,
                 IsUserActivated = isUserActivated,
+                TaxId = taxId,
                 StatusId = string.IsNullOrEmpty(statusId) ? Utility.StatusDisabled : statusId
             };
         }
@@ -240,7 +241,7 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             var user =
                 CreateUser(
                     SetUser(Utility.RoleTypeModel, personInfoArg.UserName, Utility.DefaultPassword, personInfoArg.Email,
-                        Utility.StatusDisabled, "N", personInfoArg.PrimaryPhone), personInfoArg.UserName);
+                        Utility.StatusDisabled, "N", personInfoArg.PrimaryPhone,personInfoArg.TaxId), personInfoArg.UserName);
             PersonalInformation().Add(SetPersonalInfo(personInfoArg, user.PersonId, user.UserLoginId));
             SetCreateUpdatePhysicalInformation(null, physicalInfoArg, user.PersonId, user.UserLoginId);
             SetUserAppl(personInfoArg.OfferTypeId, user.PersonId, user.UserLoginId);
@@ -485,7 +486,7 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
         {
             var user = CreateUser(
                     SetUser(Utility.RoleTypeAgent, personInfoArg.UserName, Utility.DefaultPassword, personInfoArg.Email,
-                        Utility.StatusDisabled, "N", personInfoArg.PrimaryPhone), personInfoArg.UserName);
+                        Utility.StatusDisabled, "N", personInfoArg.PrimaryPhone,personInfoArg.TaxId), personInfoArg.UserName);
             PersonalInformation().Add(SetPersonalInfo(personInfoArg, user.PersonId, user.UserLoginId));
             if(!string.IsNullOrEmpty(personInfoArg.OfferTypeId))
                 SetUserAppl(personInfoArg.OfferTypeId, user.PersonId, user.UserLoginId);
@@ -514,6 +515,28 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             userFound.VerificationCode = Utility.GetVerificationCode();
             User().Update(userFound);
             return Utility.CommandSuccess(userFound.VerificationCode);
+        }
+
+        public Skill AddSkill(string personId,SkillArg skillArg,string userLoginId)
+        {
+            var personSkill = new Skill
+            {
+                SkillId = Utility.GetId(),
+                SkillTypeId = skillArg.SkillTypeId,
+                SkillLevelEnumId = skillArg.SkillLevelEnumId,
+                PersonId = personId,
+                UserLoginId = userLoginId
+            };
+            Skill().Add(personSkill);
+            return personSkill;
+        }
+
+        public void AddSkills(List<SkillArg> skillArgs,string personId,string userLoginId)
+        {
+            foreach (var skill in skillArgs)
+            {
+                AddSkill(personId, skill, userLoginId);
+            }
         }
     }
 }

@@ -71,4 +71,11 @@ namespace ModelManagement.Core.Business.Business.Command.CommandArgs
             SecurityToken = securityToken;
         }
     }
+
+    public class SkillArg
+    {   
+        public string SkillTypeId { get; set; }
+        public string SkillLevelEnumId { get; set; }
+        public string SkillInfo { get; set; }
+    }
 }

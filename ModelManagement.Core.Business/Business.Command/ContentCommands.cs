@@ -17,8 +17,8 @@ namespace ModelManagement.Core.Business.Business.Command
         public UploadableArg UplodableArg { get; set; }
         public CommandResult Execute()
         {
-            var _fileUploadService = new ContentService();
-            var uplodable = _fileUploadService.CreateUplodable(UplodableArg, PersonId, UserLoginId);
+            var fileUploadService = new ContentService();
+            var uplodable = fileUploadService.CreateUplodable(UplodableArg, PersonId, UserLoginId);
             return Utility.CommandSuccess(uplodable.FileUploadId);
         }
     }
