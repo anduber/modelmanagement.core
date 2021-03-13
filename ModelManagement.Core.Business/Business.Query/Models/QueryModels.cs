@@ -18,6 +18,7 @@ namespace ModelManagement.Core.Business.Business.Query.Models
         public decimal? AgeThru { get; set; }
         public string JobLocation { get; set; }
         public string JobLocationGeoId { get; set; }
+        public EntityDescription JobLocationGeo { get; set; }
         public string AgentJobEnumId { get; set; }
         public string AgentLocationGeoId { get; set; }
         public decimal? Quantity { get; set; }

@@ -18,6 +18,7 @@ namespace ModelManagement.Core.Business.Business.Query.EntityProfile
             MapDesc<UserLogin>(t => t.User_PersonId.PersonId_PersonalInformation.FirstName);
             MapDesc<User>(t => t.Description);
             MapDesc<Enumeration>(t => t.Description);
+            MapDesc<Geo>(t => t.GeoName);
             #endregion
 
             #region KeyDescriptions
@@ -163,6 +164,7 @@ namespace ModelManagement.Core.Business.Business.Query.EntityProfile
 
             CreateMap<JobPost, JobPostListModel>()
                 .ForMember(t => t.NoOfPeopleApplied, opt => opt.MapFrom(t => t.JobPost_JobApplications.Count))
+                .ForMember(t => t.JobLocationGeo, opt => opt.MapFrom(t => t.JobPost_JobLocationGeoId))
                 ;
 
             CreateMap<JobOffer, JobOfferListModel>()
