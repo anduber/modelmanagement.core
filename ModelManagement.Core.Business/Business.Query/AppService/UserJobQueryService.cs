@@ -40,6 +40,8 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
                             (jobPostQueryParamArg.AgeThru == null || t.AgeThru <= jobPostQueryParamArg.AgeThru) &&
                             (jobPostQueryParamArg.HeightFrom == null || t.HeightFrom >= jobPostQueryParamArg.HeightFrom) &&
                             (jobPostQueryParamArg.HeightThru == null || t.HeightThru <= jobPostQueryParamArg.HeightThru) &&
+                            (jobPostQueryParamArg.JobLocations.Count == 0 ||
+                             jobPostQueryParamArg.JobLocations.Contains(t.JobLocationGeoId)) &&
                             (string.IsNullOrEmpty(queryParamArg.SearchText) ||
                              t.JobTitle.Contains(queryParamArg.SearchText) ||
                              t.JobDescription.Contains(queryParamArg.SearchText)))

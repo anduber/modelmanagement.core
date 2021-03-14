@@ -1,13 +1,22 @@
-﻿namespace ModelManagement.Core.Business.Business.Query.Models
+﻿using System.Collections.Generic;
+
+namespace ModelManagement.Core.Business.Business.Query.Models
 {
     public class JobPostQueryParamArg
     {
+
+        public JobPostQueryParamArg()
+        {
+            JobLocations = new List<string>();
+        }
+
         public decimal? PaymentAmount { get; set; }
         public decimal? HeightFrom { get; set; }
         public decimal? HeightThru { get; set; }
         public decimal? AgeFrom { get; set; }
         public decimal? AgeThru { get; set; }
         public string JobLocation { get; set; }
+        public List<string> JobLocations { get; set; }
         public string Sex { get; set; }
         public string Complexion { get; set; }
         public string HairColor { get; set; }
