@@ -48,11 +48,14 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
                     .QueryResultList<JobPostListModel>(queryParamArg);
         }
 
-        public QueryResult ListUserJobApplications(string userId,QueryParamArg queryParamArg)
+        public QueryResult ListUserJobApplications(string userId,string jobPostId,QueryParamArg queryParamArg)
         {
             return
                 ModelManagementContext()
-                    .JobApplications.Where(t => t.ApplyingUserId == userId)
+                    .JobApplications.Where(
+                        t =>
+                            (string.IsNullOrEmpty(userId) || t.ApplyingUserId == userId) &&
+                            (string.IsNullOrEmpty(jobPostId) || t.JobPostId == jobPostId))
                     .QueryResultList<JobApplicationListModel>(queryParamArg);
         }
 

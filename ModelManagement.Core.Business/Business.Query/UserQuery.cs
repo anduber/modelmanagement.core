@@ -60,9 +60,10 @@ namespace ModelManagement.Core.Business.Business.Query
     public class CheckUserPhoneExistsQuery : QueryCommandBase, IQuery
     {
         public string PrimaryPhoneNumber { get; set; }
+        public string PrimaryEmail { get; set; }
         public QueryResult Execute()
         {
-            return new UserQueryAppService().CheckUserPhoneExists(PrimaryPhoneNumber);
+            return new UserQueryAppService().CheckUserPhoneExists(PrimaryPhoneNumber,PrimaryEmail);
         }
     }
 
@@ -103,6 +104,18 @@ namespace ModelManagement.Core.Business.Business.Query
         public QueryResult Execute()
         {
             return new UserQueryAppService().ListJobOffer(JobPostId, QueryParamArg);
+        }
+    }
+
+    public class EditJobOfferQuery:QueryCommandBase,IQuery
+    {
+        public string JobOfferId { get; set; }
+        public string JobPostId { get; set; }
+        public string OfferedUserId { get; set; }
+
+        public QueryResult Execute()
+        {
+            return new UserQueryAppService().EditJobOffer(JobOfferId,JobPostId,OfferedUserId);
         }
     }
 

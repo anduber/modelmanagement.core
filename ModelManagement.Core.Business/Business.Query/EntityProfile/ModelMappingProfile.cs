@@ -194,9 +194,15 @@ namespace ModelManagement.Core.Business.Business.Query.EntityProfile
             CreateMap<ContentData, ContentDataListModel>();
 
             CreateMap<JobApplication, JobApplicationListModel>()
-                .ForMember(t => t.ApplyingUser, opt => opt.MapFrom(t => t.JobApplication_ApplyingUser.UserNumber));
-
-            ;
+                .ForMember(t => t.ApplyingUser,
+                    opt =>
+                        opt.MapFrom(
+                            t =>
+                                t.JobApplication_ApplyingUser.PersonId_PersonalInformation.FirstName +
+                                t.JobApplication_ApplyingUser.PersonId_PersonalInformation.FatherName))
+                .ForMember(t => t.ApplyingPersonId,
+                    opt => opt.MapFrom(t => t.JobApplication_ApplyingUser.PersonId_PersonalInformation.PersonId))
+                ;
 
             CreateMap<Skill, SkillListModel>();
 

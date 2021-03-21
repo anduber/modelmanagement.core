@@ -32,9 +32,11 @@ namespace ModelManagement.Core.Business.Business.Query
     public class ListUserJobApplicationsCommand : QueryCommandBase, IQuery
     {
         public string UserId { get; set; }
+        public string JobPostId { get; set; }
+
         public QueryResult Execute()
         {
-            return new UserJobQueryService().ListUserJobApplications(UserId, QueryParamArg);
+            return new UserJobQueryService().ListUserJobApplications(UserId, JobPostId, QueryParamArg);
         }
     }
 

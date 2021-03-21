@@ -125,10 +125,15 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
                 : Utility.QuerySuccessResult(true);
         }
 
-        public QueryResult CheckUserPhoneExists(string phoneNumber)
+        public QueryResult CheckUserPhoneExists(string phoneNumber,string email)
         {
-            var user = ModelManagementContext().Users.FirstOrDefault(t => t.PrimaryPhoneNumber == phoneNumber);
-            return Utility.QuerySuccessResult(user == null);
+            var userPhone = ModelManagementContext().Users.FirstOrDefault(t => t.PrimaryPhoneNumber == phoneNumber);
+            if (userPhone != null)
+                return new QueryResult {IsSuccess = false, ErrorMessage = "The phone number already exists!"};
+            var userEmail = ModelManagementContext().Users.FirstOrDefault(t => t.PrimaryEmail == email);
+            return userEmail != null
+                ? new QueryResult {IsSuccess = false, ErrorMessage = "The email already exists!"}
+                : Utility.QuerySuccessResult(true);
         }
 
         public QueryResult ListPersonUplodables(string personId, string fileTypeId, string fileUploadId)
@@ -178,6 +183,18 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
                 ModelManagementContext()
                     .JobOffers.Where(t => t.JobPostId == jobPostId)
                     .QueryResultList<JobOfferListModel>(queryParamArg);
+        }
+
+        public QueryResult EditJobOffer(string jobOfferId, string jobPostId,string offeredUserId)
+        {
+            return
+                ModelManagementContext()
+                    .JobOffers.Where(
+                        t =>
+                            (string.IsNullOrEmpty(jobOfferId) || t.JobPostId == jobPostId) &&
+                            (string.IsNullOrEmpty(jobPostId) || t.JobPostId == jobPostId) &&
+                            (string.IsNullOrEmpty(offeredUserId) || t.OfferedUserId == offeredUserId)
+                    ).QueryResultGet<JobOfferListModel>();
         }
 
         public QueryResult ListModels(ListModelsQueryParamArg listModelsQueryParamArg, QueryParamArg queryParamArg)
