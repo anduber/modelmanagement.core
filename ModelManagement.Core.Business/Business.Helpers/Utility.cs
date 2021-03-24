@@ -11,6 +11,10 @@ using System.Net;
 using AutoMapper.QueryableExtensions;
 using static System.String;
 using System.Linq.Dynamic;
+using System.Threading;
+using System.Threading.Tasks;
+using Firebase.Auth;
+using Firebase.Storage;
 
 namespace ModelManagement.Core.Business.Business.Helpers
 {
@@ -30,6 +34,10 @@ namespace ModelManagement.Core.Business.Business.Helpers
         public const string HeaderPic = "HEADER_PIC";
         public const string DefaultFilePath = "image/profile.png";
         public const string DefaultPassword = "test";
+        private static string ApiKey = "AIzaSyC-Te-mIDGhumUNLW75jX2pcUJFh6KjX5Q";
+        private static string Bucket = "casting-dd605.appspot.com";
+        private static string AuthEmail = "andu@gmail.com";
+        private static string AuthPassword = "123456";
 
         public class Status
         {
@@ -281,6 +289,24 @@ namespace ModelManagement.Core.Business.Business.Helpers
             var time = data.Take(8).ToArray();
             //var key = data.Skip(8)
         }
+
+
+        public static async Task<string> UploadImageToFirebase(string imageName,byte[] image)
+        {
+            var stream = new MemoryStream(image);
+            var fireBaseAuth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
+            var fireBaseAuthLink = await fireBaseAuth.SignInWithEmailAndPasswordAsync(AuthEmail, AuthPassword);
+            var cancellationToken = new CancellationTokenSource();
+            var uploadTask = new FirebaseStorage(Bucket, new FirebaseStorageOptions
+            {
+                AuthTokenAsyncFactory = () => Task.FromResult(fireBaseAuthLink.FirebaseToken),
+                ThrowOnCancel = true
+            }).Child("images").Child(imageName+".jpg").PutAsync(stream, cancellationToken.Token);
+            var imageLink = await uploadTask;
+            return imageLink;
+        }
+
+
     }
 
     public class UtilityMethods

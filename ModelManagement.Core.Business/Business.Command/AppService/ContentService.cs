@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using ModelManagement.Core.Business.Business.Command.CommandArgs;
 using ModelManagement.Core.Business.Business.Command.EntityRepositories;
+using ModelManagement.Core.Business.Business.Command.Utils;
 using ModelManagement.Core.Business.Business.Helpers;
 using ModelManagement.Core.Data.Data.Context;
 using ModelManagement.Core.Data.Data.Model;
@@ -87,20 +90,27 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             return uploadable;
         }
 
-        public void AddContents(List<ContentArg> contentArgs, string userId, string userLoginId)
+        public async void AddContents(List<ContentArg> contentArgs, string userId, string userLoginId)
         {
+            var contents = new List<Content>();
             foreach (var content in contentArgs)
             {
-                AddContent(content, userId, userLoginId);
+                var c = await AddContent(content, userId, userLoginId);
+                contents.Add(c);
+            }
+            using (var context = new TransactionScope())
+            {
+                var contentRepo = new AppRepository(context.Context);
+                contentRepo.Content().AddRange(contents);
+                context.CompleteTransaction();
             }
         }
 
-        public Content AddContent(ContentArg contentArg, string userId, string userLoginId)
+        public async Task<Content> AddContent(ContentArg contentArg, string userId, string userLoginId)
         {
             var content = SetContentProperty(contentArg, userId, userLoginId);
             content.ContentId = Utility.GetId();
-            Content().Add(content);
-            AddContentData(content.ContentId, contentArg.Data, userLoginId);
+            content.ContentName = await Utility.UploadImageToFirebase(content.ContentId, contentArg.Data);
             return content;
         }
 
@@ -111,8 +121,8 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
                 ContentDescription = contentArg.ContentDescription,
                 ContentTypeId = contentArg.ContentTypeId,
                 ContentUserId = userId,
-                ContentName = contentArg.ContentName,
                 MimeTypeId = contentArg.MimeTypeId,
+                FromDate = DateTime.Now,
                 UserLoginId = userLoginId
             };
         }
@@ -134,18 +144,18 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             var content = Content().Find(contentId);
             var contentData = ContentData().Find(contentId);
             Content().Remove(content);
-            if (contentData!=null)
+            if (contentData != null)
             {
                 ContentData().Remove(contentData);
             }
         }
 
-        public void SetProfilePicture(string userId,string contentId)
+        public void SetProfilePicture(string userId, string contentId)
         {
             var userContents = Content().Filter(t => t.ContentUserId == userId);
             foreach (var content in userContents)
             {
-                content.ContentTypeId = content.ContentId==contentId ? Utility.ContentTypeProfilePic : Utility.HeaderPic;
+                content.ContentTypeId = content.ContentId == contentId ? Utility.ContentTypeProfilePic : Utility.HeaderPic;
                 Content().UpdateEntity(content);
             }
         }

@@ -64,13 +64,16 @@ namespace ModelManagement.Core.Business.Business.Command
 
         public CommandResult Execute()
         {
-            using (var transaction  = new TransactionScope())
-            {
-                var contentService = new ContentService(transaction.Context);
-                contentService.AddContents(ContentArgs, UserId, UserLoginId);
-                transaction.CompleteTransaction();
-                return Utility.CommandSuccess();
-            }
+            //using (var transaction  = new TransactionScope())
+            //{
+            //    var contentService = new ContentService(transaction.Context);
+            //    contentService.AddContents(ContentArgs, UserId, UserLoginId);
+            //    transaction.CompleteTransaction();
+            //    return Utility.CommandSuccess();
+            //}
+            var contentService = new ContentService();
+            contentService.AddContents(ContentArgs, UserId, UserLoginId);
+            return Utility.CommandSuccess();
         }
     }
 
