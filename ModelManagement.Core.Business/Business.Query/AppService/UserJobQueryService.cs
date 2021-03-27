@@ -13,7 +13,7 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
 
         }
 
-        public QueryResult ListJobPost(string userId,string statusId, QueryParamArg queryParamArg)
+        public QueryResult ListJobPost(string userId,string statusId,string isActive, QueryParamArg queryParamArg)
         {
             return
                 ModelManagementContext()
@@ -22,7 +22,9 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
                             t.UserId == userId && (string.IsNullOrEmpty(statusId) || t.StatusId == statusId) &&
                             (string.IsNullOrEmpty(queryParamArg.SearchText) ||
                              t.JobTitle.Contains(queryParamArg.SearchText) ||
-                             t.JobDescription.Contains(queryParamArg.SearchText)))
+                             t.JobDescription.Contains(queryParamArg.SearchText)) &&
+                            (string.IsNullOrEmpty(isActive) || t.IsActive == isActive)
+                    )
                     .QueryResultList<JobPostListModel>(queryParamArg);
         }
 
@@ -42,6 +44,8 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
                             (jobPostQueryParamArg.HeightThru == null || t.HeightThru <= jobPostQueryParamArg.HeightThru) &&
                             (jobPostQueryParamArg.JobLocations.Count == 0 ||
                              jobPostQueryParamArg.JobLocations.Contains(t.JobLocationGeoId)) &&
+                            (string.IsNullOrEmpty(jobPostQueryParamArg.StatusId) ||
+                             jobPostQueryParamArg.StatusId == t.StatusId) &&
                             (string.IsNullOrEmpty(queryParamArg.SearchText) ||
                              t.JobTitle.Contains(queryParamArg.SearchText) ||
                              t.JobDescription.Contains(queryParamArg.SearchText)))

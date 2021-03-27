@@ -133,8 +133,8 @@ namespace ModelManagement.Core.Business.Business.Query.EntityProfile
                  //.ForMember(t => t.ParentFileType, opt => opt.MapFrom(t => t.FileType_FileTypeId.FileType_ParentFileTypeId.Description))
                  ;
             CreateMap<PhysicalInformation, PhysicalInformationEditModel>()
-                .ForMember(t=>t.ComplexionDesc,opt=> opt.MapFrom(t=>t.Complexion_Enumeration))
-                .ForMember(t=>t.HairColorDesc,opt=> opt.MapFrom(t=>t.HairColor_Enumeration))
+                .ForMember(t => t.ComplexionDesc, opt => opt.MapFrom(t => t.Complexion_Enumeration))
+                .ForMember(t => t.HairColorDesc, opt => opt.MapFrom(t => t.HairColor_Enumeration))
                 ;
             CreateMap<Category, CategoryQueryModel>()
                 .ForMember(t => t.CategoryType, opt => opt.MapFrom(t => t.CategoryTypeId_CategoryType))
@@ -189,6 +189,8 @@ namespace ModelManagement.Core.Business.Business.Query.EntityProfile
                     opt => opt.MapFrom(t => t.PersonId_PersonalInformation.PersonId_PhysicalInformation.HairColor))
                 .ForMember(t => t.EyeColor,
                     opt => opt.MapFrom(t => t.PersonId_PersonalInformation.PersonId_PhysicalInformation.EyeColor))
+                .ForMember(t => t.ProfileImage,
+                    opt => opt.MapFrom(t => t.User_Contents.FirstOrDefault(c => c.ContentTypeId == "PROFILE_PIC") == null ? "" : t.User_Contents.FirstOrDefault(c => c.ContentTypeId == "PROFILE_PIC").ContentName))
                 ;
 
             CreateMap<ContentData, ContentDataListModel>();

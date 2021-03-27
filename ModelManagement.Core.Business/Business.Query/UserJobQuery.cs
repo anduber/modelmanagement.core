@@ -8,10 +8,10 @@ namespace ModelManagement.Core.Business.Business.Query
     {
         public string UserId { get; set; }
         public string StatusId { get; set; }
-
+        public string IsActive { get; set; }
         public QueryResult Execute()
         {
-            return new UserJobQueryService().ListJobPost(UserId, StatusId, QueryParamArg);
+            return new UserJobQueryService().ListJobPost(UserId, StatusId,IsActive,QueryParamArg);
         }
     }
 

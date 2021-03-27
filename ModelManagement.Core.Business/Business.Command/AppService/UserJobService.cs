@@ -7,12 +7,17 @@ using ModelManagement.Core.Data.Data.Context;
 using ModelManagement.Core.Data.Data.Model;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text;
+using Telegram.Bot;
 
 namespace ModelManagement.Core.Business.Business.Command.AppService
 {
     public class UserJobService : AppRepository
     {
+        private static readonly TelegramBotClient Bot = new TelegramBotClient("1661724068:AAE_IpAwLpiEhdp8hZi-QHruypSnPHxvBRk");
         private AppRepository _appRepository;
         public UserJobService(ModelManagementContext context = null) : base(context)
         {
@@ -47,7 +52,7 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
                 HeightThru = jobPostCommandArg.HeightThru,
                 AgeFrom = jobPostCommandArg.AgeFrom,
                 AgeThru = jobPostCommandArg.AgeThru,
-                JobLocation = jobPostCommandArg.JobLocation,
+                JobLocationGeoId = jobPostCommandArg.JobLocationGeoId,
                 Quantity = jobPostCommandArg.Quantity,
                 Sex = jobPostCommandArg.Sex,
                 Complexion = jobPostCommandArg.Complexion,
@@ -83,7 +88,7 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             jobPost.HeightThru = jobPostCommandArg.HeightThru;
             jobPost.AgeFrom = jobPostCommandArg.AgeFrom;
             jobPost.AgeThru = jobPostCommandArg.AgeThru;
-            jobPost.JobLocation = jobPostCommandArg.JobLocation;
+            jobPost.JobLocationGeoId = jobPostCommandArg.JobLocationGeoId;
             jobPost.Quantity = jobPostCommandArg.Quantity;
             jobPost.Sex = jobPostCommandArg.Sex;
             JobPost().Update(jobPost);
@@ -93,9 +98,10 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
         public CommandResult CloseJobPost(string jobPostId)
         {
             var jobPost = JobPost().Find(jobPostId);
-            if (jobPost.IsActive == "N")
-                throw new InvalidOperationException(" Job is already closed! ");
-            jobPost.IsActive = "N";
+            //if (jobPost.IsActive == "N")
+            //    throw new InvalidOperationException(" Job is already closed! ");
+            //jobPost.IsActive = "N";
+            jobPost.StatusId = "JOB_POST_CLOSED";
             JobPost().Update(jobPost);
             return Utility.CommandSuccess();
         }
@@ -118,19 +124,46 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             return Utility.CommandSuccess();
         }
 
-        public CommandResult CreateJobApplication(string jobPostId, string applyingUserId,string userLoginId)
+        public CommandResult CreateJobApplication(string jobPostId, string applyingUserId, string userLoginId)
         {
             var jobApplication = new JobApplication
             {
-                JobApplicationId=Utility.GetId(),
-                JobPostId=jobPostId,
+                JobApplicationId = Utility.GetId(),
+                JobPostId = jobPostId,
                 ApplyingUserId = applyingUserId,
-                StatusId=Utility.Status.JobApplied,
-                ApplicationDate=DateTime.Now,
-                UserLoginId=userLoginId
+                StatusId = Utility.Status.JobApplied,
+                ApplicationDate = DateTime.Now,
+                UserLoginId = userLoginId
             };
             JobApplication().Create(jobApplication);
+            SendMessage();
             return Utility.CommandSuccess(jobApplication.JobApplicationId);
+        }
+
+        private void SendMessage()
+        {
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            string urlString = "https://api.telegram.org/bot{0}/sendMessage?chat_id={1}&text={2}";
+            string apiToken = "1661724068:AAE_IpAwLpiEhdp8hZi-QHruypSnPHxvBRk";
+            string chatId = "-1001222351376";
+            string text = "bold";
+            long chid = long.Parse(chatId);
+            Bot.SendTextMessageAsync(chid, "*Heddddddddddllo*", Telegram.Bot.Types.Enums.ParseMode.MarkdownV2);
+
+            //urlString = string.Format(urlString, apiToken, chatId, text);
+            //WebRequest request = WebRequest.Create(urlString);
+            //Stream rs = request.GetResponse().GetResponseStream();
+            //StreamReader reader = new StreamReader(rs);
+            //string line = "";
+            //StringBuilder sb = new StringBuilder();
+            //while (line != null)
+            //{
+            //    line = reader.ReadLine();
+            //    if (line != null)
+            //        sb.Append(line);
+            //}
+            //string response = sb.ToString();
         }
     }
 }

@@ -119,5 +119,14 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
                              t.Sequence.Contains(queryParamArg.SearchText)))
                     .QueryResultList<OfferItemTypeListModel>(queryParamArg);
         }
+
+        public QueryResult ListStatusItem(string statusTypeId,QueryParamArg queryParamArg)
+        {
+            return
+                ModelManagementContext()
+                    .StatusItems.Where(t => string.IsNullOrEmpty(statusTypeId) || t.StatusTypeId == statusTypeId)
+                    .QueryResultList<KeyDescription>(queryParamArg);
+
+        }
     }
 }

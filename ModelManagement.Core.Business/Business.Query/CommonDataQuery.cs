@@ -98,4 +98,14 @@ namespace ModelManagement.Core.Business.Business.Query
             return new CommonDataQueryAppService().ListOfferItemType(OfferTypeId, QueryParamArg);
         }
     }
+
+    public class ListStatusItemQuery:QueryCommandBase,IQuery
+    {
+        public string StatusTypeId { get; set; }
+        public QueryResult Execute()
+        {
+            QueryParamArg.SetDefaultSortColumn("SequenceId");
+            return new CommonDataQueryAppService().ListStatusItem(StatusTypeId,QueryParamArg);
+        }
+    }
 }

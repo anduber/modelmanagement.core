@@ -26,5 +26,6 @@ namespace ModelManagement.Core.Business.Business.Query.Models
         public double? Hip { get; set; }
         public string DressSize { get; set; }
         public double? ShoeSize { get; set; }
+        public string StatusId { get; set; }
     }
 }

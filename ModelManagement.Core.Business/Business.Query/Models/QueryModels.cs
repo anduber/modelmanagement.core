@@ -25,6 +25,7 @@ namespace ModelManagement.Core.Business.Business.Query.Models
         public string Sex { get; set; }
         public string IsActive { get; set; }
         public int NoOfPeopleApplied { get; set; }
+        public string StatusId { get; set; }
     }
 
     public class JobOfferListModel : QueryEntity
