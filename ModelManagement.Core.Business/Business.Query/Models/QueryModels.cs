@@ -35,7 +35,9 @@ namespace ModelManagement.Core.Business.Business.Query.Models
         public EntityDescription JobPost { get; set; }
         public string ModelUserId { get; set; }
         public EntityDescription ModelUser { get; set; }
+        public EntityDescription AgentUser { get; set; }
         public string StatusId { get; set; }
+        public string OfferedUserId { get; set; }
         public string IsSeen { get; set; }
     }
 

@@ -16,9 +16,11 @@ namespace ModelManagement.Core.Business.Business.Query.EntityProfile
             MapDesc<StatusItem>(t => t.Description);
             MapDesc<RoleType>(t => t.Description);
             MapDesc<UserLogin>(t => t.User_PersonId.PersonId_PersonalInformation.FirstName);
-            MapDesc<User>(t => t.Description);
+            MapDesc<User>(
+                t => t.PersonId_PersonalInformation.FirstName + " " + t.PersonId_PersonalInformation.FatherName);
             MapDesc<Enumeration>(t => t.Description);
             MapDesc<Geo>(t => t.GeoName);
+            MapDesc<JobPost>(t => t.JobTitle);
             #endregion
 
             #region KeyDescriptions
@@ -169,6 +171,9 @@ namespace ModelManagement.Core.Business.Business.Query.EntityProfile
 
             CreateMap<JobOffer, JobOfferListModel>()
                 .ForMember(t => t.ModelUser, opt => opt.MapFrom(t => t.JobOffer_ModelUserId))
+                .ForMember(t => t.JobPost, opt => opt.MapFrom(t => t.JobPost_JobOfferId))
+                .ForMember(t => t.AgentUser,
+                    opt => opt.MapFrom(t => t.JobPost_JobOfferId.JobPost_UserId))
                 ;
 
             CreateMap<Content, ContentListModel>();

@@ -101,9 +101,10 @@ namespace ModelManagement.Core.Business.Business.Query
     public class ListJobOfferQuery : QueryCommandBase, IQuery
     {
         public string JobPostId { get; set; }
+        public string StatusId { get; set; }
         public QueryResult Execute()
         {
-            return new UserQueryAppService().ListJobOffer(JobPostId, QueryParamArg);
+            return new UserQueryAppService().ListJobOffer(JobPostId,StatusId, QueryParamArg);
         }
     }
 

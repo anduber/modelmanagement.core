@@ -1,7 +1,6 @@
 ﻿using ModelManagement.Core.Business.Business.Helpers;
 using ModelManagement.Core.Business.Business.Model.Utils;
 using ModelManagement.Core.Business.Business.Query.EntityProfile;
-using ModelManagement.Core.Data.Data.Context;
 using ModelManagement.Core.Data.Data.Model;
 using System;
 using System.Linq;
@@ -48,18 +47,17 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
         {
             var searchText = queryParam.SearchText?.Trim();
             var personalInfos = ModelManagementContext().PersonalInformations
-                                       .Where(t =>
-                                               (string.IsNullOrEmpty(searchText) ||
-                                                   (
-                                                       t.FirstName.Contains(searchText) ||
-                                                       t.LastName.Contains(searchText) ||
-                                                       t.FatherName.Contains(searchText) ||
+                .Where(t =>
+                    (string.IsNullOrEmpty(searchText) ||
+                     (
+                         t.FirstName.Contains(searchText) ||
+                         t.LastName.Contains(searchText) ||
+                         t.FatherName.Contains(searchText) ||
 
-                                                       t.PersonId_User.UserNumber.Contains(searchText)
-                                                   )) &&
-                                                   (string.IsNullOrEmpty(queryParam.Sex) || t.Sex == queryParam.Sex)
-
-                                       );
+                         t.PersonId_User.UserNumber.Contains(searchText)
+                         )) &&
+                    (string.IsNullOrEmpty(queryParam.Sex) || t.Sex == queryParam.Sex)
+                );
             return
                 Utility.QuerySuccessResult(
                     personalInfos.Paginate(t => t.FirstName, queryParam.Pagination)
@@ -73,34 +71,43 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
             var birthDateFromAge = DateTime.Now.AddYears(-queryParam.AgeFrom.Value);
             var birthDateThruAge = DateTime.Now.AddYears(-(queryParam.ThruAge.Value + 1));
             return ModelManagementContext().PersonalInformations
-                                        .Where(t =>
-                                                (string.IsNullOrEmpty(queryParam.Status) || t.PersonId_User.StatusId == queryParam.Status) &&
-                                                (string.IsNullOrEmpty(queryParam.Sex) || t.Sex == queryParam.Sex) &&
-                                                (string.IsNullOrEmpty(queryParam.Complextion) || t.PersonId_PhysicalInformation.Complexion == queryParam.Complextion) &&
-                                                (string.IsNullOrEmpty(queryParam.CategoryTypeId) || t.Categories_PersonId.Any(c => c.CategoryTypeId == queryParam.CategoryTypeId)) &&
-                                                (string.IsNullOrEmpty(queryParam.HeightEnumId) || t.PersonId_PhysicalInformation.HeightEnumId == queryParam.HeightEnumId) &&
-                                                (queryParam.HeightFrom == null || t.PersonId_PhysicalInformation.Height >= queryParam.HeightFrom) &&
-                                                (queryParam.HeightThru == null || t.PersonId_PhysicalInformation.Height <= queryParam.HeightThru) &&
-                                                (string.IsNullOrEmpty(queryParam.WeightEnumId) || t.PersonId_PhysicalInformation.WeightEnumId == queryParam.WeightEnumId) &&
-                                                (queryParam.WeightFrom == null || t.PersonId_PhysicalInformation.Weight >= queryParam.WeightFrom) &&
-                                                (queryParam.WeightThru == null || t.PersonId_PhysicalInformation.Weight <= queryParam.WeightThru) &&
+                .Where(t =>
+                    (string.IsNullOrEmpty(queryParam.Status) || t.PersonId_User.StatusId == queryParam.Status) &&
+                    (string.IsNullOrEmpty(queryParam.Sex) || t.Sex == queryParam.Sex) &&
+                    (string.IsNullOrEmpty(queryParam.Complextion) ||
+                     t.PersonId_PhysicalInformation.Complexion == queryParam.Complextion) &&
+                    (string.IsNullOrEmpty(queryParam.CategoryTypeId) ||
+                     t.Categories_PersonId.Any(c => c.CategoryTypeId == queryParam.CategoryTypeId)) &&
+                    (string.IsNullOrEmpty(queryParam.HeightEnumId) ||
+                     t.PersonId_PhysicalInformation.HeightEnumId == queryParam.HeightEnumId) &&
+                    (queryParam.HeightFrom == null || t.PersonId_PhysicalInformation.Height >= queryParam.HeightFrom) &&
+                    (queryParam.HeightThru == null || t.PersonId_PhysicalInformation.Height <= queryParam.HeightThru) &&
+                    (string.IsNullOrEmpty(queryParam.WeightEnumId) ||
+                     t.PersonId_PhysicalInformation.WeightEnumId == queryParam.WeightEnumId) &&
+                    (queryParam.WeightFrom == null || t.PersonId_PhysicalInformation.Weight >= queryParam.WeightFrom) &&
+                    (queryParam.WeightThru == null || t.PersonId_PhysicalInformation.Weight <= queryParam.WeightThru) &&
 
-                                                (queryParam.IsActive == null || (queryParam.IsActive.Value && t.PersonId_User.UserApplId_UserAppls.Any(p => p.FromDate <= DateTime.Now && p.ThruDate >= DateTime.Now))) &&
-                                                (queryParam.AgeFrom == 0 ||
-                                                    (t.DateOfBirth.Value.Year <= birthDateFromAge.Year &&
-                                                        (birthDateFromAge.Year - t.DateOfBirth.Value.Year > 0 ? true :
-                                                            t.DateOfBirth.Value.Month <= birthDateFromAge.Month)
-                                                        )
-                                                ) &&
-                                                (queryParam.ThruAge == 0 ||
-                                                    (t.DateOfBirth.Value.Year >= birthDateThruAge.Year &&
-                                                        (t.DateOfBirth.Value.Year - birthDateThruAge.Year > 0 ? true :
-                                                            t.DateOfBirth.Value.Month > birthDateThruAge.Month)
-                                                        )
-                                                )
+                    (queryParam.IsActive == null ||
+                     (queryParam.IsActive.Value &&
+                      t.PersonId_User.UserApplId_UserAppls.Any(
+                          p => p.FromDate <= DateTime.Now && p.ThruDate >= DateTime.Now))) &&
+                    (queryParam.AgeFrom == 0 ||
+                     (t.DateOfBirth.Value.Year <= birthDateFromAge.Year &&
+                      (birthDateFromAge.Year - t.DateOfBirth.Value.Year > 0
+                          ? true
+                          : t.DateOfBirth.Value.Month <= birthDateFromAge.Month)
+                         )
+                        ) &&
+                    (queryParam.ThruAge == 0 ||
+                     (t.DateOfBirth.Value.Year >= birthDateThruAge.Year &&
+                      (t.DateOfBirth.Value.Year - birthDateThruAge.Year > 0
+                          ? true
+                          : t.DateOfBirth.Value.Month > birthDateThruAge.Month)
+                         )
+                        )
 
 
-                                        ); ;
+                );
         }
 
         internal QueryResult CheckUserName(string userName, string primaryEmail)
@@ -177,11 +184,14 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
             return Utility.QuerySuccessResult(result);
         }
 
-        public QueryResult ListJobOffer(string jobPostId, QueryParamArg queryParamArg)
+        public QueryResult ListJobOffer(string jobPostId,string statusId,QueryParamArg queryParamArg)
         {
             return
                 ModelManagementContext()
-                    .JobOffers.Where(t => t.JobPostId == jobPostId)
+                    .JobOffers.Where(
+                        t =>
+                            (string.IsNullOrEmpty(jobPostId) || t.JobPostId == jobPostId) &&
+                            (string.IsNullOrEmpty(statusId) || t.StatusId == statusId))
                     .QueryResultList<JobOfferListModel>(queryParamArg);
         }
 

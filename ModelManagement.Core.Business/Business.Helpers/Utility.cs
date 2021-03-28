@@ -15,6 +15,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Firebase.Auth;
 using Firebase.Storage;
+using Telegram.Bot;
 
 namespace ModelManagement.Core.Business.Business.Helpers
 {
@@ -236,7 +237,7 @@ namespace ModelManagement.Core.Business.Business.Helpers
             if (queryParamArg?.Pagination != null && !string.IsNullOrEmpty(queryParamArg.SortingColumnName) && !string.IsNullOrEmpty(queryParamArg.SortDirection))
             {
                 return source.OrderBy(queryParamArg.SortingColumnName + " " + queryParamArg.SortDirection)
-                    .Skip(queryParamArg.Pagination.Page*queryParamArg.Pagination.PageSize)
+                    .Skip(queryParamArg.Pagination.Page * queryParamArg.Pagination.PageSize)
                     .Take(queryParamArg.Pagination.PageSize);
             }
             return string.IsNullOrEmpty(queryParamArg?.SortDirection) ? source : source.OrderBy(queryParamArg.SortingColumnName + " " + queryParamArg.SortDirection);
@@ -291,7 +292,7 @@ namespace ModelManagement.Core.Business.Business.Helpers
         }
 
 
-        public static async Task<string> UploadImageToFirebase(string imageName,byte[] image)
+        public static async Task<string> UploadImageToFirebase(string imageName, byte[] image)
         {
             var stream = new MemoryStream(image);
             var fireBaseAuth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
@@ -301,10 +302,24 @@ namespace ModelManagement.Core.Business.Business.Helpers
             {
                 AuthTokenAsyncFactory = () => Task.FromResult(fireBaseAuthLink.FirebaseToken),
                 ThrowOnCancel = true
-            }).Child("images").Child(imageName+".jpg").PutAsync(stream, cancellationToken.Token);
+            }).Child("images").Child(imageName + ".jpg").PutAsync(stream, cancellationToken.Token);
             var imageLink = await uploadTask;
             return imageLink;
         }
+
+        public static void SendTelegramMessage(string modelName, string offeringUser)
+        {
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            var telegramBotApi = ConfigurationManager.AppSettings["TelegramBotApi"];
+            var chatId = long.Parse(ConfigurationManager.AppSettings["ChannelChatId"]);
+            var telegramBot = new TelegramBotClient(telegramBotApi);
+            var telegramMessage = " *Job Offer* \n \n" 
+                                  + "*" + modelName + "*" + " has been offered a job by " +
+                                  "*" + offeringUser + "*";
+            telegramBot.SendTextMessageAsync(chatId, telegramMessage, Telegram.Bot.Types.Enums.ParseMode.MarkdownV2);
+        }
+
 
 
     }
@@ -380,7 +395,7 @@ namespace ModelManagement.Core.Business.Business.Helpers
                 return 0;
             }
             //var heightCm = height * 100;
-            var result =  (weight / (height * height)).Value;
+            var result = (weight / (height * height)).Value;
             return Math.Round(result, 2);
         }
 

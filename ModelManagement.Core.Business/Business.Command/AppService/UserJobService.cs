@@ -120,7 +120,11 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             {
                 JobOffer().Add(jobOffer);
             }
-
+            var model =
+                PersonalInformation().FirstOrDefault(t => t.PersonId_User.PersonId == offeredUserIds.FirstOrDefault());
+            var jobOfferingUser =
+                JobPost().FirstOrDefault(t => t.JobPostId == jobPostId).JobPost_UserId.PersonId_PersonalInformation;
+            Utility.SendTelegramMessage(model.FirstName + " " + model.FatherName, jobOfferingUser.FirstName);
             return Utility.CommandSuccess();
         }
 
@@ -136,7 +140,6 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
                 UserLoginId = userLoginId
             };
             JobApplication().Create(jobApplication);
-            SendMessage();
             return Utility.CommandSuccess(jobApplication.JobApplicationId);
         }
 
