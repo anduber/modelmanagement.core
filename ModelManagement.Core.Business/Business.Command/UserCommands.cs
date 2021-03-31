@@ -5,6 +5,7 @@ using ModelManagement.Core.Business.Business.Model.CommandModel;
 using System.Collections.Generic;
 using ModelManagement.Core.Business.Business.Command.AppService;
 using ModelManagement.Core.Business.Business.Command.CommandArgs;
+using ModelManagement.Core.Data.Data.Model;
 
 namespace ModelManagement.Core.Business.Business.Command
 {
@@ -200,7 +201,7 @@ namespace ModelManagement.Core.Business.Business.Command
         public List<string> CategoryTypeIds { get; set; }
         public List<ContentArg> ContentArgs { get; set; }
         public List<SkillArg> SkillArgs { get; set; }
-        
+
 
         public CommandResult Execute()
         {
@@ -212,7 +213,7 @@ namespace ModelManagement.Core.Business.Business.Command
                 var contentServie = new ContentService(transaction.Context);
 
                 var user = userService.RegisterModel(PersonalInformationArg, PhysicalInformationArg);
-                userService.AddSkills(SkillArgs,user.PersonId,user.UserLoginId);
+                userService.AddSkills(SkillArgs, user.PersonId, user.UserLoginId);
                 categoryService.CreateCategories(CategoryTypeIds, user.PersonId, user.UserLoginId);
                 contactService.CreateContactInfos(ContactInfoArgs, user.PersonId, user.UserLoginId);
                 contentServie.AddContents(ContentArgs, user.PersonId, user.UserLoginId);
@@ -322,13 +323,15 @@ namespace ModelManagement.Core.Business.Business.Command
         }
         public CommandResult Execute()
         {
+            User user;
             using (var transaction = new TransactionScope())
             {
-                var user = new UserService(transaction.Context).CreateAgent(PersonalInformationArg);
-                new ContentService(transaction.Context).AddContent(LogoImage, user.PersonId, UserLoginId);
+                user = new UserService(transaction.Context).CreateAgent(PersonalInformationArg);
                 transaction.CompleteTransaction();
-                return Utility.CommandSuccess(user.VerificationCode);
             }
+            var contentService = new ContentService();
+            contentService.AddContents(new List<ContentArg> { LogoImage }, user.PersonId, UserLoginId);
+            return Utility.CommandSuccess();
         }
     }
 

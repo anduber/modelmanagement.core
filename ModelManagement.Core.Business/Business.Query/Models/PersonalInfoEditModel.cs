@@ -16,7 +16,7 @@ namespace ModelManagement.Core.Business.Business.Query.Models
         public string Sex { get; set; }
         public string StatusId { get; set; }
         public string Status { get; set; }
-        public byte[] ProfilePic { get; set; }
+        public string ProfilePic { get; set; }
         public string ProfilePicFileId { get; set; }
         public string GeoId { get; set; }
         public string CountryGeoId { get; set; }
@@ -27,5 +27,7 @@ namespace ModelManagement.Core.Business.Business.Query.Models
         public string ExperienceEnumId { get; set; }
         public EntityDescription Experience { get; set; }
         public List<KeyDescription> Categories { get; set; }
+        public string Description { get; set; }
+        public string TaxId { get; set; }
     }
 }

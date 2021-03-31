@@ -95,8 +95,7 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             var contents = new List<Content>();
             foreach (var content in contentArgs)
             {
-                var c = await AddContent(content, userId, userLoginId);
-                contents.Add(c);
+                contents.Add(await AddContent(content, userId, userLoginId));
             }
             using (var context = new TransactionScope())
             {

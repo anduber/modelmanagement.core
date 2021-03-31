@@ -31,10 +31,11 @@ namespace ModelManagement.Core.Business.Business.Query.Models
         public string Sex { get; set; }
         public double? Height { get; set; }
         public double? Weight { get; set; }
-        public string Complexion { get; set; }
+        public string Complexion { get; set; }  
         public string HairColor { get; set; }
         public string EyeColor { get; set; }
         public string ProfileImage { get; set; }
+        public string Description { get; set; }
         public EntityDescription Experience { get; set; }
     }
 }

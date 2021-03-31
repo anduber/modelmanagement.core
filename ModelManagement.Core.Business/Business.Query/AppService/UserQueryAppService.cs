@@ -17,22 +17,14 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
 
         public PersonalInfoEditModel EditPersonalInfo(string personId)
         {
-            var personalInfo = ModelManagementContext().PersonalInformations.Where(t => t.PersonId == personId).Get<PersonalInfoEditModel>();
+            var personalInfo =
+                ModelManagementContext()
+                    .PersonalInformations.Where(t => t.PersonId == personId)
+                    .ToList().AsQueryable()
+                    .Get<PersonalInfoEditModel>();
             personalInfo.Age = personalInfo.DateOfBirth == null
                 ? 0
                 : DateConverter.CalculateAge(personalInfo.DateOfBirth.Value);
-            //if (string.IsNullOrEmpty(personalInfo.CityGeoId)) return personalInfo;
-            //{
-            //    var geoAssoc =
-            //        ModelManagementContext()
-            //            .GeoAssoces.FirstOrDefault(
-            //                t =>
-            //                    t.GeoIdTo == personalInfo.CityGeoId &&
-            //                    (t.GeoAssocTypeId == Utility.GeoTypes.City ||
-            //                     t.GeoAssocTypeId == Utility.GeoTypes.Regions));
-            //    personalInfo.CountryGeoId = geoAssoc?.GeoId;
-            //}
-
             return personalInfo;
         }
 
@@ -41,6 +33,18 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
         {
             var personalInfo = ListPersonalInfos(queryParam).ToList().AsQueryable();
             return Utility.QuerySuccessResult(personalInfo.Paginate(t => t.FirstName, queryParam.Pagination).ToList<ModelsInfoListModel>(), personalInfo.Count());
+        }
+
+        public QueryResult ListPersonalInfo(PersonalInfoQueryParamArg personalInfoQueryParam,QueryParamArg queryParamArg)
+        {
+            return
+                ModelManagementContext()
+                    .Users.Where(
+                        t =>
+                            string.IsNullOrEmpty(personalInfoQueryParam.RoleTypeId) ||
+                            t.UserRoleId_UserRoles.Any(
+                                r => r.RoleTypeId == personalInfoQueryParam.RoleTypeId))
+                    .QueryResultList<ModelListModel>(queryParamArg);
         }
 
         public QueryResult GetListPersonalInfo(ListModelsQueryParam queryParam)

@@ -29,14 +29,14 @@ namespace ModelManagement.Core.Business.Business.Query
         }
     }
 
-    public class ListPersonalInfoQuery:QueryCommandBase,IQuery
-    {
-        public ListModelsQueryParam ModelsQueryParam { get; set; }
-        public QueryResult Execute()
-        {
-            return new UserQueryAppService().GetListPersonalInfo(ModelsQueryParam);
-        }
-    }
+    //public class ListPersonalInfoQuery:QueryCommandBase,IQuery
+    //{
+    //    public ListModelsQueryParam ModelsQueryParam { get; set; }
+    //    public QueryResult Execute()
+    //    {
+    //        return new UserQueryAppService().GetListPersonalInfo(ModelsQueryParam);
+    //    }
+    //}
 
     public class CheckUserNameQuery:QueryCommandBase,IQuery
     {
@@ -158,6 +158,16 @@ namespace ModelManagement.Core.Business.Business.Query
         public QueryResult Execute()
         {
             return new UserQueryAppService().ListSkill(PersonId,QueryParamArg);
+        }
+    }
+
+    public class ListPersonalInfoQuery:QueryCommandBase,IQuery
+    {
+        public PersonalInfoQueryParamArg PersonalInfoQueryParamArg { get; set; }
+
+        public QueryResult Execute()
+        {
+            return new UserQueryAppService().ListPersonalInfo(PersonalInfoQueryParamArg,QueryParamArg);
         }
     }
 

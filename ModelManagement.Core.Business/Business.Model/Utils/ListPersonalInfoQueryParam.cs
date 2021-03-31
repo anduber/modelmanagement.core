@@ -66,5 +66,11 @@ namespace ModelManagement.Core.Business.Business.Model.Utils
         public double? BmiThru { get; set; }
         public string ExperienceId { get; set; }
         public List<string> SelectedCities { get; set; }
+        
+    }
+
+    public class PersonalInfoQueryParamArg
+    {
+        public string RoleTypeId { get; set; }
     }
 }
