@@ -43,7 +43,12 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
                         t =>
                             string.IsNullOrEmpty(personalInfoQueryParam.RoleTypeId) ||
                             t.UserRoleId_UserRoles.Any(
-                                r => r.RoleTypeId == personalInfoQueryParam.RoleTypeId))
+                                r => r.RoleTypeId == personalInfoQueryParam.RoleTypeId) &&
+                            (string.IsNullOrEmpty(queryParamArg.SearchText) ||
+                             t.Description.Contains(queryParamArg.SearchText) ||
+                             t.PersonId_PersonalInformation.FirstName.Contains(queryParamArg.SearchText) ||
+                             t.PersonId_PersonalInformation.FatherName.Contains(queryParamArg.SearchText) ||
+                             t.TaxId.Contains(queryParamArg.SearchText)))
                     .QueryResultList<ModelListModel>(queryParamArg);
         }
 

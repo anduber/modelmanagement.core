@@ -141,7 +141,8 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             personalInfo.GeoId = personalInfoArg.GeoId;
             personalInfo.CityGeoId = personalInfoArg.CityGeoId;
             personalInfo.CountryGeoId = personalInfoArg.CountryGeoId;
-            personalInfo.ExperienceEnumId = personalInfoArg.ExperienceEnumId;           
+            personalInfo.ExperienceEnumId = personalInfoArg.ExperienceEnumId;
+            personalInfo.Description = personalInfoArg.Description;
             return personalInfo;
         }
 
@@ -508,13 +509,9 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             if (userFound == null)
                 //return new QueryResult { IsSuccess = false, ErrorMessage = "Your phone number is not registered!" };
                 return Utility.CommandError("Your phone number is not registered!");
-            if (userFound.IsUserActivated == "Y")
-            {
-                return Utility.CommandError("Your account is already activated!");
-            }
-            userFound.VerificationCode = Utility.GetVerificationCode();
-            User().Update(userFound);
-            return Utility.CommandSuccess(userFound.VerificationCode);
+            return userFound.IsUserActivated == "Y" ? Utility.CommandError("Your account is already activated!") : Utility.CommandSuccess();
+            //userFound.VerificationCode = Utility.GetVerificationCode();
+            //User().Update(userFound);
         }
 
         public Skill AddSkill(string personId,SkillArg skillArg,string userLoginId)

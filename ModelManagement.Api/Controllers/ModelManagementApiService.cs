@@ -50,15 +50,15 @@ namespace ModelManagement.Api.Controllers
         #region Query
         public QueryResult InvokeQuery(IQuery query)
         {
-            //try
-            //{
-            //    return query.Execute();
-            //}
-            //catch (Exception e)
-            //{
-            //    return Utility.QueryErrorResult(e.Message);
-            //}
-            return query.Execute();
+            try
+            {
+                return query.Execute();
+            }
+            catch (Exception e)
+            {
+                return Utility.QueryErrorResult(e.Message);
+            }
+            //return query.Execute();
         }
 
         public IQuery GetQuery(JObject queryObject, string queryName)

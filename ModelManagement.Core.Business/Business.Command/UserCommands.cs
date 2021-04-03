@@ -202,6 +202,10 @@ namespace ModelManagement.Core.Business.Business.Command
         public List<ContentArg> ContentArgs { get; set; }
         public List<SkillArg> SkillArgs { get; set; }
 
+        public RegisterModelCommand()
+        {
+            SkillArgs = new List<SkillArg>();
+        }
 
         public CommandResult Execute()
         {
