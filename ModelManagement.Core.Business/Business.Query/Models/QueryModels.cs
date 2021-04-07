@@ -46,6 +46,7 @@ namespace ModelManagement.Core.Business.Business.Query.Models
         public string JobApplicationId { get; set; }
         public string JobPostId { get; set; }
         public string ApplyingUserId { get; set; }
+        public string ApplyingUserProfilePic { get; set; }
         public string ApplyingPersonId { get; set; }
         public string ApplyingUser { get; set; }
         public string StatusId { get; set; }

@@ -171,6 +171,15 @@ namespace ModelManagement.Core.Business.Business.Query.EntityProfile
                                 t.JobApplication_ApplyingUser.PersonId_PersonalInformation.FatherName))
                 .ForMember(t => t.ApplyingPersonId,
                     opt => opt.MapFrom(t => t.JobApplication_ApplyingUser.PersonId_PersonalInformation.PersonId))
+                .ForMember(t => t.ApplyingUserProfilePic,
+                    opt =>
+                        opt.MapFrom(
+                            t =>
+                                t.JobApplication_ApplyingUser.User_Contents.FirstOrDefault(
+                                    c => c.ContentTypeId == "PROFILE_PIC") == null
+                                    ? null
+                                    : t.JobApplication_ApplyingUser.User_Contents.FirstOrDefault(
+                                        c => c.ContentTypeId == "PROFILE_PIC").ContentName))
                 ;
 
             CreateMap<Skill, SkillListModel>();
