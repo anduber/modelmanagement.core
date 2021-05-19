@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ModelManagement.Core.Business.Business.Helpers;
 using ModelManagement.Core.Business.Business.Model.Utils;
 using ModelManagement.Core.Business.Business.Query.AppService;
@@ -24,18 +25,11 @@ namespace ModelManagement.Core.Business.Business.Query
         public QueryResult Execute()
         {
             var queryService = new CommonDataQueryAppService();
-            if (!string.IsNullOrEmpty(GeoTypeId))
-            {
-                return Utility.QuerySuccessResult(queryService.ListGeos(GeoTypeId));
-            }
-            else if (!string.IsNullOrEmpty(GeoIdTo))
-            {
-                return Utility.QuerySuccessResult(queryService.ListGeoToAssoc(GeoIdTo));
-            }
-            else
-            {
-                return Utility.QuerySuccessResult(queryService.ListGeosFromAssoc(GeoId));
-            }
+            return !string.IsNullOrEmpty(GeoTypeId)
+                ? Utility.QuerySuccessResult(queryService.ListGeos(GeoTypeId))
+                : Utility.QuerySuccessResult(!string.IsNullOrEmpty(GeoIdTo)
+                    ? queryService.ListGeoToAssoc(GeoIdTo)
+                    : queryService.ListGeosFromAssoc(GeoId));
         }
     }
 
@@ -45,6 +39,22 @@ namespace ModelManagement.Core.Business.Business.Query
         public QueryResult Execute()
         {
             return new CommonDataQueryAppService().LookupEnumByType(EnumTypeId, QueryParamArg);
+        }
+    }
+
+    public class ListEnumQuery:QueryCommandBase,IQuery
+    {
+        public string EnumTypeId { get; set; }
+        public List<string> EnumTypeIds { get; set; }
+
+        public ListEnumQuery()
+        {
+            EnumTypeIds = new List<string>();
+        }
+
+        public QueryResult Execute()
+        {
+            return new CommonDataQueryAppService().ListEnum(EnumTypeId,EnumTypeIds, QueryParamArg);
         }
     }
 

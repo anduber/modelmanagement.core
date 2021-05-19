@@ -10,10 +10,17 @@ namespace ModelManagement.Core.Business.Business.Command
     public class CreateJobPostCommand : CommandBase, ICommand
     {
         public string UserId { get; set; }
+        public List<JobPostDetailCommandArg> JobPostDetails { get; set; }
         public JobPostCommandArg JobPostCommandArg { get; set; }
+        
         public CommandResult Execute()
         {
-            return new UserJobService().CreateJobPost(UserId, JobPostCommandArg, UserLoginId);
+            using (var transaction = new TransactionScope())
+            {
+                var result =  new UserJobService(transaction.Context).CreateJobPost(UserId, JobPostCommandArg,JobPostDetails, UserLoginId);
+                transaction.CompleteTransaction();
+                return result;
+            }
         }
     }
 

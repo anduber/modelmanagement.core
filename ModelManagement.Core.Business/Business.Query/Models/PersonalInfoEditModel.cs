@@ -29,5 +29,10 @@ namespace ModelManagement.Core.Business.Business.Query.Models
         public List<KeyDescription> Categories { get; set; }
         public string Description { get; set; }
         public string TaxId { get; set; }
+        public double? Height { get; set; }
+        public double? Weight { get; set; }
+        public string Complexion { get; set; }
+        public double? Bmi { get; set; }
+
     }
 }

@@ -9,6 +9,7 @@ namespace ModelManagement.Core.Data.Data.Model
         {
             JobPost_JobApplications = new List<JobApplication>();
             JobPost_JobOffers = new List<JobOffer>();
+            JobPost_JobPostDetails = new List<JobPostDetail>();
         }
         public string JobPostId { get; set; }
         public string UserId { get; set; }
@@ -21,6 +22,8 @@ namespace ModelManagement.Core.Data.Data.Model
         public decimal? PaymentAmount { get; set; }
         public decimal? HeightFrom { get; set; }
         public decimal? HeightThru { get; set; }
+        public decimal? WeightFrom { get; set; }
+        public decimal? WeightThru { get; set; }
         public decimal? AgeFrom { get; set; }
         public decimal? AgeThru { get; set; }
         public string JobLocation { get; set; }
@@ -37,6 +40,7 @@ namespace ModelManagement.Core.Data.Data.Model
         public double? Hip { get; set; }
         public string DressSize { get; set; }
         public double? ShoeSize { get; set; }
+        public string DurationOfContract { get; set; }
         public string IsActive { get; set; }
         public virtual User JobPost_UserId { get; set; }
         public virtual Enumeration JobPost_PaymentMethodEnumId { get; set; }
@@ -47,6 +51,9 @@ namespace ModelManagement.Core.Data.Data.Model
         public virtual List<JobOffer> JobPost_JobOffers { get; set; }
         public virtual List<JobApplication> JobPost_JobApplications { get; set; }
         public virtual StatusItem JobPost_StatusId { get; set; }
+        public virtual List<JobPostDetail> JobPost_JobPostDetails { get; set; }
+        public virtual Enumeration JobPost_DurationOfContractEnumId { get; set; }
+        
 
         public void SetProperty(string userId,string jobTitle,string jobDescription,DateTime? jobDueDate,string paymentMethodEnumId,string jobLocationGeoId,string agentJobEnumId,string agentLocationGeoId,string jobLocation)
         {

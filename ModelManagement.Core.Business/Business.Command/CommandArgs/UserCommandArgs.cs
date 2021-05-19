@@ -40,6 +40,9 @@ namespace ModelManagement.Core.Business.Business.Command.CommandArgs
         public double? Hip { get; set; }
         public string DressSize { get; set; }
         public double? ShoeSize { get; set; }
+        public string DurationOfContract { get; set; }
+        public decimal? WeightFrom { get; set; }
+        public decimal? WeightThru { get; set; }
     }
 
     public class AdminUserEmail
@@ -77,5 +80,10 @@ namespace ModelManagement.Core.Business.Business.Command.CommandArgs
         public string SkillTypeId { get; set; }
         public string SkillLevelEnumId { get; set; }
         public string SkillInfo { get; set; }
+    }
+
+    public class JobPostDetailCommandArg
+    {
+        public string ApplicationsOnMedia { get; set; }
     }
 }

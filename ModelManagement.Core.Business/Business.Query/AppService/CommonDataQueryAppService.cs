@@ -38,8 +38,18 @@ namespace ModelManagement.Core.Business.Business.Query.AppService
             queryParamArg.SetDefaultSortColumn("SequenceId");
             var enums =
                 ModelManagementContext()
-                    .Enumerations.Where(t => t.EnumerationTypeId == enumTypeId);
+                    .Enumerations.Where(t => string.IsNullOrEmpty(enumTypeId) || t.EnumerationTypeId == enumTypeId);
             return enums.QueryResultList<KeyDescription>(queryParamArg);
+        }
+
+        public QueryResult ListEnum(string enumTypeId,List<string> enumTypeIds, QueryParamArg queryParamArg)
+        {
+            return
+                ModelManagementContext()
+                    .Enumerations.Where(t =>
+                            (string.IsNullOrEmpty(enumTypeId) || t.EnumerationTypeId == enumTypeId) &&
+                            (enumTypeIds.Count==0 || enumTypeIds.Contains(t.EnumerationTypeId))
+                            ).QueryResultList<EnumerationListModel>(queryParamArg);
         }
 
         public List<KeyDescriptionId> LookupCategoryType()

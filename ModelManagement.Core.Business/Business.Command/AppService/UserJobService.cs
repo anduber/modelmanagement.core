@@ -26,15 +26,32 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
         }
 
 
-        public CommandResult CreateJobPost(string userId, JobPostCommandArg jobPostCommandArg, string userLoginId)
+        public CommandResult CreateJobPost(string userId, JobPostCommandArg jobPostCommandArg,List<JobPostDetailCommandArg> jobPostDetails, string userLoginId)
         {
             var jobPost = SetJobPost(userId, jobPostCommandArg);
             jobPost.JobPostId = Utility.GetId();
             jobPost.UserLoginId = userLoginId;
             jobPost.IsActive = "Y";
             jobPost.StatusId = Utility.Status.JobPostCreated;
-            JobPost().Create(jobPost);
+            JobPost().Add(jobPost);
+            AddJobPostDetails(jobPost.JobPostId,jobPostDetails,userLoginId);
             return Utility.CommandSuccess(jobPost.JobPostId);
+        }
+
+        public void AddJobPostDetails(string jobPostId, IEnumerable<JobPostDetailCommandArg> jobPostDetails,string userLoginId)
+        {
+            var seq = 1;
+            foreach (var detailCommandArg in jobPostDetails)
+            {
+                var jobPostDetail = new JobPostDetail
+                {
+                    JobPostId = jobPostId,
+                    JobPostSeqId = "0000"+seq++,
+                    UserLoginId = userLoginId,
+                    ApplicationsOnMedia = detailCommandArg.ApplicationsOnMedia
+                };
+                JobPostDetail().Add(jobPostDetail);
+            }
         }
 
         private JobPost SetJobPost(string userId, JobPostCommandArg jobPostCommandArg)
@@ -62,7 +79,10 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
                 Waist = jobPostCommandArg.Waist,
                 Hip = jobPostCommandArg.Hip,
                 DressSize = jobPostCommandArg.DressSize,
-                ShoeSize = jobPostCommandArg.ShoeSize
+                ShoeSize = jobPostCommandArg.ShoeSize,
+                WeightFrom = jobPostCommandArg.WeightFrom,
+                WeightThru = jobPostCommandArg.WeightThru,
+                DurationOfContract = jobPostCommandArg.DurationOfContract
             };
         }
 
@@ -88,6 +108,9 @@ namespace ModelManagement.Core.Business.Business.Command.AppService
             jobPost.HeightThru = jobPostCommandArg.HeightThru;
             jobPost.AgeFrom = jobPostCommandArg.AgeFrom;
             jobPost.AgeThru = jobPostCommandArg.AgeThru;
+            jobPost.WeightFrom = jobPostCommandArg.WeightFrom;
+            jobPost.WeightThru = jobPostCommandArg.WeightThru;
+            jobPost.DurationOfContract = jobPostCommandArg.DurationOfContract;
             jobPost.JobLocationGeoId = jobPostCommandArg.JobLocationGeoId;
             jobPost.Quantity = jobPostCommandArg.Quantity;
             jobPost.Sex = jobPostCommandArg.Sex;

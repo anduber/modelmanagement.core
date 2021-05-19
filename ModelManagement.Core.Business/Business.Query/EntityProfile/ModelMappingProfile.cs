@@ -69,6 +69,10 @@ namespace ModelManagement.Core.Business.Business.Query.EntityProfile
                 .ForMember(t => t.PrimaryEmail, opt => opt.MapFrom(t => t.PersonId_User.PrimaryEmail))
                 .ForMember(t => t.PrimaryPhoneNumber, opt => opt.MapFrom(t => t.PersonId_User.PrimaryPhoneNumber))
                 .ForMember(t => t.TaxId, opt => opt.MapFrom(t => t.PersonId_User.TaxId))
+                .ForMember(t => t.Height, opt => opt.MapFrom(t => t.PersonId_PhysicalInformation.Height))
+                .ForMember(t => t.Weight, opt => opt.MapFrom(t => t.PersonId_PhysicalInformation.Weight))
+                .ForMember(t => t.Complexion, opt => opt.MapFrom(t => t.PersonId_PhysicalInformation.Complexion))
+                .ForMember(t => t.Bmi, opt => opt.MapFrom(t => t.PersonId_PhysicalInformation.BmI))
                 .ForMember(t => t.ProfilePic,
                     opt =>
                         opt.MapFrom(

@@ -100,6 +100,7 @@
     <Compile Include="Data.Mapping\FileTypeMap.cs" />
     <Compile Include="Data.Mapping\JobApplicationMap.cs" />
     <Compile Include="Data.Mapping\JobOfferMap.cs" />
+    <Compile Include="Data.Mapping\JobPostDetailMap.cs" />
     <Compile Include="Data.Mapping\JobPostMap.cs" />
     <Compile Include="Data.Mapping\OfferItemTypeMap.cs" />
     <Compile Include="Data.Mapping\OfferItemTypeMapMap.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="Data.Model\JobApplication.cs" />
     <Compile Include="Data.Model\JobOffer.cs" />
     <Compile Include="Data.Model\JobPost.cs" />
+    <Compile Include="Data.Model\JobPostDetail.cs" />
     <Compile Include="Data.Model\ModelingExperiance.cs" />
     <Compile Include="Data.Model\OfferItemType.cs" />
     <Compile Include="Data.Model\OfferItemTypeMap.cs" />

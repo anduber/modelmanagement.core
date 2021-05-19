@@ -13,11 +13,12 @@ namespace ModelManagement.Core.Data.Data.Mapping
               .WithMany(t => t.PhysicalInformationUserLogin_PersonId)
               .HasForeignKey(t => t.UserLoginId);
             HasOptional(t => t.Complexion_Enumeration)
-              .WithMany(t => t.Enumeration_Complexion)
-              .HasForeignKey(t => t.Complexion);
-            HasOptional(t => t.HairColor_Enumeration)
-                .WithMany(t => t.Enumeration_HairColor)
+                .WithMany(t => t.Enumeration_Complexion)
+                .HasForeignKey(t => t.Complexion);
+            HasOptional(t => t.HairColor_Enumeration).WithMany(t => t.Enumeration_HairColor)
                 .HasForeignKey(t => t.HairColor);
+            HasOptional(t => t.PhysicalInformation_BodyTatooEnumId).WithMany(t => t.Enumeration_BodyTatoo)
+                .HasForeignKey(t => t.BodyTatoo);
             #endregion
 
             #region Property
@@ -32,6 +33,7 @@ namespace ModelManagement.Core.Data.Data.Mapping
             Property(t => t.Bust).HasColumnName("BUST");
             Property(t => t.BmI).HasColumnName("BMI");
             Property(t => t.Waist).HasColumnName("WAIST");
+            Property(t => t.BodyTatoo).HasColumnName("BODY_TATOO");
             Property(t => t.Hip).HasColumnName("HIP");
             Property(t => t.DressSize).HasMaxLength(50).HasColumnName("DRESS_SIZE");
             Property(t => t.ShoeSize).HasColumnName("SHOE_SIZE");

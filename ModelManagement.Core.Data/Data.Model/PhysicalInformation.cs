@@ -22,9 +22,11 @@ namespace ModelManagement.Core.Data.Data.Model
         public double? Hip { get; set; }
         public string DressSize { get; set; }
         public double? ShoeSize { get; set; }
+        public string BodyTatoo { get; set; }
         public virtual PersonalInformation PersonalInformation { get; set; }
         public virtual UserLogin UserLoginId_UserLogin { get; set; }
         public virtual Enumeration Complexion_Enumeration { get; set; }
         public virtual Enumeration HairColor_Enumeration { get; set; }
+        public virtual Enumeration  PhysicalInformation_BodyTatooEnumId { get; set; }
     }
 }

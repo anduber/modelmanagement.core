@@ -17,6 +17,7 @@ namespace ModelManagement.Core.Data.Data.Mapping
             HasOptional(t => t.JobPost_JobLocationGeoId).WithMany(t => t.Geo_JobPostJobLocationGeoes).HasForeignKey(k => k.JobLocationGeoId);
             HasOptional(t => t.JobPost_UserLoginId).WithMany(t => t.UserLogin_JobPostUserLogin).HasForeignKey(k => k.UserLoginId);
             HasOptional(t => t.JobPost_StatusId).WithMany(t => t.StatusItem_JobPostes).HasForeignKey(t => t.StatusId);
+            HasOptional(t => t.JobPost_DurationOfContractEnumId).WithMany(t => t.Enumeration_DurationOfContract).HasForeignKey(t => t.DurationOfContract);
 
             Property(t => t.JobPostId).HasMaxLength(50).HasColumnName("JOB_POST_ID");
             Property(t => t.UserId).HasMaxLength(50).HasColumnName("USER_ID");
@@ -29,8 +30,11 @@ namespace ModelManagement.Core.Data.Data.Mapping
             Property(t => t.PaymentAmount).HasColumnName("PAYMENT_AMOUNT");
             Property(t => t.HeightFrom).HasColumnName("HEIGHT_FROM");
             Property(t => t.HeightThru).HasColumnName("HEIGHT_THRU");
+            Property(t => t.WeightFrom).HasColumnName("WEIGHT_FROM");
+            Property(t => t.WeightThru).HasColumnName("WEIGHT_THRU");
             Property(t => t.AgeFrom).HasColumnName("AGE_FROM");
             Property(t => t.AgeThru).HasColumnName("AGE_THRU");
+            Property(t => t.DurationOfContract).HasMaxLength(50).HasColumnName("DURATION_OF_CONTRACT");
             Property(t => t.Complexion).HasMaxLength(50).HasColumnName("COMPLEXION");
             Property(t => t.HairColor).HasMaxLength(50).HasColumnName("HAIR_COLOR");
             Property(t => t.EyeColor).HasMaxLength(50).HasColumnName("EYE_COLOR");

@@ -59,6 +59,7 @@ namespace ModelManagement.Core.Data.Data.Context
         public DbSet<StatusType> StatusTypes { get; set; }
         public DbSet<JobApplication> JobApplications { get; set; }
         public DbSet<UserType> UserTypes { get; set; }
+        public DbSet<JobPostDetail> JobPostDetails { get; set; } 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -106,6 +107,7 @@ namespace ModelManagement.Core.Data.Data.Context
             modelBuilder.Configurations.Add(new StatusTypeMap());
             modelBuilder.Configurations.Add(new JobApplicationMap());
             modelBuilder.Configurations.Add(new UserTypeMap());
+            modelBuilder.Configurations.Add(new JobPostDetailMap());
         }
     }
 }
