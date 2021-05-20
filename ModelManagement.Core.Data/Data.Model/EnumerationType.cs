@@ -13,6 +13,7 @@ namespace ModelManagement.Core.Data.Data.Model
             Enumerations = new List<Enumeration>();
         }
         public string EnumerationTypeId { get; set; }
+        public string ParentTypeId { get; set; }
         public string Description { get; set; }
         public virtual List<Enumeration> Enumerations { get; set; }
     }

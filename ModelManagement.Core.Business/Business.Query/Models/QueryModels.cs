@@ -16,6 +16,8 @@ namespace ModelManagement.Core.Business.Business.Query.Models
         public decimal? HeightThru { get; set; }
         public decimal? AgeFrom { get; set; }
         public decimal? AgeThru { get; set; }
+        public decimal? WeightFrom { get; set; }
+        public decimal? WeightThru { get; set; }
         public string JobLocation { get; set; }
         public string JobLocationGeoId { get; set; }
         public EntityDescription JobLocationGeo { get; set; }
@@ -26,6 +28,15 @@ namespace ModelManagement.Core.Business.Business.Query.Models
         public string IsActive { get; set; }
         public int NoOfPeopleApplied { get; set; }
         public string StatusId { get; set; }
+        public string DurationOfContract { get; set; }
+        public string Complexion { get; set; }
+        public string HairColor { get; set; }
+        public string EyeColor { get; set; }
+        public double? Bust { get; set; }
+        public double? Waist { get; set; }
+        public double? Hip { get; set; }
+        public string DressSize { get; set; }
+        public double? ShoeSize { get; set; }
     }
 
     public class JobOfferListModel : QueryEntity
